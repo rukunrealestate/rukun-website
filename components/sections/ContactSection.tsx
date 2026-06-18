@@ -19,6 +19,9 @@ export default function ContactSection() {
     const email = form.email.trim().slice(0, 200)
     const message = form.message.trim().slice(0, 2000)
 
+    // Honeypot — bots fill hidden fields; silently fake success
+    if (form.website) { setSent(true); return }
+
     if (!name || !phone) { setError('Name and phone are required'); return }
     if (!/^[+\d\s\-().]{7,20}$/.test(phone)) { setError('Please enter a valid phone number'); return }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Please enter a valid email address'); return }
