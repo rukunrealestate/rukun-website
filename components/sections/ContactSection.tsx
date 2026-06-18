@@ -11,13 +11,25 @@ export default function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
+
+    // Client-side validation — mirrors server-side rules
+    const name = form.name.trim().slice(0, 200)
+    const phone = form.phone.trim().slice(0, 50)
+    const email = form.email.trim().slice(0, 200)
+    const message = form.message.trim().slice(0, 2000)
+
+    if (!name || !phone) { setError('Name and phone are required'); return }
+    if (!/^[+\d\s\-().]{7,20}$/.test(phone)) { setError('Please enter a valid phone number'); return }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Please enter a valid email address'); return }
+
+    setLoading(true)
     try {
-      const res = await fetch('https://crm.rukunrealestate.com/api/leads/website', {
+      const crmUrl = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.rukunrealestate.com'
+      const res = await fetch(`${crmUrl}/api/leads/website`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ name, phone, email, message }),
       })
       if (res.ok) {
         setSent(true)
