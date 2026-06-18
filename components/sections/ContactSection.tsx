@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Phone, Mail, MapPin, Send, Loader2 } from 'lucide-react'
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' })
+  const [form, setForm] = useState({ name: '', phone: '', email: '', message: '', website: '' })
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
@@ -29,11 +29,11 @@ export default function ContactSection() {
       const res = await fetch(`${crmUrl}/api/leads/website`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, email, message }),
+        body: JSON.stringify({ name, phone, email, message, website: form.website }),
       })
       if (res.ok) {
         setSent(true)
-        setForm({ name: '', phone: '', email: '', message: '' })
+        setForm({ name: '', phone: '', email: '', message: '', website: '' })
       } else {
         setError('Something went wrong. Please try again.')
       }
@@ -129,6 +129,11 @@ export default function ContactSection() {
                   <label className="text-xs text-gray-400 mb-1.5 block">Message</label>
                   <textarea className="form-input" rows={4} placeholder="I'm looking for a 3-bedroom apartment in Beirut..."
                     value={form.message} onChange={e => setForm(f => ({...f, message: e.target.value}))} />
+                </div>
+                {/* Honeypot — hidden from users, visible to bots */}
+                <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }} aria-hidden="true">
+                  <input tabIndex={-1} autoComplete="off" name="website" value={form.website}
+                    onChange={e => setForm(f => ({...f, website: e.target.value}))} />
                 </div>
                 {error && <p className="text-brand-red text-sm">{error}</p>}
                 <button type="submit" disabled={loading}
