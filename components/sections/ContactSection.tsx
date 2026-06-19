@@ -70,7 +70,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <div className="text-xs text-gray-500 mb-0.5">Phone / WhatsApp</div>
-                  <a href="tel:+96170000000" className="text-white hover:text-brand-gold transition-colors font-medium">+961 70 000 000</a>
+                  <a href="tel:+9613709240" className="text-white hover:text-brand-gold transition-colors font-medium">+961 3 709 240</a>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -79,7 +79,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <div className="text-xs text-gray-500 mb-0.5">Email</div>
-                  <a href="mailto:info@rukunrealestate.com" className="text-white hover:text-brand-gold transition-colors font-medium">info@rukunrealestate.com</a>
+                  <a href="mailto:mirna.i.itani@gmail.com" className="text-white hover:text-brand-gold transition-colors font-medium">mirna.i.itani@gmail.com</a>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -119,7 +119,7 @@ export default function ContactSection() {
                   </div>
                   <div className="col-span-2 md:col-span-1">
                     <label className="text-xs text-gray-400 mb-1.5 block">Phone *</label>
-                    <input className="form-input" placeholder="+961 70 000 000" required
+                    <input className="form-input" placeholder="+961 3 709 240" required
                       value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))} />
                   </div>
                 </div>

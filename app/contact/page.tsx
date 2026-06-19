@@ -21,8 +21,8 @@ export default function ContactPage() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               {[
-                { icon: Phone, label: 'Phone', val: '+961 70 000 000' },
-                { icon: Mail, label: 'Email', val: 'info@rukunrealestate.com' },
+                { icon: Phone, label: 'Phone', val: '+961 3 709 240' },
+                { icon: Mail, label: 'Email', val: 'mirna.i.itani@gmail.com' },
                 { icon: MapPin, label: 'Location', val: 'Beirut, Lebanon' },
                 { icon: Clock, label: 'Hours', val: 'Mon–Sat, 9am–7pm' },
               ].map((c, i) => (

@@ -48,9 +48,9 @@ export default function Navbar() {
 
         {/* CTA */}
         <div className="hidden md:flex items-center gap-4">
-          <a href="tel:+96170000000" className="flex items-center gap-2 text-sm text-brand-gold hover:text-brand-gold-light transition-colors">
+          <a href="tel:+9613709240" className="flex items-center gap-2 text-sm text-brand-gold hover:text-brand-gold-light transition-colors">
             <Phone size={14} />
-            <span>+961 70 000 000</span>
+            <span>+961 3 709 240</span>
           </a>
           <Link href="/contact"
             className="bg-brand-gold hover:bg-brand-gold-light text-brand-black text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors">

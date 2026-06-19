@@ -30,7 +30,7 @@ export default function Footer() {
                 className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-gray-400 hover:border-brand-gold hover:text-brand-gold transition-colors text-xs font-bold">
                 FB
               </a>
-              <a href="https://wa.me/96170000000" target="_blank" rel="noopener noreferrer"
+              <a href="https://wa.me/9613709240" target="_blank" rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-gray-400 hover:border-brand-gold hover:text-brand-gold transition-colors">
                 <Phone size={15} />
               </a>
@@ -67,11 +67,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2.5 text-sm text-gray-400">
                 <Phone size={15} className="text-brand-gold shrink-0" />
-                <a href="tel:+96170000000" className="hover:text-brand-gold transition-colors">+961 70 000 000</a>
+                <a href="tel:+9613709240" className="hover:text-brand-gold transition-colors">+961 3 709 240</a>
               </li>
               <li className="flex items-center gap-2.5 text-sm text-gray-400">
                 <Mail size={15} className="text-brand-gold shrink-0" />
-                <a href="mailto:info@rukunrealestate.com" className="hover:text-brand-gold transition-colors">info@rukunrealestate.com</a>
+                <a href="mailto:mirna.i.itani@gmail.com" className="hover:text-brand-gold transition-colors">mirna.i.itani@gmail.com</a>
               </li>
             </ul>
           </div>
