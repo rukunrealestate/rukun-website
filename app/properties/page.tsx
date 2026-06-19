@@ -79,7 +79,7 @@ export default async function PropertiesPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {properties.map((p) => (
-                <div key={p.id} className="group rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/20 transition-all duration-300 hover-lift bg-[#111]">
+                <Link key={p.id} href={`/properties/${p.id}`} className="group rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/20 transition-all duration-300 hover-lift bg-[#111] block">
                   <div className="relative h-52 bg-gradient-to-br from-[#1a1a1a] to-[#222] flex items-center justify-center">
                     {p.images?.[0] ? (
                       <img src={p.images[0]} alt={p.title} className="w-full h-full object-cover" />
@@ -108,10 +108,10 @@ export default async function PropertiesPage() {
                       <span className="font-heading text-xl font-bold text-brand-gold">
                         {formatPrice(p.price, p.currency, p.transaction_type)}
                       </span>
-                      <Link href="/contact" className="text-xs text-gray-400 hover:text-brand-gold transition-colors font-medium">Inquire →</Link>
+                      <span className="text-xs text-gray-400 group-hover:text-brand-gold transition-colors font-medium">View Details →</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
