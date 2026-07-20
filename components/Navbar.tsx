@@ -18,13 +18,14 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? 'bg-[#0A0A0A]/95 backdrop-blur-md shadow-lg shadow-black/30' : 'bg-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-32">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-4">
-          <img src="/logo.png" alt="Rukun Real Estate" className="h-40 w-auto" />
-          <div>
+          <img src="/logo.png" alt="Rukun Real Estate" className="h-28 w-auto object-contain" />
+          <div className="flex flex-col justify-center">
             <div className="font-heading font-bold text-white text-4xl leading-tight">Rukun</div>
-            <div className="text-brand-gold text-xl tracking-widest uppercase font-medium">Real Estate</div>
+            <div className="text-brand-gold text-lg tracking-widest uppercase font-medium">Real Estate</div>
+            <div className="text-gray-400 text-lg tracking-widest uppercase">Interior Design</div>
           </div>
         </Link>
 
