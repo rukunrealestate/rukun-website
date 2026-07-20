@@ -22,10 +22,9 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-4">
           <img src="/logo.png" alt="Rukun Real Estate" className="h-28 w-auto object-contain" />
-          <div className="flex flex-col justify-center">
-            <div className="font-heading font-bold text-white text-4xl leading-tight">Rukun</div>
-            <div className="text-brand-gold text-lg tracking-widest uppercase font-medium">Real Estate</div>
-            <div className="text-gray-400 text-lg tracking-widest uppercase">Interior Design</div>
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-brand-gold text-sm tracking-widest uppercase font-medium">Real Estate</div>
+            <div className="text-gray-400 text-sm tracking-widest uppercase">Interior Design</div>
           </div>
         </Link>
 
