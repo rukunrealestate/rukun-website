@@ -20,14 +20,8 @@ export default function Navbar() {
     }`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center">
-            <span className="font-heading font-bold text-white text-lg">R</span>
-          </div>
-          <div>
-            <div className="font-heading font-bold text-white text-lg leading-tight">Rukun</div>
-            <div className="text-[10px] text-brand-gold tracking-widest uppercase">Real Estate</div>
-          </div>
+        <Link href="/">
+          <img src="/logo.png" alt="Rukun Real Estate" className="h-14 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
