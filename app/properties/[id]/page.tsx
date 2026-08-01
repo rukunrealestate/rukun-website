@@ -147,7 +147,8 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
               {/* Video */}
               {property.video_url && (() => {
                 const url = property.video_url
-                let embedUrl = url
+                let embedUrl: string | null = null
+                let isShort = false
                 try {
                   const u = new URL(url)
                   if (u.hostname.includes('youtube.com')) {
@@ -155,8 +156,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                     if (v) {
                       embedUrl = `https://www.youtube.com/embed/${v}`
                     } else if (u.pathname.startsWith('/shorts/')) {
-                      const id = u.pathname.replace('/shorts/', '').split('/')[0]
-                      embedUrl = `https://www.youtube.com/embed/${id}`
+                      isShort = true
                     }
                   } else if (u.hostname === 'youtu.be') {
                     embedUrl = `https://www.youtube.com/embed${u.pathname}`
@@ -165,14 +165,26 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 return (
                   <div className="bg-white/3 border border-white/5 rounded-2xl p-6">
                     <h2 className="font-heading text-lg font-semibold text-white mb-3">Video Tour</h2>
-                    <div className="aspect-video rounded-xl overflow-hidden">
-                      <iframe
-                        src={embedUrl}
-                        className="w-full h-full"
-                        allowFullScreen
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      />
-                    </div>
+                    {embedUrl ? (
+                      <div className="aspect-video rounded-xl overflow-hidden">
+                        <iframe
+                          src={embedUrl}
+                          className="w-full h-full"
+                          allowFullScreen
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        />
+                      </div>
+                    ) : (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-3 w-full border border-brand-gold/40 hover:border-brand-gold text-brand-gold hover:bg-brand-gold/10 font-semibold py-5 rounded-xl transition-colors text-sm"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        {isShort ? 'Watch Short on YouTube' : 'Watch Video'}
+                      </a>
+                    )}
                   </div>
                 )
               })()}
