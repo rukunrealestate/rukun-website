@@ -90,14 +90,27 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
             {/* Left: Images + Details */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Image */}
-              <div className="rounded-2xl overflow-hidden bg-[#111] border border-white/5 h-80 flex items-center justify-center">
-                {property.images?.[0] ? (
-                  <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
-                ) : (
+              {/* Images */}
+              {property.images?.length > 0 ? (
+                <div className="space-y-2">
+                  <div className="rounded-2xl overflow-hidden bg-[#111] border border-white/5 h-80">
+                    <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
+                  </div>
+                  {property.images.length > 1 && (
+                    <div className="grid grid-cols-3 gap-2">
+                      {property.images.slice(1).map((img, i) => (
+                        <div key={i} className="rounded-xl overflow-hidden bg-[#111] border border-white/5 h-32">
+                          <img src={img} alt={`${property.title} ${i + 2}`} className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="rounded-2xl overflow-hidden bg-[#111] border border-white/5 h-80 flex items-center justify-center">
                   <div className="text-8xl opacity-5 font-heading text-brand-gold select-none">R</div>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Title + badges */}
               <div>
