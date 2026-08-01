@@ -26,7 +26,8 @@ async function getProperties(): Promise<Property[]> {
   try {
     const crmUrl = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.rukunrealestate.com'
     const res = await fetch(`${crmUrl}/api/properties`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 0 },
+      cache: 'no-store',
     })
     if (!res.ok) return []
     const data = await res.json()

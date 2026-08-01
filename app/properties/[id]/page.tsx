@@ -30,7 +30,8 @@ async function getProperty(id: string): Promise<Property | null> {
   try {
     const crmUrl = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.rukunrealestate.com'
     const res = await fetch(`${crmUrl}/api/properties/${id}`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 0 },
+      cache: 'no-store',
     })
     if (!res.ok) return null
     const data = await res.json()
@@ -144,19 +145,32 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
               )}
 
               {/* Video */}
-              {property.video_url && (
-                <div className="bg-white/3 border border-white/5 rounded-2xl p-6">
-                  <h2 className="font-heading text-lg font-semibold text-white mb-3">Video Tour</h2>
-                  <div className="aspect-video rounded-xl overflow-hidden">
-                    <iframe
-                      src={property.video_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}
-                      className="w-full h-full"
-                      allowFullScreen
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    />
+              {property.video_url && (() => {
+                const url = property.video_url
+                let embedUrl = url
+                try {
+                  const u = new URL(url)
+                  if (u.hostname.includes('youtube.com')) {
+                    const v = u.searchParams.get('v')
+                    if (v) embedUrl = `https://www.youtube.com/embed/${v}`
+                  } else if (u.hostname === 'youtu.be') {
+                    embedUrl = `https://www.youtube.com/embed${u.pathname}`
+                  }
+                } catch {}
+                return (
+                  <div className="bg-white/3 border border-white/5 rounded-2xl p-6">
+                    <h2 className="font-heading text-lg font-semibold text-white mb-3">Video Tour</h2>
+                    <div className="aspect-video rounded-xl overflow-hidden">
+                      <iframe
+                        src={embedUrl}
+                        className="w-full h-full"
+                        allowFullScreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )
+              })()}
 
               {/* Amenities */}
               {property.amenities?.length > 0 && (
