@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { MapPin, Bed, Bath, Square, Phone, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import ShareButton from './ShareButton'
+import ImageGallery from './ImageGallery'
 
 interface Property {
   id: string
@@ -22,6 +23,7 @@ interface Property {
   status: string
   images: string[]
   amenities: string[]
+  video_url: string | null
 }
 
 async function getProperty(id: string): Promise<Property | null> {
@@ -91,26 +93,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
             {/* Left: Images + Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Images */}
-              {property.images?.length > 0 ? (
-                <div className="space-y-2">
-                  <div className="rounded-2xl overflow-hidden bg-[#111] border border-white/5 h-80">
-                    <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
-                  </div>
-                  {property.images.length > 1 && (
-                    <div className="grid grid-cols-3 gap-2">
-                      {property.images.slice(1).map((img, i) => (
-                        <div key={i} className="rounded-xl overflow-hidden bg-[#111] border border-white/5 h-32">
-                          <img src={img} alt={`${property.title} ${i + 2}`} className="w-full h-full object-cover" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="rounded-2xl overflow-hidden bg-[#111] border border-white/5 h-80 flex items-center justify-center">
-                  <div className="text-8xl opacity-5 font-heading text-brand-gold select-none">R</div>
-                </div>
-              )}
+              <ImageGallery images={property.images ?? []} title={property.title} />
 
               {/* Title + badges */}
               <div>
@@ -157,6 +140,21 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 <div className="bg-white/3 border border-white/5 rounded-2xl p-6">
                   <h2 className="font-heading text-lg font-semibold text-white mb-3">About this property</h2>
                   <p className="text-gray-400 leading-relaxed text-sm whitespace-pre-line">{property.description}</p>
+                </div>
+              )}
+
+              {/* Video */}
+              {property.video_url && (
+                <div className="bg-white/3 border border-white/5 rounded-2xl p-6">
+                  <h2 className="font-heading text-lg font-semibold text-white mb-3">Video Tour</h2>
+                  <div className="aspect-video rounded-xl overflow-hidden">
+                    <iframe
+                      src={property.video_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}
+                      className="w-full h-full"
+                      allowFullScreen
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    />
+                  </div>
                 </div>
               )}
 
