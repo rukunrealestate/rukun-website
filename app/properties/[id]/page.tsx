@@ -152,7 +152,12 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                   const u = new URL(url)
                   if (u.hostname.includes('youtube.com')) {
                     const v = u.searchParams.get('v')
-                    if (v) embedUrl = `https://www.youtube.com/embed/${v}`
+                    if (v) {
+                      embedUrl = `https://www.youtube.com/embed/${v}`
+                    } else if (u.pathname.startsWith('/shorts/')) {
+                      const id = u.pathname.replace('/shorts/', '').split('/')[0]
+                      embedUrl = `https://www.youtube.com/embed/${id}`
+                    }
                   } else if (u.hostname === 'youtu.be') {
                     embedUrl = `https://www.youtube.com/embed${u.pathname}`
                   }
