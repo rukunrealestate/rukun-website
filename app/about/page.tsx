@@ -2,6 +2,13 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { Award, Users, MapPin, Heart } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'About Us · Real Estate Agency in Beirut',
+  description: 'Meet Rukun, a Beirut-based real estate and interior design agency helping families, investors and businesses find property across Lebanon.',
+  alternates: { canonical: '/about' },
+}
 
 export default function AboutPage() {
   return (

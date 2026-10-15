@@ -3,54 +3,13 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { MapPin, Bed, Bath, Square } from 'lucide-react'
 
-interface Property {
-  id: string
-  title: string
-  description: string | null
-  type: string
-  transaction_type: string
-  price: number
-  currency: string
-  area_sqm: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  location: string | null
-  district: string | null
-  city: string | null
-  status: string
-  images: string[]
-  amenities: string[]
-}
+import type { Metadata } from 'next'
+import { getProperties, formatPrice, typeLabel } from '@/lib/properties'
 
-async function getProperties(): Promise<Property[]> {
-  try {
-    const crmUrl = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.rukunrealestate.com'
-    const res = await fetch(`${crmUrl}/api/properties`, {
-      next: { revalidate: 0 },
-      cache: 'no-store',
-    })
-    if (!res.ok) return []
-    const data = await res.json()
-    return data.properties ?? []
-  } catch {
-    return []
-  }
-}
-
-function formatPrice(price: number, currency: string, transaction_type: string) {
-  const formatted = new Intl.NumberFormat('en-US', {
-    style: 'currency', currency: currency === 'LBP' ? 'USD' : currency,
-    maximumFractionDigits: 0,
-  }).format(price)
-  return transaction_type === 'rent' ? `${formatted}/mo` : formatted
-}
-
-function typeLabel(type: string) {
-  const map: Record<string, string> = {
-    apartment: 'Apartment', villa: 'Villa', commercial: 'Commercial',
-    land: 'Land', office: 'Office',
-  }
-  return map[type] ?? type
+export const metadata: Metadata = {
+  title: 'Properties for Sale & Rent in Lebanon',
+  description: 'Browse apartments, villas, offices, chalets and land for sale and rent in Beirut, Achrafieh, Mount Lebanon and across Lebanon. Updated daily by Rukun Real Estate.',
+  alternates: { canonical: '/properties' },
 }
 
 export default async function PropertiesPage() {
@@ -83,7 +42,7 @@ export default async function PropertiesPage() {
                 <Link key={p.id} href={`/properties/${p.id}`} className="group rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/20 transition-all duration-300 hover-lift bg-[#111] block">
                   <div className="relative h-52 bg-gradient-to-br from-[#1a1a1a] to-[#222] flex items-center justify-center">
                     {p.images?.[0] ? (
-                      <img src={p.images[0]} alt={p.title} className="w-full h-full object-cover" />
+                      <img src={p.images[0]} alt={p.title} loading="lazy" className="w-full h-full object-cover" />
                     ) : (
                       <div className="text-6xl opacity-10 font-heading text-brand-gold">R</div>
                     )}

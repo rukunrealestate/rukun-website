@@ -5,66 +5,27 @@ import { MapPin, Bed, Bath, Square, Phone, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import ShareButton from './ShareButton'
 import ImageGallery from './ImageGallery'
+import type { Metadata } from 'next'
+import {
+  SITE_URL, getProperty, formatPrice, typeLabel, propertyLocation, propertySummary,
+} from '@/lib/properties'
 
-interface Property {
-  id: string
-  title: string
-  description: string | null
-  type: string
-  transaction_type: string
-  price: number
-  currency: string
-  area_sqm: number | null
-  bedrooms: number | null
-  bathrooms: number | null
-  location: string | null
-  district: string | null
-  city: string | null
-  status: string
-  images: string[]
-  amenities: string[]
-  video_url: string | null
-}
-
-async function getProperty(id: string): Promise<Property | null> {
-  try {
-    const crmUrl = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.rukunrealestate.com'
-    const res = await fetch(`${crmUrl}/api/properties/${id}`, {
-      next: { revalidate: 0 },
-      cache: 'no-store',
-    })
-    if (!res.ok) return null
-    const data = await res.json()
-    return data.property ?? null
-  } catch {
-    return null
-  }
-}
-
-function formatPrice(price: number, currency: string, transaction_type: string) {
-  const formatted = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency === 'LBP' ? 'USD' : currency,
-    maximumFractionDigits: 0,
-  }).format(price)
-  return transaction_type === 'rent' ? `${formatted}/mo` : formatted
-}
-
-function typeLabel(type: string) {
-  const map: Record<string, string> = {
-    apartment: 'Apartment', villa: 'Villa', commercial: 'Commercial',
-    land: 'Land', office: 'Office',
-  }
-  return map[type] ?? type
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const property = await getProperty(id)
-  if (!property) return { title: 'Property Not Found' }
+  if (!property) return { title: 'Property Not Found', robots: { index: false } }
+  const description = propertySummary(property)
   return {
-    title: `${property.title} — Rukun Real Estate`,
-    description: property.description || `${typeLabel(property.type)} ${property.transaction_type === 'sale' ? 'for sale' : 'for rent'} in ${property.city || 'Lebanon'}`,
+    title: property.title,
+    description,
+    alternates: { canonical: `/properties/${property.id}` },
+    openGraph: {
+      title: property.title,
+      description,
+      url: `/properties/${property.id}`,
+      type: 'website',
+      images: property.images?.slice(0, 1).map((url) => ({ url, alt: property.title })),
+    },
   }
 }
 
@@ -74,11 +35,44 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
   if (!property) notFound()
 
   const price = formatPrice(property.price, property.currency, property.transaction_type)
-  const location = property.location || [property.district, property.city].filter(Boolean).join(', ') || 'Lebanon'
-  const propertyUrl = `https://rukunrealestate.com/properties/${property.id}`
+  const location = propertyLocation(property)
+  const propertyUrl = `${SITE_URL}/properties/${property.id}`
+  const listingSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: property.title,
+    description: propertySummary(property),
+    url: propertyUrl,
+    image: property.images ?? [],
+    offers: {
+      '@type': 'Offer',
+      price: property.price,
+      priceCurrency: property.currency === 'LBP' ? 'USD' : property.currency,
+      availability: property.status === 'available' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+      businessFunction: property.transaction_type === 'rent' ? 'http://purl.org/goodrelations/v1#LeaseOut' : 'http://purl.org/goodrelations/v1#Sell',
+      seller: { '@type': 'RealEstateAgent', name: 'Rukun Real Estate & Interior Design', url: SITE_URL },
+    },
+    contentLocation: {
+      '@type': 'Place',
+      name: location,
+      address: { '@type': 'PostalAddress', addressLocality: property.city || property.district || undefined, addressCountry: 'LB' },
+    },
+    ...(property.area_sqm ? { floorSize: { '@type': 'QuantitativeValue', value: property.area_sqm, unitCode: 'MTK' } } : {}),
+    ...(property.bedrooms ? { numberOfBedrooms: property.bedrooms } : {}),
+  }
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Properties', item: `${SITE_URL}/properties` },
+      { '@type': 'ListItem', position: 3, name: property.title, item: propertyUrl },
+    ],
+  }
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([listingSchema, breadcrumbSchema]) }} />
       <Navbar />
       <div className="pt-24 min-h-screen bg-[#080808]">
         {/* Back */}

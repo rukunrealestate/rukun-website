@@ -1,34 +1,14 @@
 import Link from 'next/link'
 import { MapPin, Bed, Bath, Square, ArrowRight } from 'lucide-react'
+import { getProperties, formatPrice, typeLabel, propertyLocation } from '@/lib/properties'
 
-const properties = [
-  {
-    title: 'Luxury Apartment — Achrafieh',
-    price: '$450,000',
-    location: 'Achrafieh, Beirut',
-    beds: 3, baths: 2, area: 180,
-    type: 'For Sale',
-    tag: 'Featured',
-  },
-  {
-    title: 'Modern Villa — Broummana',
-    price: '$1,200,000',
-    location: 'Broummana, Mount Lebanon',
-    beds: 5, baths: 4, area: 450,
-    type: 'For Sale',
-    tag: 'New',
-  },
-  {
-    title: 'Sea-View Apartment — Jounieh',
-    price: '$2,500/mo',
-    location: 'Jounieh, Keserwan',
-    beds: 2, baths: 1, area: 120,
-    type: 'For Rent',
-    tag: '',
-  },
-]
+export default async function FeaturedProperties() {
+  // Latest real listings from the CRM, preferring ones with photos
+  const all = await getProperties()
+  const properties = [...all.filter((p) => p.images?.length), ...all.filter((p) => !p.images?.length)].slice(0, 6)
 
-export default function FeaturedProperties() {
+  if (properties.length === 0) return null
+
   return (
     <section className="section-padding bg-[#080808]">
       <div className="max-w-7xl mx-auto px-6">
@@ -48,16 +28,19 @@ export default function FeaturedProperties() {
 
         {/* Property Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {properties.map((p, i) => (
-            <div key={i} className="group rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/20 transition-all duration-300 hover-lift bg-[#111]">
-              {/* Image placeholder */}
+          {properties.map((p) => (
+            <Link key={p.id} href={`/properties/${p.id}`} className="group rounded-2xl overflow-hidden border border-white/5 hover:border-brand-gold/20 transition-all duration-300 hover-lift bg-[#111] block">
               <div className="relative h-52 bg-gradient-to-br from-[#1a1a1a] to-[#222] flex items-center justify-center overflow-hidden">
-                <div className="text-6xl opacity-10 font-heading text-brand-gold">R</div>
+                {p.images?.[0] ? (
+                  <img src={p.images[0]} alt={p.title} loading="lazy" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="text-6xl opacity-10 font-heading text-brand-gold">R</div>
+                )}
                 <div className="absolute top-3 left-3 flex gap-2">
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                    p.type === 'For Sale' ? 'bg-brand-gold text-brand-black' : 'bg-brand-red text-white'
-                  }`}>{p.type}</span>
-                  {p.tag && <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white">{p.tag}</span>}
+                    p.transaction_type === 'sale' ? 'bg-brand-gold text-brand-black' : 'bg-brand-red text-white'
+                  }`}>{p.transaction_type === 'sale' ? 'For Sale' : 'For Rent'}</span>
+                  <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white">{typeLabel(p.type)}</span>
                 </div>
               </div>
 
@@ -68,21 +51,21 @@ export default function FeaturedProperties() {
                 </h3>
                 <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-4">
                   <MapPin size={12} className="text-brand-gold" />
-                  {p.location}
+                  {propertyLocation(p)}
                 </div>
                 <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
-                  <span className="flex items-center gap-1"><Bed size={13} />{p.beds} Beds</span>
-                  <span className="flex items-center gap-1"><Bath size={13} />{p.baths} Baths</span>
-                  <span className="flex items-center gap-1"><Square size={13} />{p.area} m²</span>
+                  {p.bedrooms != null && p.bedrooms > 0 && <span className="flex items-center gap-1"><Bed size={13} />{p.bedrooms} Beds</span>}
+                  {p.bathrooms != null && <span className="flex items-center gap-1"><Bath size={13} />{p.bathrooms} Baths</span>}
+                  {p.area_sqm != null && <span className="flex items-center gap-1"><Square size={13} />{p.area_sqm} m²</span>}
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="font-heading text-xl font-bold text-brand-gold">{p.price}</span>
-                  <Link href="/contact" className="text-xs text-gray-400 hover:text-brand-gold transition-colors font-medium">
-                    Inquire →
-                  </Link>
+                  <span className="font-heading text-xl font-bold text-brand-gold">
+                    {formatPrice(p.price, p.currency, p.transaction_type)}
+                  </span>
+                  <span className="text-xs text-gray-400 group-hover:text-brand-gold transition-colors font-medium">View Details →</span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

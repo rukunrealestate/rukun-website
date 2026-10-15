@@ -2,6 +2,13 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ContactSection from '@/components/sections/ContactSection'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Contact Us · Talk to a Real Estate Agent in Lebanon',
+  description: 'Call or WhatsApp Rukun Real Estate on +961 3 709 240 to buy, sell or rent property in Beirut and across Lebanon. Open Mon–Sat, 9am–7pm.',
+  alternates: { canonical: '/contact' },
+}
 
 export default function ContactPage() {
   return (

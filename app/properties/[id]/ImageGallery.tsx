@@ -38,7 +38,7 @@ export default function ImageGallery({ images, title }: { images: string[], titl
           <div className="grid grid-cols-3 gap-2">
             {images.slice(1).map((img, i) => (
               <div key={i} className="rounded-xl overflow-hidden bg-[#111] border border-white/5 h-32 cursor-pointer" onClick={() => setLightbox(i + 1)}>
-                <img src={img} alt={`${title} ${i + 2}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                <img src={img} alt={`${title} ${i + 2}`} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
               </div>
             ))}
           </div>
