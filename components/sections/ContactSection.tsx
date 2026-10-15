@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { Phone, Mail, MapPin, Send, Loader2 } from 'lucide-react'
+import type { Dictionary } from '@/lib/i18n'
 
-export default function ContactSection() {
+export default function ContactSection({ t }: { t: Dictionary['contact'] }) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', message: '', website: '' })
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
@@ -22,9 +23,9 @@ export default function ContactSection() {
     // Honeypot — bots fill hidden fields; silently fake success
     if (form.website) { setSent(true); return }
 
-    if (!name || !phone) { setError('Name and phone are required'); return }
-    if (!/^[+\d\s\-().]{7,20}$/.test(phone)) { setError('Please enter a valid phone number'); return }
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Please enter a valid email address'); return }
+    if (!name || !phone) { setError(t.errRequired); return }
+    if (!/^[+\d\s\-().]{7,20}$/.test(phone)) { setError(t.errPhone); return }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t.errEmail); return }
 
     setLoading(true)
     try {
@@ -38,10 +39,10 @@ export default function ContactSection() {
         setSent(true)
         setForm({ name: '', phone: '', email: '', message: '', website: '' })
       } else {
-        setError('Something went wrong. Please try again.')
+        setError(t.errGeneric)
       }
     } catch {
-      setError('Connection error. Please try again.')
+      setError(t.errConnection)
     }
     setLoading(false)
   }
@@ -52,16 +53,13 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left: Info */}
           <div>
-            <p className="text-brand-gold text-sm font-medium tracking-widest uppercase mb-3">Get In Touch</p>
+            <p className="text-brand-gold text-sm font-medium tracking-widest uppercase mb-3">{t.eyebrow}</p>
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">
-              Let&apos;s Find Your
-              <br />Perfect Property
+              {t.titleA}
+              <br />{t.titleB}
             </h2>
             <div className="gold-divider mb-6" />
-            <p className="text-gray-400 leading-relaxed mb-10">
-              Whether you&apos;re buying, selling, or just exploring — our team is here to help.
-              Leave your details and an agent will contact you within hours.
-            </p>
+            <p className="text-gray-400 leading-relaxed mb-10">{t.intro}</p>
 
             <div className="space-y-5">
               <div className="flex items-center gap-4">
@@ -69,8 +67,8 @@ export default function ContactSection() {
                   <Phone size={16} className="text-brand-gold" />
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 mb-0.5">Phone / WhatsApp</div>
-                  <a href="tel:+9613709240" className="text-white hover:text-brand-gold transition-colors font-medium">+961 3 709 240</a>
+                  <div className="text-xs text-gray-500 mb-0.5">{t.phoneLabel}</div>
+                  <a href="tel:+9613709240" dir="ltr" className="text-white hover:text-brand-gold transition-colors font-medium">+961 3 709 240</a>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -78,7 +76,7 @@ export default function ContactSection() {
                   <Mail size={16} className="text-brand-gold" />
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 mb-0.5">Email</div>
+                  <div className="text-xs text-gray-500 mb-0.5">{t.emailLabel}</div>
                   <a href="mailto:mirna.i.itani@gmail.com" className="text-white hover:text-brand-gold transition-colors font-medium">mirna.i.itani@gmail.com</a>
                 </div>
               </div>
@@ -87,8 +85,8 @@ export default function ContactSection() {
                   <MapPin size={16} className="text-brand-gold" />
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 mb-0.5">Location</div>
-                  <span className="text-white font-medium">Beirut, Lebanon</span>
+                  <div className="text-xs text-gray-500 mb-0.5">{t.locationLabel}</div>
+                  <span className="text-white font-medium">{t.location}</span>
                 </div>
               </div>
             </div>
@@ -101,36 +99,36 @@ export default function ContactSection() {
                 <div className="w-16 h-16 bg-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">✓</span>
                 </div>
-                <h3 className="font-heading text-xl text-white font-semibold mb-2">Message Received!</h3>
-                <p className="text-gray-400 text-sm">An agent will contact you within a few hours.</p>
+                <h3 className="font-heading text-xl text-white font-semibold mb-2">{t.sentTitle}</h3>
+                <p className="text-gray-400 text-sm">{t.sentText}</p>
                 <button onClick={() => setSent(false)}
                   className="mt-6 text-brand-gold text-sm hover:underline">
-                  Send another message
+                  {t.sendAnother}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="font-heading text-xl font-semibold text-white mb-6">Send Us a Message</h3>
+                <h3 className="font-heading text-xl font-semibold text-white mb-6">{t.formTitle}</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2 md:col-span-1">
-                    <label className="text-xs text-gray-400 mb-1.5 block">Full Name *</label>
-                    <input className="form-input" placeholder="Ahmad Khalil" required
+                    <label className="text-xs text-gray-400 mb-1.5 block">{t.name}</label>
+                    <input className="form-input" placeholder={t.namePh} required
                       value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
                   </div>
                   <div className="col-span-2 md:col-span-1">
-                    <label className="text-xs text-gray-400 mb-1.5 block">Phone *</label>
-                    <input className="form-input" placeholder="+961 3 709 240" required
+                    <label className="text-xs text-gray-400 mb-1.5 block">{t.phone}</label>
+                    <input className="form-input" placeholder="+961 3 709 240" dir="ltr" required
                       value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))} />
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs text-gray-400 mb-1.5 block">Email</label>
+                  <label className="text-xs text-gray-400 mb-1.5 block">{t.email}</label>
                   <input className="form-input" type="email" placeholder="ahmad@example.com"
                     value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))} />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-400 mb-1.5 block">Message</label>
-                  <textarea className="form-input" rows={4} placeholder="I'm looking for a 3-bedroom apartment in Beirut..."
+                  <label className="text-xs text-gray-400 mb-1.5 block">{t.message}</label>
+                  <textarea className="form-input" rows={4} placeholder={t.messagePh}
                     value={form.message} onChange={e => setForm(f => ({...f, message: e.target.value}))} />
                 </div>
                 {/* Honeypot — hidden from users, visible to bots */}
@@ -142,7 +140,7 @@ export default function ContactSection() {
                 <button type="submit" disabled={loading}
                   className="w-full flex items-center justify-center gap-2 bg-brand-gold hover:bg-brand-gold-light text-brand-black font-semibold py-3.5 rounded-xl transition-all">
                   {loading ? <Loader2 size={17} className="animate-spin" /> : <Send size={17} />}
-                  {loading ? 'Sending...' : 'Send Message'}
+                  {loading ? t.sending : t.send}
                 </button>
               </form>
             )}

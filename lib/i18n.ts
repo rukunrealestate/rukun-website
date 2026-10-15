@@ -1,0 +1,364 @@
+export const locales = ['en', 'ar', 'fr'] as const
+export type Locale = (typeof locales)[number]
+export const defaultLocale: Locale = 'en'
+
+export const hasLocale = (l: string): l is Locale => (locales as readonly string[]).includes(l)
+
+export const localeNames: Record<Locale, string> = { en: 'English', ar: 'العربية', fr: 'Français' }
+export const ogLocales: Record<Locale, string> = { en: 'en_US', ar: 'ar_LB', fr: 'fr_FR' }
+
+// English lives at the root ("/about"); other languages are prefixed ("/ar/about")
+export function localePath(lang: Locale, path: string) {
+  if (lang === defaultLocale) return path
+  return path === '/' ? `/${lang}` : `/${lang}${path}`
+}
+
+// canonical + hreflang alternates for a path, for use in page metadata
+export function alternatesFor(lang: Locale, path: string) {
+  return {
+    canonical: localePath(lang, path),
+    languages: {
+      ...Object.fromEntries(locales.map((l) => [l, localePath(l, path)])),
+      'x-default': path,
+    },
+  }
+}
+
+const en = {
+  meta: {
+    homeTitle: 'Rukun Real Estate · Apartments, Villas & Offices in Lebanon',
+    homeDesc: 'Apartments, villas, offices and land for sale and rent in Beirut and across Lebanon. Premium real estate and interior design with Rukun.',
+    ogDesc: 'Apartments, villas, offices and land for sale and rent across Lebanon.',
+  },
+  nav: {
+    home: 'Home', properties: 'Properties', services: 'Services', about: 'About', contact: 'Contact',
+    getInTouch: 'Get In Touch', realEstate: 'Real Estate', interiorDesign: 'Interior Design', language: 'Language',
+  },
+  footer: {
+    tagline: "Lebanon's trusted partner for premium real estate and bespoke interior design. We turn spaces into exceptional places.",
+    quickLinks: 'Quick Links', ourServices: 'Our Services', aboutUs: 'About Us', contact: 'Contact',
+    popular: 'Popular Searches', location: 'Beirut, Lebanon',
+    rights: 'Rukun Real Estate. All rights reserved.', bottom: 'Lebanon · Real Estate · Interior Design',
+  },
+  hero: {
+    badge: 'Premium Real Estate · Lebanon',
+    h1a: 'Find Your', h1b: 'Dream Property', h1c: 'in Lebanon',
+    intro: "Rukun connects you with Lebanon's finest properties. From luxury apartments in Beirut to breathtaking mountain villas — your perfect home awaits.",
+    browse: 'Browse Properties', talk: 'Talk to an Agent', scroll: 'Scroll',
+    apartmentsSale: 'Apartments for Sale', apartmentsRent: 'Apartments for Rent', offices: 'Offices for Rent',
+    land: 'Land for Sale', forSale: 'For Sale', forRent: 'For Rent',
+  },
+  stats: ['Properties Sold', 'Years Experience', 'Client Satisfaction', 'Projects Designed'],
+  services: {
+    eyebrow: 'What We Do', title: 'Our Services',
+    intro: 'Comprehensive real estate and design solutions tailored to the Lebanese market.',
+    items: [
+      { title: 'Property Search', desc: 'We find the perfect property matching your needs, budget, and lifestyle across all of Lebanon.' },
+      { title: 'Buy & Sell', desc: 'Expert guidance through every step of buying or selling — from valuation to closing.' },
+      { title: 'Property Rental', desc: 'Short and long-term rentals for apartments, villas, and commercial spaces Lebanon-wide.' },
+      { title: 'Interior Design', desc: 'Bespoke interior design services that transform your space into a stunning, functional home.' },
+      { title: 'Investment Advisory', desc: 'Smart real estate investment strategies tailored to the Lebanese market and your goals.' },
+      { title: 'Property Management', desc: "Full-service management for landlords — we handle everything so you don't have to." },
+    ],
+  },
+  whyUs: {
+    eyebrow: 'Why Choose Rukun', titleA: "Lebanon's Most", titleB: 'Trusted Agency',
+    intro: 'With over a decade of experience in the Lebanese real estate market, Rukun has helped hundreds of families and investors find their perfect properties. We combine deep local knowledge with world-class service.',
+    cta: 'Start Your Search',
+    items: [
+      { title: 'Trusted & Verified', desc: 'All our listings are personally verified. No surprises, no hidden fees.' },
+      { title: 'Fast Response', desc: 'Our agents respond within hours — never leave a lead waiting.' },
+      { title: 'Premium Service', desc: 'White-glove service from first inquiry to final handover.' },
+      { title: 'Local Experts', desc: 'Deep knowledge of every neighborhood across Lebanon.' },
+    ],
+  },
+  featured: { eyebrow: 'Handpicked for You', title: 'Featured Properties', viewAll: 'View All Properties' },
+  contact: {
+    eyebrow: 'Get In Touch', titleA: "Let's Find Your", titleB: 'Perfect Property',
+    intro: "Whether you're buying, selling, or just exploring — our team is here to help. Leave your details and an agent will contact you within hours.",
+    phoneLabel: 'Phone / WhatsApp', emailLabel: 'Email', locationLabel: 'Location', location: 'Beirut, Lebanon',
+    sentTitle: 'Message Received!', sentText: 'An agent will contact you within a few hours.', sendAnother: 'Send another message',
+    formTitle: 'Send Us a Message', name: 'Full Name *', phone: 'Phone *', email: 'Email', message: 'Message',
+    namePh: 'Your name', messagePh: "I'm looking for a 3-bedroom apartment in Beirut...",
+    sending: 'Sending...', send: 'Send Message',
+    errRequired: 'Name and phone are required', errPhone: 'Please enter a valid phone number',
+    errEmail: 'Please enter a valid email address', errGeneric: 'Something went wrong. Please try again.',
+    errConnection: 'Connection error. Please try again.',
+  },
+  contactPage: {
+    metaTitle: 'Contact Us · Talk to a Real Estate Agent in Lebanon',
+    metaDesc: 'Call or WhatsApp Rukun Real Estate on +961 3 709 240 to buy, sell or rent property in Beirut and across Lebanon. Open Mon–Sat, 9am–7pm.',
+    eyebrow: 'Reach Out', title: 'Contact Us',
+    intro: 'We respond within hours. Our agents are ready to help you find your perfect property.',
+    phone: 'Phone', email: 'Email', location: 'Location', locationVal: 'Beirut, Lebanon', hours: 'Hours', hoursVal: 'Mon–Sat, 9am–7pm',
+  },
+  about: {
+    metaTitle: 'About Us · Real Estate Agency in Beirut',
+    metaDesc: 'Meet Rukun, a Beirut-based real estate and interior design agency helping families, investors and businesses find property across Lebanon.',
+    eyebrow: 'Our Story', title: 'About Rukun',
+    intro: 'Born in Lebanon, built on trust. For over a decade, Rukun has been helping families, investors, and businesses find their perfect space across the country.',
+    missionTitle: 'Our Mission',
+    mission1: 'We believe everyone deserves a space they love. Rukun was founded on the principle that real estate should be transparent, personalized, and stress-free.',
+    mission2: 'From our base in Beirut, we serve clients across all of Lebanon — combining deep local expertise with a premium, client-first approach to every transaction.',
+    values: [
+      { title: 'Excellence', desc: 'Top-rated agency in Lebanon' },
+      { title: 'Community', desc: '500+ happy families served' },
+      { title: 'Local', desc: 'Lebanon experts since 2012' },
+      { title: 'Passion', desc: 'We love what we do' },
+    ],
+    teamTitle: 'Meet Our Team',
+    team: [
+      { role: 'Founder & CEO', note: 'Leading Rukun with vision and heart.' },
+      { role: 'Senior Agent', note: 'Specializing in Beirut luxury properties.' },
+      { role: 'Interior Designer', note: 'Transforming spaces with elegant design.' },
+    ],
+    ctaTitle: 'Ready to Work With Us?', ctaText: 'Let our team help you find the perfect property in Lebanon.', ctaButton: 'Contact Our Team',
+  },
+  props: {
+    metaTitle: 'Properties for Sale & Rent in Lebanon',
+    metaDesc: 'Browse apartments, villas, offices, chalets and land for sale and rent in Beirut, Achrafieh, Mount Lebanon and across Lebanon. Updated daily by Rukun Real Estate.',
+    eyebrow: 'Our Listings', title: 'All Properties',
+    empty: 'No properties listed yet.', emptySub: 'Check back soon or contact us directly.', contactUs: 'Contact Us',
+    noMatch: 'No properties match this search right now.', noMatchSub: 'New listings arrive every week — tell us what you need and we will find it for you.',
+    viewDetails: 'View Details →', beds: 'Beds', baths: 'Baths', forSale: 'For Sale', forRent: 'For Rent',
+    browseBy: 'Browse by Category', related: 'Related Searches', count: '{n} properties available',
+    back: 'Back to Properties', aboutProperty: 'About this property', videoTour: 'Video Tour',
+    watchShort: 'Watch Short on YouTube', watchVideo: 'Watch Video', amenities: 'Amenities',
+    monthlyRent: 'Monthly Rent', askingPrice: 'Asking Price', type: 'Type', transaction: 'Transaction',
+    city: 'City', district: 'District', callAgent: 'Call Agent', whatsapp: 'WhatsApp Us',
+    bedrooms: 'Bedrooms', bathrooms: 'Bathrooms', notFound: 'Property Not Found',
+    waMessage: "Hi, I'm interested in this property:", summaryCta: 'Contact Rukun Real Estate for a private viewing.',
+    bedroomsN: '{n} bedrooms', bathroomsN: '{n} bathrooms',
+  },
+  share: { button: 'Share Property', title: 'Share Property', copy: 'Copy Link', copied: 'Copied!', view: 'View property', subject: 'Property' },
+  types: { apartment: 'Apartment', villa: 'Villa', commercial: 'Commercial', land: 'Land', office: 'Office' } as Record<string, string>,
+  notFound: { title: 'Page not found', text: "The page you're looking for doesn't exist or has been removed.", button: 'Browse Properties' },
+}
+
+export type Dictionary = typeof en
+
+const ar: Dictionary = {
+  meta: {
+    homeTitle: 'ركن العقارية · شقق وفلل ومكاتب في لبنان',
+    homeDesc: 'شقق وفلل ومكاتب وأراضٍ للبيع والإيجار في بيروت وكل لبنان. عقارات مميزة وتصميم داخلي مع ركن.',
+    ogDesc: 'شقق وفلل ومكاتب وأراضٍ للبيع والإيجار في كل لبنان.',
+  },
+  nav: {
+    home: 'الرئيسية', properties: 'العقارات', services: 'خدماتنا', about: 'من نحن', contact: 'اتصل بنا',
+    getInTouch: 'تواصل معنا', realEstate: 'عقارات', interiorDesign: 'تصميم داخلي', language: 'اللغة',
+  },
+  footer: {
+    tagline: 'شريكك الموثوق في لبنان للعقارات المميزة والتصميم الداخلي الراقي. نحوّل المساحات إلى أماكن استثنائية.',
+    quickLinks: 'روابط سريعة', ourServices: 'خدماتنا', aboutUs: 'من نحن', contact: 'تواصل',
+    popular: 'عمليات بحث شائعة', location: 'بيروت، لبنان',
+    rights: 'ركن العقارية. جميع الحقوق محفوظة.', bottom: 'لبنان · عقارات · تصميم داخلي',
+  },
+  hero: {
+    badge: 'عقارات مميزة · لبنان',
+    h1a: 'اعثر على', h1b: 'عقار أحلامك', h1c: 'في لبنان',
+    intro: 'يصلك ركن بأفضل العقارات في لبنان. من الشقق الفاخرة في بيروت إلى الفلل الجبلية الخلابة — منزلك المثالي بانتظارك.',
+    browse: 'تصفح العقارات', talk: 'تحدث مع وكيل', scroll: 'مرر',
+    apartmentsSale: 'شقق للبيع', apartmentsRent: 'شقق للإيجار', offices: 'مكاتب للإيجار',
+    land: 'أراضٍ للبيع', forSale: 'للبيع', forRent: 'للإيجار',
+  },
+  stats: ['عقار تم بيعه', 'سنوات خبرة', 'رضا العملاء', 'مشروع تصميم'],
+  services: {
+    eyebrow: 'ماذا نقدم', title: 'خدماتنا',
+    intro: 'حلول متكاملة في العقارات والتصميم مصممة خصيصاً للسوق اللبناني.',
+    items: [
+      { title: 'البحث عن عقار', desc: 'نجد لك العقار المثالي الذي يناسب احتياجاتك وميزانيتك وأسلوب حياتك في كل لبنان.' },
+      { title: 'البيع والشراء', desc: 'إرشاد متخصص في كل خطوة من البيع أو الشراء — من التقييم حتى إتمام الصفقة.' },
+      { title: 'تأجير العقارات', desc: 'إيجارات قصيرة وطويلة الأمد للشقق والفلل والمساحات التجارية في كل لبنان.' },
+      { title: 'التصميم الداخلي', desc: 'خدمات تصميم داخلي حسب الطلب تحوّل مساحتك إلى منزل رائع وعملي.' },
+      { title: 'الاستشارات الاستثمارية', desc: 'استراتيجيات ذكية للاستثمار العقاري مصممة للسوق اللبناني ولأهدافك.' },
+      { title: 'إدارة العقارات', desc: 'إدارة متكاملة للمالكين — نتولى كل شيء نيابة عنك.' },
+    ],
+  },
+  whyUs: {
+    eyebrow: 'لماذا ركن', titleA: 'الوكالة الأكثر', titleB: 'ثقة في لبنان',
+    intro: 'بخبرة تزيد عن عقد في السوق العقاري اللبناني، ساعد ركن مئات العائلات والمستثمرين في العثور على عقاراتهم المثالية. نجمع بين المعرفة المحلية العميقة والخدمة بمستوى عالمي.',
+    cta: 'ابدأ بحثك',
+    items: [
+      { title: 'موثوق ومُتحقَّق منه', desc: 'جميع عقاراتنا يتم التحقق منها شخصياً. لا مفاجآت ولا رسوم خفية.' },
+      { title: 'استجابة سريعة', desc: 'يرد وكلاؤنا خلال ساعات — لا ننتظر أبداً.' },
+      { title: 'خدمة مميزة', desc: 'خدمة راقية من أول استفسار حتى تسليم المفتاح.' },
+      { title: 'خبراء محليون', desc: 'معرفة عميقة بكل منطقة في لبنان.' },
+    ],
+  },
+  featured: { eyebrow: 'مختارة لك', title: 'عقارات مميزة', viewAll: 'عرض كل العقارات' },
+  contact: {
+    eyebrow: 'تواصل معنا', titleA: 'دعنا نجد لك', titleB: 'العقار المثالي',
+    intro: 'سواء كنت تشتري أو تبيع أو تستكشف فقط — فريقنا هنا لمساعدتك. اترك بياناتك وسيتواصل معك وكيل خلال ساعات.',
+    phoneLabel: 'الهاتف / واتساب', emailLabel: 'البريد الإلكتروني', locationLabel: 'الموقع', location: 'بيروت، لبنان',
+    sentTitle: 'تم استلام رسالتك!', sentText: 'سيتواصل معك أحد وكلائنا خلال ساعات قليلة.', sendAnother: 'إرسال رسالة أخرى',
+    formTitle: 'أرسل لنا رسالة', name: 'الاسم الكامل *', phone: 'الهاتف *', email: 'البريد الإلكتروني', message: 'الرسالة',
+    namePh: 'اسمك', messagePh: 'أبحث عن شقة من 3 غرف نوم في بيروت...',
+    sending: 'جارٍ الإرسال...', send: 'إرسال الرسالة',
+    errRequired: 'الاسم والهاتف مطلوبان', errPhone: 'يرجى إدخال رقم هاتف صحيح',
+    errEmail: 'يرجى إدخال بريد إلكتروني صحيح', errGeneric: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
+    errConnection: 'خطأ في الاتصال. يرجى المحاولة مرة أخرى.',
+  },
+  contactPage: {
+    metaTitle: 'اتصل بنا · تحدث مع وكيل عقاري في لبنان',
+    metaDesc: 'اتصل أو راسل ركن العقارية عبر واتساب على 240 709 3 961+ لشراء أو بيع أو استئجار عقار في بيروت وكل لبنان. من الاثنين إلى السبت، 9 صباحاً حتى 7 مساءً.',
+    eyebrow: 'تواصل', title: 'اتصل بنا',
+    intro: 'نرد خلال ساعات. وكلاؤنا جاهزون لمساعدتك في العثور على عقارك المثالي.',
+    phone: 'الهاتف', email: 'البريد الإلكتروني', location: 'الموقع', locationVal: 'بيروت، لبنان', hours: 'ساعات العمل', hoursVal: 'الاثنين–السبت، 9ص–7م',
+  },
+  about: {
+    metaTitle: 'من نحن · وكالة عقارية في بيروت',
+    metaDesc: 'تعرّف على ركن، وكالة عقارية وتصميم داخلي مقرها بيروت، تساعد العائلات والمستثمرين والشركات في إيجاد عقارات في كل لبنان.',
+    eyebrow: 'قصتنا', title: 'عن ركن',
+    intro: 'وُلدنا في لبنان وبُنينا على الثقة. منذ أكثر من عقد، يساعد ركن العائلات والمستثمرين والشركات في إيجاد المساحة المثالية في كل أنحاء البلاد.',
+    missionTitle: 'مهمتنا',
+    mission1: 'نؤمن بأن كل شخص يستحق مساحة يحبها. تأسس ركن على مبدأ أن العقارات يجب أن تكون شفافة وشخصية وخالية من التوتر.',
+    mission2: 'من مقرنا في بيروت، نخدم العملاء في كل لبنان — جامعين بين الخبرة المحلية العميقة ونهج مميز يضع العميل أولاً في كل صفقة.',
+    values: [
+      { title: 'التميز', desc: 'وكالة رائدة في لبنان' },
+      { title: 'المجتمع', desc: 'أكثر من 500 عائلة سعيدة' },
+      { title: 'محلي', desc: 'خبراء في لبنان منذ 2012' },
+      { title: 'الشغف', desc: 'نحب ما نقوم به' },
+    ],
+    teamTitle: 'تعرّف على فريقنا',
+    team: [
+      { role: 'التأسيس والإدارة التنفيذية', note: 'قيادة ركن برؤية وشغف.' },
+      { role: 'الوساطة العقارية', note: 'التخصص في عقارات بيروت الفاخرة.' },
+      { role: 'التصميم الداخلي', note: 'تحويل المساحات بتصاميم أنيقة.' },
+    ],
+    ctaTitle: 'مستعد للعمل معنا؟', ctaText: 'دع فريقنا يساعدك في العثور على العقار المثالي في لبنان.', ctaButton: 'تواصل مع فريقنا',
+  },
+  props: {
+    metaTitle: 'عقارات للبيع والإيجار في لبنان',
+    metaDesc: 'تصفح شققاً وفللاً ومكاتب وشاليهات وأراضٍ للبيع والإيجار في بيروت والأشرفية وجبل لبنان وكل لبنان. يتم التحديث يومياً من ركن العقارية.',
+    eyebrow: 'عقاراتنا', title: 'كل العقارات',
+    empty: 'لا توجد عقارات معروضة حالياً.', emptySub: 'عد قريباً أو تواصل معنا مباشرة.', contactUs: 'اتصل بنا',
+    noMatch: 'لا توجد عقارات مطابقة لهذا البحث حالياً.', noMatchSub: 'تصلنا عقارات جديدة كل أسبوع — أخبرنا بما تحتاجه وسنجده لك.',
+    viewDetails: '← عرض التفاصيل', beds: 'غرف نوم', baths: 'حمامات', forSale: 'للبيع', forRent: 'للإيجار',
+    browseBy: 'تصفح حسب الفئة', related: 'عمليات بحث ذات صلة', count: '{n} عقار متاح',
+    back: 'العودة إلى العقارات', aboutProperty: 'عن هذا العقار', videoTour: 'جولة بالفيديو',
+    watchShort: 'شاهد على يوتيوب', watchVideo: 'شاهد الفيديو', amenities: 'المزايا',
+    monthlyRent: 'الإيجار الشهري', askingPrice: 'السعر المطلوب', type: 'النوع', transaction: 'المعاملة',
+    city: 'المدينة', district: 'القضاء', callAgent: 'اتصل بالوكيل', whatsapp: 'راسلنا على واتساب',
+    bedrooms: 'غرف النوم', bathrooms: 'الحمامات', notFound: 'العقار غير موجود',
+    waMessage: 'مرحباً، أنا مهتم بهذا العقار:', summaryCta: 'تواصل مع ركن العقارية لحجز زيارة خاصة.',
+    bedroomsN: '{n} غرف نوم', bathroomsN: '{n} حمامات',
+  },
+  share: { button: 'مشاركة العقار', title: 'مشاركة العقار', copy: 'نسخ الرابط', copied: 'تم النسخ!', view: 'شاهد العقار', subject: 'عقار' },
+  types: { apartment: 'شقة', villa: 'فيلا', commercial: 'تجاري', land: 'أرض', office: 'مكتب' },
+  notFound: { title: 'الصفحة غير موجودة', text: 'الصفحة التي تبحث عنها غير موجودة أو تمت إزالتها.', button: 'تصفح العقارات' },
+}
+
+const fr: Dictionary = {
+  meta: {
+    homeTitle: 'Rukun Real Estate · Appartements, villas et bureaux au Liban',
+    homeDesc: 'Appartements, villas, bureaux et terrains à vendre et à louer à Beyrouth et partout au Liban. Immobilier haut de gamme et design d’intérieur avec Rukun.',
+    ogDesc: 'Appartements, villas, bureaux et terrains à vendre et à louer partout au Liban.',
+  },
+  nav: {
+    home: 'Accueil', properties: 'Biens', services: 'Services', about: 'À propos', contact: 'Contact',
+    getInTouch: 'Nous contacter', realEstate: 'Immobilier', interiorDesign: 'Design d’intérieur', language: 'Langue',
+  },
+  footer: {
+    tagline: 'Votre partenaire de confiance au Liban pour l’immobilier haut de gamme et le design d’intérieur sur mesure. Nous transformons les espaces en lieux d’exception.',
+    quickLinks: 'Liens rapides', ourServices: 'Nos services', aboutUs: 'À propos', contact: 'Contact',
+    popular: 'Recherches populaires', location: 'Beyrouth, Liban',
+    rights: 'Rukun Real Estate. Tous droits réservés.', bottom: 'Liban · Immobilier · Design d’intérieur',
+  },
+  hero: {
+    badge: 'Immobilier haut de gamme · Liban',
+    h1a: 'Trouvez le', h1b: 'bien de vos rêves', h1c: 'au Liban',
+    intro: 'Rukun vous ouvre les portes des plus beaux biens du Liban. Des appartements de luxe à Beyrouth aux villas de montagne à couper le souffle — votre foyer idéal vous attend.',
+    browse: 'Voir les biens', talk: 'Parler à un agent', scroll: 'Défiler',
+    apartmentsSale: 'Appartements à vendre', apartmentsRent: 'Appartements à louer', offices: 'Bureaux à louer',
+    land: 'Terrains à vendre', forSale: 'À vendre', forRent: 'À louer',
+  },
+  stats: ['Biens vendus', 'Années d’expérience', 'Clients satisfaits', 'Projets de design'],
+  services: {
+    eyebrow: 'Ce que nous faisons', title: 'Nos services',
+    intro: 'Des solutions complètes en immobilier et en design, adaptées au marché libanais.',
+    items: [
+      { title: 'Recherche de biens', desc: 'Nous trouvons le bien idéal selon vos besoins, votre budget et votre style de vie, partout au Liban.' },
+      { title: 'Achat et vente', desc: 'Un accompagnement expert à chaque étape de l’achat ou de la vente — de l’estimation à la signature.' },
+      { title: 'Location', desc: 'Locations courte et longue durée d’appartements, de villas et de locaux commerciaux dans tout le Liban.' },
+      { title: 'Design d’intérieur', desc: 'Un design d’intérieur sur mesure qui transforme votre espace en un lieu de vie superbe et fonctionnel.' },
+      { title: 'Conseil en investissement', desc: 'Des stratégies d’investissement immobilier adaptées au marché libanais et à vos objectifs.' },
+      { title: 'Gestion locative', desc: 'Une gestion complète pour les propriétaires — nous nous occupons de tout à votre place.' },
+    ],
+  },
+  whyUs: {
+    eyebrow: 'Pourquoi Rukun', titleA: 'L’agence la plus', titleB: 'fiable du Liban',
+    intro: 'Forte de plus de dix ans d’expérience sur le marché immobilier libanais, Rukun a aidé des centaines de familles et d’investisseurs à trouver leur bien idéal. Nous allions une connaissance locale approfondie à un service de classe internationale.',
+    cta: 'Commencer ma recherche',
+    items: [
+      { title: 'Fiable et vérifié', desc: 'Tous nos biens sont vérifiés personnellement. Pas de surprises, pas de frais cachés.' },
+      { title: 'Réponse rapide', desc: 'Nos agents répondent en quelques heures — aucune demande ne reste sans suite.' },
+      { title: 'Service premium', desc: 'Un service attentionné, de la première demande à la remise des clés.' },
+      { title: 'Experts locaux', desc: 'Une connaissance approfondie de chaque quartier du Liban.' },
+    ],
+  },
+  featured: { eyebrow: 'Sélectionnés pour vous', title: 'Biens à la une', viewAll: 'Voir tous les biens' },
+  contact: {
+    eyebrow: 'Nous contacter', titleA: 'Trouvons ensemble', titleB: 'votre bien idéal',
+    intro: 'Que vous souhaitiez acheter, vendre ou simplement explorer — notre équipe est là pour vous. Laissez vos coordonnées et un agent vous contactera dans les heures qui suivent.',
+    phoneLabel: 'Téléphone / WhatsApp', emailLabel: 'E-mail', locationLabel: 'Adresse', location: 'Beyrouth, Liban',
+    sentTitle: 'Message reçu !', sentText: 'Un agent vous contactera dans quelques heures.', sendAnother: 'Envoyer un autre message',
+    formTitle: 'Envoyez-nous un message', name: 'Nom complet *', phone: 'Téléphone *', email: 'E-mail', message: 'Message',
+    namePh: 'Votre nom', messagePh: 'Je cherche un appartement de 3 chambres à Beyrouth...',
+    sending: 'Envoi...', send: 'Envoyer le message',
+    errRequired: 'Le nom et le téléphone sont obligatoires', errPhone: 'Veuillez saisir un numéro de téléphone valide',
+    errEmail: 'Veuillez saisir une adresse e-mail valide', errGeneric: 'Une erreur s’est produite. Veuillez réessayer.',
+    errConnection: 'Erreur de connexion. Veuillez réessayer.',
+  },
+  contactPage: {
+    metaTitle: 'Contact · Parlez à un agent immobilier au Liban',
+    metaDesc: 'Appelez ou écrivez sur WhatsApp à Rukun Real Estate au +961 3 709 240 pour acheter, vendre ou louer un bien à Beyrouth et partout au Liban. Du lundi au samedi, 9h–19h.',
+    eyebrow: 'Écrivez-nous', title: 'Contactez-nous',
+    intro: 'Nous répondons en quelques heures. Nos agents sont prêts à vous aider à trouver votre bien idéal.',
+    phone: 'Téléphone', email: 'E-mail', location: 'Adresse', locationVal: 'Beyrouth, Liban', hours: 'Horaires', hoursVal: 'Lun–Sam, 9h–19h',
+  },
+  about: {
+    metaTitle: 'À propos · Agence immobilière à Beyrouth',
+    metaDesc: 'Découvrez Rukun, agence immobilière et de design d’intérieur basée à Beyrouth, qui aide familles, investisseurs et entreprises à trouver un bien partout au Liban.',
+    eyebrow: 'Notre histoire', title: 'À propos de Rukun',
+    intro: 'Née au Liban, fondée sur la confiance. Depuis plus de dix ans, Rukun aide familles, investisseurs et entreprises à trouver l’espace idéal dans tout le pays.',
+    missionTitle: 'Notre mission',
+    mission1: 'Nous pensons que chacun mérite un espace qu’il aime. Rukun est née de la conviction que l’immobilier doit être transparent, personnalisé et serein.',
+    mission2: 'Depuis Beyrouth, nous accompagnons nos clients dans tout le Liban — en alliant une expertise locale approfondie à une approche haut de gamme centrée sur le client.',
+    values: [
+      { title: 'Excellence', desc: 'Agence de premier plan au Liban' },
+      { title: 'Communauté', desc: 'Plus de 500 familles satisfaites' },
+      { title: 'Local', desc: 'Experts du Liban depuis 2012' },
+      { title: 'Passion', desc: 'Nous aimons ce que nous faisons' },
+    ],
+    teamTitle: 'Notre équipe',
+    team: [
+      { role: 'Fondation et direction générale', note: 'Dirige Rukun avec vision et cœur.' },
+      { role: 'Conseil immobilier senior', note: 'Spécialiste des biens de prestige à Beyrouth.' },
+      { role: 'Architecture d’intérieur', note: 'Transforme les espaces avec élégance.' },
+    ],
+    ctaTitle: 'Prêt à travailler avec nous ?', ctaText: 'Laissez notre équipe vous aider à trouver le bien idéal au Liban.', ctaButton: 'Contacter notre équipe',
+  },
+  props: {
+    metaTitle: 'Biens à vendre et à louer au Liban',
+    metaDesc: 'Appartements, villas, bureaux, chalets et terrains à vendre et à louer à Beyrouth, Achrafieh, au Mont-Liban et partout au Liban. Mis à jour chaque jour par Rukun Real Estate.',
+    eyebrow: 'Nos annonces', title: 'Tous les biens',
+    empty: 'Aucun bien publié pour le moment.', emptySub: 'Revenez bientôt ou contactez-nous directement.', contactUs: 'Nous contacter',
+    noMatch: 'Aucun bien ne correspond à cette recherche pour le moment.', noMatchSub: 'De nouveaux biens arrivent chaque semaine — dites-nous ce que vous cherchez et nous le trouverons pour vous.',
+    viewDetails: 'Voir le détail →', beds: 'ch.', baths: 'sdb', forSale: 'À vendre', forRent: 'À louer',
+    browseBy: 'Parcourir par catégorie', related: 'Recherches associées', count: '{n} biens disponibles',
+    back: 'Retour aux biens', aboutProperty: 'À propos de ce bien', videoTour: 'Visite vidéo',
+    watchShort: 'Voir sur YouTube', watchVideo: 'Voir la vidéo', amenities: 'Équipements',
+    monthlyRent: 'Loyer mensuel', askingPrice: 'Prix demandé', type: 'Type', transaction: 'Transaction',
+    city: 'Ville', district: 'District', callAgent: 'Appeler l’agent', whatsapp: 'Écrire sur WhatsApp',
+    bedrooms: 'Chambres', bathrooms: 'Salles de bain', notFound: 'Bien introuvable',
+    waMessage: 'Bonjour, ce bien m’intéresse :', summaryCta: 'Contactez Rukun Real Estate pour une visite privée.',
+    bedroomsN: '{n} chambres', bathroomsN: '{n} salles de bain',
+  },
+  share: { button: 'Partager le bien', title: 'Partager le bien', copy: 'Copier le lien', copied: 'Copié !', view: 'Voir le bien', subject: 'Bien' },
+  types: { apartment: 'Appartement', villa: 'Villa', commercial: 'Local commercial', land: 'Terrain', office: 'Bureau' },
+  notFound: { title: 'Page introuvable', text: 'La page que vous cherchez n’existe pas ou a été supprimée.', button: 'Voir les biens' },
+}
+
+const dictionaries: Record<Locale, Dictionary> = { en, ar, fr }
+
+export const getDictionary = (lang: Locale) => dictionaries[lang]

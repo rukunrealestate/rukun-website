@@ -2,19 +2,21 @@
 
 import { useState } from 'react'
 import { Share2, X, Copy, Check, MessageCircle, Mail, Smartphone, Link } from 'lucide-react'
+import type { Dictionary } from '@/lib/i18n'
 
 interface Props {
   title: string
   price: string
   location: string
   url: string
+  t: Dictionary['share']
 }
 
-export default function ShareButton({ title, price, location, url }: Props) {
+export default function ShareButton({ title, price, location, url, t }: Props) {
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
 
-  const message = `🏠 *${title}*\n📍 ${location}\n💰 ${price}\n\nView property: ${url}`
+  const message = `🏠 *${title}*\n📍 ${location}\n💰 ${price}\n\n${t.view}: ${url}`
 
   const options = [
     {
@@ -33,7 +35,7 @@ export default function ShareButton({ title, price, location, url }: Props) {
       label: 'Email',
       icon: Mail,
       color: 'bg-purple-500/10 border-purple-500/20 text-purple-400 hover:bg-purple-500/20',
-      href: `mailto:?subject=${encodeURIComponent(`Property: ${title}`)}&body=${encodeURIComponent(message)}`,
+      href: `mailto:?subject=${encodeURIComponent(`${t.subject}: ${title}`)}&body=${encodeURIComponent(message)}`,
     },
   ]
 
@@ -47,7 +49,7 @@ export default function ShareButton({ title, price, location, url }: Props) {
     <>
       <button onClick={() => setOpen(true)}
         className="flex items-center justify-center gap-2 w-full border border-white/10 hover:border-brand-gold/40 text-white hover:text-brand-gold font-semibold py-3.5 rounded-xl transition-colors text-sm">
-        <Share2 size={16} /> Share Property
+        <Share2 size={16} /> {t.button}
       </button>
 
       {open && (
@@ -59,7 +61,7 @@ export default function ShareButton({ title, price, location, url }: Props) {
           <div className="relative w-full max-w-sm bg-[#111] border border-white/10 rounded-3xl p-6 shadow-2xl">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="font-heading text-lg font-bold text-white">Share Property</h3>
+                <h3 className="font-heading text-lg font-bold text-white">{t.title}</h3>
                 <p className="text-gray-500 text-xs mt-0.5 line-clamp-1">{title}</p>
               </div>
               <button onClick={() => setOpen(false)}
@@ -71,7 +73,7 @@ export default function ShareButton({ title, price, location, url }: Props) {
             {/* Property preview */}
             <div className="bg-white/3 border border-white/5 rounded-xl p-4 mb-6">
               <div className="font-heading font-semibold text-white text-sm mb-0.5 line-clamp-1">{title}</div>
-              <div className="text-brand-gold font-bold text-lg">{price}</div>
+              <div className="text-brand-gold font-bold text-lg" dir="ltr">{price}</div>
               <div className="text-gray-500 text-xs mt-0.5">{location}</div>
             </div>
 
@@ -93,8 +95,8 @@ export default function ShareButton({ title, price, location, url }: Props) {
               <div className="w-9 h-9 rounded-lg bg-brand-gold/10 border border-brand-gold/20 flex items-center justify-center shrink-0">
                 {copied ? <Check size={16} className="text-green-400" /> : <Link size={16} className="text-brand-gold" />}
               </div>
-              <div className="flex-1 text-left">
-                <div className="text-white text-sm font-medium">{copied ? 'Copied!' : 'Copy Link'}</div>
+              <div className="flex-1 text-start">
+                <div className="text-white text-sm font-medium">{copied ? t.copied : t.copy}</div>
                 <div className="text-gray-600 text-xs truncate">{url}</div>
               </div>
             </button>

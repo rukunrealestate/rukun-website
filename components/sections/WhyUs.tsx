@@ -1,13 +1,12 @@
 import { Shield, Clock, Star, Users } from 'lucide-react'
+import { getDictionary, localePath, type Locale } from '@/lib/i18n'
 
-const reasons = [
-  { icon: Shield, title: 'Trusted & Verified', desc: 'All our listings are personally verified. No surprises, no hidden fees.' },
-  { icon: Clock, title: 'Fast Response', desc: 'Our agents respond within hours — never leave a lead waiting.' },
-  { icon: Star, title: 'Premium Service', desc: 'White-glove service from first inquiry to final handover.' },
-  { icon: Users, title: 'Local Experts', desc: 'Deep knowledge of every neighborhood across Lebanon.' },
-]
+const icons = [Shield, Clock, Star, Users]
 
-export default function WhyUs() {
+export default function WhyUs({ lang }: { lang: Locale }) {
+  const t = getDictionary(lang).whyUs
+  const reasons = t.items.map((item, i) => ({ ...item, icon: icons[i] }))
+
   return (
     <section className="section-padding bg-[#0A0A0A] relative overflow-hidden">
       {/* Gold accent */}
@@ -17,21 +16,17 @@ export default function WhyUs() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Text */}
           <div>
-            <p className="text-brand-gold text-sm font-medium tracking-widest uppercase mb-3">Why Choose Rukun</p>
+            <p className="text-brand-gold text-sm font-medium tracking-widest uppercase mb-3">{t.eyebrow}</p>
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
-              Lebanon&apos;s Most
+              {t.titleA}
               <br />
-              <span className="text-gold-gradient">Trusted Agency</span>
+              <span className="text-gold-gradient">{t.titleB}</span>
             </h2>
             <div className="gold-divider mb-6" />
-            <p className="text-gray-400 leading-relaxed mb-8">
-              With over a decade of experience in the Lebanese real estate market, Rukun has helped
-              hundreds of families and investors find their perfect properties. We combine deep
-              local knowledge with world-class service.
-            </p>
-            <a href="/contact"
+            <p className="text-gray-400 leading-relaxed mb-8">{t.intro}</p>
+            <a href={localePath(lang, '/contact')}
               className="inline-flex items-center gap-2 bg-brand-gold hover:bg-brand-gold-light text-brand-black font-semibold px-7 py-3.5 rounded-xl transition-all">
-              Start Your Search
+              {t.cta}
             </a>
           </div>
 
