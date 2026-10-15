@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { SITE_URL, getProperties, propertyPath } from '@/lib/properties'
 import { activeCategories } from '@/lib/categories'
 import { locales, localePath } from '@/lib/i18n'
+import { areaGuideKeys } from '@/lib/areaGuides'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,6 +26,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ),
     ...properties.flatMap((p) =>
       localized(propertyPath(p), { changeFrequency: 'weekly', priority: 0.7, images: p.images?.slice(0, 5) }),
+    ),
+    ...localized('/areas', { lastModified: now, changeFrequency: 'weekly', priority: 0.7 }),
+    ...areaGuideKeys.flatMap((key) =>
+      localized(`/areas/${key}`, { lastModified: now, changeFrequency: 'daily', priority: 0.8 }),
     ),
     ...localized('/about', { changeFrequency: 'monthly', priority: 0.5 }),
     ...localized('/contact', { changeFrequency: 'monthly', priority: 0.6 }),

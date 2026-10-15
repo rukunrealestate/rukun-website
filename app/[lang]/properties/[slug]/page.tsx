@@ -68,7 +68,7 @@ export default async function SlugPage({ params }: Params) {
 function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
   const dict = getDictionary(lang)
   const t = dict.props
-  const price = formatPrice(property.price, property.currency, property.transaction_type)
+  const price = formatPrice(property.price, property.currency, property.transaction_type, lang)
   const location = propertyLocation(property)
   const propertyUrl = `${SITE_URL}${localePath(lang, propertyPath(property))}`
   const listingSchema = {

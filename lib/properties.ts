@@ -53,13 +53,15 @@ export async function getProperty(id: string): Promise<Property | null> {
   }
 }
 
-export function formatPrice(price: number, currency: string, transaction_type: string) {
+const perMonth: Record<Locale, string> = { en: '/mo', ar: ' شهرياً', fr: '/mois' }
+
+export function formatPrice(price: number, currency: string, transaction_type: string, lang: Locale = 'en') {
   const formatted = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency === 'LBP' ? 'USD' : currency,
     maximumFractionDigits: 0,
   }).format(price)
-  return transaction_type === 'rent' ? `${formatted}/mo` : formatted
+  return transaction_type === 'rent' ? `${formatted}${perMonth[lang]}` : formatted
 }
 
 // Commercial listings marked as offices in the CRM are shown as offices
@@ -114,11 +116,11 @@ export async function resolvePropertySlug(segment: string): Promise<Property | n
 export function propertySummary(p: Property, lang: Locale = 'en') {
   const t = getDictionary(lang).props
   const parts = [
-    `${typeLabel(propertyKind(p), lang)} ${(p.transaction_type === 'sale' ? t.forSale : t.forRent).toLowerCase()} ·${propertyLocation(p)}`,
+    `${typeLabel(propertyKind(p), lang)} ${(p.transaction_type === 'sale' ? t.forSale : t.forRent).toLowerCase()} · ${propertyLocation(p)}`,
     p.area_sqm ? `${p.area_sqm} m²` : null,
     p.bedrooms ? t.bedroomsN.replace('{n}', String(p.bedrooms)) : null,
     p.bathrooms ? t.bathroomsN.replace('{n}', String(p.bathrooms)) : null,
-    formatPrice(p.price, p.currency, p.transaction_type),
+    formatPrice(p.price, p.currency, p.transaction_type, lang),
   ].filter(Boolean).join(' · ')
   return `${parts}. ${t.summaryCta}`
 }

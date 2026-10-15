@@ -54,6 +54,9 @@ const areas: Record<string, { keywords: string[]; districts?: string[]; label: R
   },
 }
 
+// 'in Beirut' / 'في بيروت' / 'au Metn'
+export const areaAt = (area: string, lang: Locale) => areas[area].label[lang]
+
 export interface Category { slug: string; group?: Group; tx: Tx; area?: string }
 
 const CATEGORY_RE = new RegExp(
@@ -70,7 +73,7 @@ export function categorySlug(c: Omit<Category, 'slug'>) {
   return `${c.group ? `${c.group}-` : ''}for-${c.tx}${c.area ? `-in-${c.area}` : ''}`
 }
 
-function inArea(p: Property, area: string) {
+export function inArea(p: Property, area: string) {
   const a = areas[area]
   const text = `${p.location ?? ''} ${p.city ?? ''}`.toLowerCase()
   if (a.keywords.some((k) => text.includes(k))) return true
@@ -84,9 +87,11 @@ export function matchesCategory(p: Property, c: Category) {
   return true
 }
 
-export function categoryTitle(c: Category, lang: Locale) {
+// lower: for use mid-sentence ("apartments for rent in Achrafieh") — place names keep their capitals
+export function categoryTitle(c: Category, lang: Locale, lower = false) {
   const what = c.group ? groups[c.group].label[lang] : allLabel[lang]
-  return [what, txLabel[c.tx][lang], c.area ? areas[c.area].label[lang] : ''].filter(Boolean).join(' ')
+  const head = [what, txLabel[c.tx][lang]].join(' ')
+  return [lower ? head.toLowerCase() : head, c.area ? areas[c.area].label[lang] : ''].filter(Boolean).join(' ')
 }
 
 const lebanon: Record<Locale, string> = { en: 'in Lebanon', ar: 'في لبنان', fr: 'au Liban' }
@@ -98,9 +103,9 @@ export function categoryIntro(c: Category, lang: Locale, count: number) {
     return `تصفح ${count} من ${title}${where} مع ركن العقارية. جميع العقارات يتم التحقق منها شخصياً من قبل فريقنا، مع صور حقيقية وأسعار واضحة. اتصل بنا أو راسلنا على واتساب لحجز زيارة خاصة.`
   }
   if (lang === 'fr') {
-    return `Découvrez ${count} ${title.toLowerCase()}${where} avec Rukun Real Estate. Chaque bien est vérifié personnellement par notre équipe, avec de vraies photos et des prix clairs. Appelez-nous ou écrivez-nous sur WhatsApp pour organiser une visite privée.`
+    return `Découvrez ${count} ${categoryTitle(c, lang, true)}${where} avec Rukun Real Estate. Chaque bien est vérifié personnellement par notre équipe, avec de vraies photos et des prix clairs. Appelez-nous ou écrivez-nous sur WhatsApp pour organiser une visite privée.`
   }
-  return `Browse ${count} ${title.toLowerCase()}${where} with Rukun Real Estate. Every listing is personally verified by our team, with real photos and clear pricing. Call or WhatsApp us to arrange a private viewing.`
+  return `Browse ${count} ${categoryTitle(c, lang, true)}${where} with Rukun Real Estate. Every listing is personally verified by our team, with real photos and clear pricing. Call or WhatsApp us to arrange a private viewing.`
 }
 
 // Every category that currently has listings (area pages need at least 2 so they are not thin)

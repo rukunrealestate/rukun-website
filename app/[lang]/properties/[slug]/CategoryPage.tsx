@@ -1,12 +1,15 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import PropertyCard from '@/components/PropertyCard'
 import CategoryLinks from '@/components/CategoryLinks'
 import { getProperties, SITE_URL } from '@/lib/properties'
 import { getDictionary, localePath, type Locale } from '@/lib/i18n'
 import { categoryTitle, categoryIntro, matchesCategory, type Category } from '@/lib/categories'
+import { categoryFaq } from '@/lib/faq'
+import { areaGuides } from '@/lib/areaGuides'
+import Faq from '@/components/Faq'
 
 export default async function CategoryPage({ lang, category }: { lang: Locale; category: Category }) {
   const dict = getDictionary(lang)
@@ -41,6 +44,11 @@ export default async function CategoryPage({ lang, category }: { lang: Locale; c
           <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-2">{title}</h1>
           <div className="gold-divider mb-6" />
           <p className="text-gray-400 max-w-3xl leading-relaxed">{categoryIntro(category, lang, properties.length)}</p>
+          {category.area && areaGuides[category.area] && (
+            <Link href={localePath(lang, `/areas/${category.area}`)} className="inline-block mt-4 text-sm text-brand-gold hover:text-brand-gold-light transition-colors">
+              {dict.areas.readGuide.replace('{area}', areaGuides[category.area].name[lang])} <ArrowRight size={14} className="inline rtl:rotate-180" />
+            </Link>
+          )}
         </div>
 
         <div className="max-w-7xl mx-auto px-6 pb-20">
@@ -57,6 +65,7 @@ export default async function CategoryPage({ lang, category }: { lang: Locale; c
               {properties.map((p) => <PropertyCard key={p.id} p={p} lang={lang} />)}
             </div>
           )}
+          <Faq items={categoryFaq(category, properties, lang)} title={dict.faqTitle} />
           <CategoryLinks properties={all} lang={lang} title={t.related} exclude={category.slug} />
         </div>
       </div>

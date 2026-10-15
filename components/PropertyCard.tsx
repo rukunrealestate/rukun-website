@@ -36,7 +36,7 @@ export default function PropertyCard({ p, lang }: { p: Property; lang: Locale })
         </div>
         <div className="flex items-center justify-between">
           <span className="font-heading text-xl font-bold text-brand-gold" dir="ltr">
-            {formatPrice(p.price, p.currency, p.transaction_type)}
+            {formatPrice(p.price, p.currency, p.transaction_type, lang)}
           </span>
           <span className="text-xs text-gray-400 group-hover:text-brand-gold transition-colors font-medium">{t.viewDetails}</span>
         </div>

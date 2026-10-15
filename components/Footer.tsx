@@ -55,6 +55,7 @@ export default function Footer({ lang }: { lang: Locale }) {
                 { label: t.nav.home, href: href('/') },
                 { label: t.nav.properties, href: href('/properties') },
                 { label: t.footer.ourServices, href: `${href('/')}#services` },
+                { label: t.areas.nav, href: href('/areas') },
                 { label: t.footer.aboutUs, href: href('/about') },
                 { label: t.footer.contact, href: href('/contact') },
               ].map(item => (
