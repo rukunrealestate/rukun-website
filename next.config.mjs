@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Listing photos come from the CRM's Supabase storage; Next resizes them and serves AVIF/WebP
+  images: {
+    remotePatterns: [new URL('https://pobhqfookfmfnvtxrlxf.supabase.co/storage/v1/object/public/**')],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 2678400,
+  },
   async headers() {
     return [
       {

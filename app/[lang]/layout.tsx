@@ -1,10 +1,18 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { Inter, Playfair_Display, Tajawal, Noto_Kufi_Arabic } from 'next/font/google'
 import '../globals.css'
 import { SITE_URL } from '@/lib/properties'
 import { locales, hasLocale, getDictionary, alternatesFor, ogLocales } from '@/lib/i18n'
 
 export const dynamicParams = false
+
+// Self-hosted fonts (no request to Google at page load). Arabic fonts only download on Arabic pages.
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair', display: 'swap' })
+const tajawal = Tajawal({ subsets: ['arabic'], weight: ['400', '500', '700'], variable: '--font-tajawal', display: 'swap', preload: false })
+const kufi = Noto_Kufi_Arabic({ subsets: ['arabic'], weight: ['500', '600', '700'], variable: '--font-kufi', display: 'swap', preload: false })
+const fontVars = [inter.variable, playfair.variable, tajawal.variable, kufi.variable].join(' ')
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
@@ -63,7 +71,7 @@ export default async function RootLayout({ children, params }: { children: React
   const { lang } = await params
   if (!hasLocale(lang)) notFound()
   return (
-    <html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+    <html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'} className={fontVars}>
       <body className="antialiased">
         <script
           type="application/ld+json"

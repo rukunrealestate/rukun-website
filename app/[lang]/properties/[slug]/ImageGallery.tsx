@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { skipOptimization } from '@/lib/images'
 
 export default function ImageGallery({ images, title }: { images: string[], title: string }) {
   const [lightbox, setLightbox] = useState<number | null>(null)
@@ -31,14 +33,19 @@ export default function ImageGallery({ images, title }: { images: string[], titl
     <>
       {/* Gallery grid */}
       <div className="space-y-2">
-        <div className="rounded-2xl overflow-hidden bg-[#111] border border-white/5 h-80 cursor-pointer" onClick={() => setLightbox(0)}>
-          <img src={images[0]} alt={title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+        <div className="relative rounded-2xl overflow-hidden bg-[#111] border border-white/5 h-80 cursor-pointer" onClick={() => setLightbox(0)}>
+          {/* Main photo is the largest thing on the page, so it loads first */}
+          <Image src={images[0]} alt={title} fill preload unoptimized={skipOptimization(images[0])}
+            sizes="(min-width: 1024px) 800px, 100vw"
+            className="object-cover hover:scale-105 transition-transform duration-300" />
         </div>
         {images.length > 1 && (
           <div className="grid grid-cols-3 gap-2">
             {images.slice(1).map((img, i) => (
-              <div key={i} className="rounded-xl overflow-hidden bg-[#111] border border-white/5 h-32 cursor-pointer" onClick={() => setLightbox(i + 1)}>
-                <img src={img} alt={`${title} ${i + 2}`} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              <div key={i} className="relative rounded-xl overflow-hidden bg-[#111] border border-white/5 h-32 cursor-pointer" onClick={() => setLightbox(i + 1)}>
+                <Image src={img} alt={`${title} ${i + 2}`} fill unoptimized={skipOptimization(img)}
+                  sizes="(min-width: 1024px) 270px, 33vw"
+                  className="object-cover hover:scale-105 transition-transform duration-300" />
               </div>
             ))}
           </div>
@@ -48,19 +55,23 @@ export default function ImageGallery({ images, title }: { images: string[], titl
       {/* Lightbox */}
       {lightbox !== null && (
         <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={close}>
-          <button onClick={close} className="absolute top-4 right-4 text-white hover:text-brand-gold p-2 z-10">
+          <button onClick={close} className="absolute top-4 right-4 text-white hover:text-brand-gold p-2 z-10" aria-label="Close">
             <X size={28} />
           </button>
           <button onClick={e => { e.stopPropagation(); prev() }}
-            className="absolute left-4 text-white hover:text-brand-gold p-2 z-10">
+            className="absolute left-4 text-white hover:text-brand-gold p-2 z-10" aria-label="Previous">
             <ChevronLeft size={40} />
           </button>
           <button onClick={e => { e.stopPropagation(); next() }}
-            className="absolute right-4 text-white hover:text-brand-gold p-2 z-10">
+            className="absolute right-4 text-white hover:text-brand-gold p-2 z-10" aria-label="Next">
             <ChevronRight size={40} />
           </button>
           <div className="max-w-5xl max-h-screen p-16 w-full" onClick={e => e.stopPropagation()}>
-            <img src={images[lightbox]} alt={title} className="w-full h-full object-contain max-h-[80vh] rounded-xl" />
+            <div className="relative w-full h-[80vh]">
+              <Image src={images[lightbox]} alt={title} fill unoptimized={skipOptimization(images[lightbox])}
+                sizes="(min-width: 1024px) 1024px, 100vw"
+                className="object-contain rounded-xl" />
+            </div>
             <div className="text-center text-gray-400 text-sm mt-3">{lightbox + 1} / {images.length}</div>
           </div>
         </div>

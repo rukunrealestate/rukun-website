@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, X, Phone } from 'lucide-react'
 import { locales, localeNames, localePath, type Locale, type Dictionary } from '@/lib/i18n'
@@ -47,7 +48,7 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-32">
         {/* Logo */}
         <Link href={href('/')} className="flex items-center gap-4">
-          <img src="/logo.png" alt="Rukun Real Estate" className="h-28 w-auto object-contain" />
+          <Image src="/logo.png" alt="Rukun Real Estate" width={112} height={112} preload className="h-28 w-auto object-contain" />
           <div className="flex flex-col justify-center items-center">
             <div className="text-brand-gold text-sm tracking-widest uppercase font-medium">{t.realEstate}</div>
             <div className="text-gray-400 text-sm tracking-widest uppercase">{t.interiorDesign}</div>
