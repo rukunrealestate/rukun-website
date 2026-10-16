@@ -22,7 +22,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!hasLocale(lang) || !article) return {}
   const text = article.text[lang]
   return {
-    title: text.title,
+    // Brand left out of article titles so they fit in search results
+    title: { absolute: text.title },
     description: text.description,
     alternates: alternatesFor(lang, `/blog/${slug}`),
     openGraph: {

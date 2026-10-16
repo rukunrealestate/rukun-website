@@ -86,7 +86,7 @@ const en = {
     errConnection: 'Connection error. Please try again.',
   },
   contactPage: {
-    metaTitle: 'Contact Us · Talk to a Real Estate Agent in Lebanon',
+    metaTitle: 'Contact Us · Real Estate Agent in Beirut',
     metaDesc: 'Call or WhatsApp Rukun Real Estate on +961 3 709 240 to buy, sell or rent property in Beirut and across Lebanon. Open Mon–Sat, 9am–7pm.',
     eyebrow: 'Reach Out', title: 'Contact Us',
     intro: 'We respond within hours. Our agents are ready to help you find your perfect property.',
@@ -223,7 +223,7 @@ const ar: Dictionary = {
     errConnection: 'خطأ في الاتصال. يرجى المحاولة مرة أخرى.',
   },
   contactPage: {
-    metaTitle: 'اتصل بنا · تحدث مع وكيل عقاري في لبنان',
+    metaTitle: 'اتصل بنا · وكيل عقاري في بيروت',
     metaDesc: 'اتصل أو راسل ركن العقارية عبر واتساب على 240 709 3 961+ لشراء أو بيع أو استئجار عقار في بيروت وكل لبنان. من الاثنين إلى السبت، 9 صباحاً حتى 7 مساءً.',
     eyebrow: 'تواصل', title: 'اتصل بنا',
     intro: 'نرد خلال ساعات. وكلاؤنا جاهزون لمساعدتك في العثور على عقارك المثالي.',
@@ -358,7 +358,7 @@ const fr: Dictionary = {
     errConnection: 'Erreur de connexion. Veuillez réessayer.',
   },
   contactPage: {
-    metaTitle: 'Contact · Parlez à un agent immobilier au Liban',
+    metaTitle: 'Contact · Agent immobilier à Beyrouth',
     metaDesc: 'Appelez ou écrivez sur WhatsApp à Rukun Real Estate au +961 3 709 240 pour acheter, vendre ou louer un bien à Beyrouth et partout au Liban. Du lundi au samedi, 9h–19h.',
     eyebrow: 'Écrivez-nous', title: 'Contactez-nous',
     intro: 'Nous répondons en quelques heures. Nos agents sont prêts à vous aider à trouver votre bien idéal.',

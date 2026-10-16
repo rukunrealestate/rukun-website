@@ -24,6 +24,7 @@ export interface Property {
   images: string[]
   amenities: string[]
   video_url?: string | null
+  reference_number?: string | null
   // Optional translations entered in the CRM
   title_ar?: string | null
   description_ar?: string | null
@@ -88,6 +89,20 @@ export function localizedTitle(p: Property, lang: Locale) {
 
 export function localizedDescription(p: Property, lang: Locale) {
   return (lang === 'ar' ? p.description_ar : lang === 'fr' ? p.description_fr : null) || p.description
+}
+
+// Short title for search results (Google shows ~60 characters); the full CRM title stays on the page
+export function listingMetaTitle(p: Property, lang: Locale) {
+  const kind = typeLabel(propertyKind(p), lang)
+  const where = p.location || p.city || p.district || ''
+  const sale = p.transaction_type === 'sale'
+  const head = {
+    en: `${kind} for ${sale ? 'Sale' : 'Rent'}${where ? ` in ${where}` : ''}`,
+    ar: `${kind} ${sale ? 'للبيع' : 'للإيجار'}${where ? ` في ${where}` : ''}`,
+    fr: `${kind} ${sale ? 'à vendre' : 'à louer'}${where ? ` à ${where}` : ''}`,
+  }[lang]
+  return [head, p.area_sqm ? `${p.area_sqm} ${lang === 'ar' ? 'م²' : 'm²'}` : null, formatPrice(p.price, p.currency, p.transaction_type, lang)]
+    .filter(Boolean).join(' · ')
 }
 
 export function propertyLocation(p: Property) {

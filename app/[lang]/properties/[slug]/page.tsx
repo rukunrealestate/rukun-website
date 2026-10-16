@@ -9,7 +9,7 @@ import CategoryPage from './CategoryPage'
 import type { Metadata } from 'next'
 import {
   SITE_URL, formatPrice, typeLabel, propertyKind, propertyLocation, propertySummary,
-  propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, type Property,
+  propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, listingMetaTitle, type Property,
 } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath, ogLocales, type Locale } from '@/lib/i18n'
 import { parseCategory, categoryTitle, categoryIntro, matchesCategory } from '@/lib/categories'
@@ -33,11 +33,19 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const property = await resolvePropertySlug(slug)
   if (!property) return { title: getDictionary(lang).props.notFound, robots: { index: false } }
-  const description = propertySummary(property, lang)
   const path = propertyPath(property)
   const title = localizedTitle(property, lang)
+  // Near-identical listings (same type, place, size and price) get their reference number so titles stay unique
+  let searchTitle = listingMetaTitle(property, lang)
+  let description = propertySummary(property, lang)
+  const twin = (await getProperties()).some((o) => o.id !== property.id && listingMetaTitle(o, lang) === searchTitle)
+  if (twin) {
+    const ref = property.reference_number || `Ref. ${property.id.slice(0, 4).toUpperCase()}`
+    searchTitle += ` · ${ref}`
+    description = `${ref} · ${description}`
+  }
   return {
-    title,
+    title: { absolute: `${searchTitle} | Rukun` },
     description,
     alternates: alternatesFor(lang, path),
     openGraph: {
