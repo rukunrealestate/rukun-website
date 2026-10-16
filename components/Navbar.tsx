@@ -26,6 +26,7 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
     { label: t.home, href: href('/') },
     { label: t.properties, href: href('/properties') },
     { label: t.services, href: `${href('/')}#services` },
+    { label: t.blog, href: href('/blog') },
     { label: t.about, href: href('/about') },
     { label: t.contact, href: href('/contact') },
   ]
@@ -56,24 +57,24 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden xl:flex items-center gap-8">
           {links.map(item => (
             <Link key={item.href} href={item.href}
-              className="text-sm text-gray-300 hover:text-brand-gold transition-colors font-medium">
+              className="text-sm text-gray-300 hover:text-brand-gold transition-colors font-medium whitespace-nowrap">
               {item.label}
             </Link>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="hidden lg:flex flex-col items-end gap-2">
+        <div className="hidden xl:flex flex-col items-end gap-2">
           <div className="flex items-center gap-4">
             <a href="tel:+9613709240" className="flex items-center gap-2 text-sm text-brand-gold hover:text-brand-gold-light transition-colors">
               <Phone size={14} />
-              <span dir="ltr">+961 3 709 240</span>
+              <span dir="ltr" className="whitespace-nowrap">+961 3 709 240</span>
             </a>
             <Link href={href('/contact')}
-              className="bg-brand-gold hover:bg-brand-gold-light text-brand-black text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors">
+              className="bg-brand-gold hover:bg-brand-gold-light text-brand-black text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap">
               {t.getInTouch}
             </Link>
           </div>
@@ -81,14 +82,14 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
         </div>
 
         {/* Mobile menu button */}
-        <button onClick={() => setOpen(!open)} className="lg:hidden text-white p-2" aria-label="Menu">
+        <button onClick={() => setOpen(!open)} className="xl:hidden text-white p-2" aria-label="Menu">
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div className="lg:hidden bg-[#0A0A0A] border-t border-white/10 px-6 py-6 space-y-4">
+        <div className="xl:hidden bg-[#0A0A0A] border-t border-white/10 px-6 py-6 space-y-4">
           {links.map(item => (
             <Link key={item.href} href={item.href} onClick={() => setOpen(false)}
               className="block text-gray-300 hover:text-brand-gold transition-colors font-medium py-1">

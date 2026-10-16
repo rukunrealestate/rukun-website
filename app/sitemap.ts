@@ -3,6 +3,7 @@ import { SITE_URL, getProperties, propertyPath } from '@/lib/properties'
 import { activeCategories } from '@/lib/categories'
 import { locales, localePath } from '@/lib/i18n'
 import { areaGuideKeys } from '@/lib/areaGuides'
+import { articles } from '@/lib/blog'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,6 +32,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...areaGuideKeys.flatMap((key) =>
       localized(`/areas/${key}`, { lastModified: now, changeFrequency: 'daily', priority: 0.8 }),
     ),
+    ...localized('/blog', { lastModified: now, changeFrequency: 'weekly', priority: 0.7 }),
+    ...articles.map((a) =>
+      localized(`/blog/${a.slug}`, { lastModified: new Date(a.updated ?? a.published), changeFrequency: 'monthly', priority: 0.7 }),
+    ).flat(),
     ...localized('/about', { changeFrequency: 'monthly', priority: 0.5 }),
     ...localized('/contact', { changeFrequency: 'monthly', priority: 0.6 }),
   ]

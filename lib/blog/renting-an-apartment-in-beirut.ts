@@ -1,0 +1,101 @@
+import type { Article } from './types'
+
+const article: Article = {
+  slug: 'renting-an-apartment-in-beirut',
+  published: '2026-10-16',
+  readMinutes: 5,
+  text: {
+    en: {
+      title: 'Renting an Apartment in Beirut: What You Need to Know',
+      description: 'A practical guide to renting in Beirut: typical lease terms, paying rent in advance, electricity and generators, deposits, agency commission and what to check before you sign.',
+      body: [
+        { p: 'Whether you are moving to Beirut for work, studies or family, renting is usually the easiest way to start. Here is what to expect, and the questions worth asking before you sign a lease.' },
+        { h2: 'Typical lease terms' },
+        { p: 'Most residential leases in Beirut run for one year and can be renewed. Rent is quoted in US dollars, and many landlords ask for several months — sometimes the whole year — to be paid in advance. Payment in advance can also be a good negotiating point: landlords are often more flexible on price when they are paid upfront.' },
+        { h2: 'Furnished or unfurnished?' },
+        { p: 'Furnished apartments let you move in immediately and are popular with professionals and newcomers; unfurnished apartments usually cost less per square metre and suit longer stays. Ask for a written inventory of furniture and appliances, signed by both sides, when you take a furnished home.' },
+        { h2: 'Electricity, water and building charges' },
+        { p: 'Public electricity is limited, so most buildings rely on a private generator. Ask how many amperes the apartment has, how many hours the generator covers, and how it is billed. Also check:' },
+        { ul: [
+          'Water supply — is there a well, a water tank, or regular deliveries?',
+          'Monthly building charges (concierge, cleaning, elevator, generator maintenance) — who pays them?',
+          'Whether the elevator runs on the generator during power cuts.',
+          'Solar panels or a UPS, which can cut your bills considerably.',
+        ] },
+        { h2: 'Deposit and agency commission' },
+        { p: 'Landlords commonly ask for a security deposit, often equal to one month’s rent, returned at the end of the lease if the apartment is in good condition. When you rent through an agency, the commission is agreed in advance — on our current rental listings it is one month’s rent.' },
+        { h2: 'Before you sign' },
+        { ul: [
+          'Visit at different times of day to check noise, light and traffic.',
+          'Photograph the apartment’s condition on move-in day.',
+          'Make sure the lease states the rent, payment schedule, duration, renewal terms and who pays for repairs.',
+          'Confirm parking — whether a space is included and where.',
+        ] },
+        { tip: 'Popular areas for renters include [Achrafieh](/areas/achrafieh) for its central location and character, and [Metn](/areas/metn) for more space at a lower price.' },
+        { p: 'See all [apartments for rent](/properties/apartments-for-rent), or [tell us what you need](/contact) and we will send you matching options.' },
+      ],
+    },
+    ar: {
+      title: 'استئجار شقة في بيروت: ما يجب أن تعرفه',
+      description: 'دليل عملي للاستئجار في بيروت: شروط عقود الإيجار، الدفع المسبق، الكهرباء والمولّدات، التأمين، عمولة الوكالة، وما يجب التحقق منه قبل التوقيع.',
+      body: [
+        { p: 'سواء انتقلت إلى بيروت للعمل أو الدراسة أو العائلة، فإن الاستئجار هو عادةً الطريقة الأسهل للبدء. إليك ما يمكن توقعه، والأسئلة التي تستحق أن تطرحها قبل توقيع عقد الإيجار.' },
+        { h2: 'شروط الإيجار المعتادة' },
+        { p: 'معظم عقود الإيجار السكنية في بيروت مدتها سنة قابلة للتجديد. يُحدَّد الإيجار بالدولار الأميركي، ويطلب كثير من المالكين دفع عدة أشهر — وأحياناً السنة كاملة — مسبقاً. ويمكن أن يكون الدفع المسبق ورقة تفاوض جيدة: غالباً ما يكون المالكون أكثر مرونة في السعر عند الدفع مقدّماً.' },
+        { h2: 'مفروشة أم غير مفروشة؟' },
+        { p: 'تتيح لك الشقق المفروشة الانتقال فوراً وهي مطلوبة من المهنيين والقادمين الجدد، بينما تكون الشقق غير المفروشة عادةً أرخص للمتر المربع وتناسب الإقامات الأطول. اطلب جرداً مكتوباً بالأثاث والأجهزة موقّعاً من الطرفين عند استلام شقة مفروشة.' },
+        { h2: 'الكهرباء والمياه ومصاريف المبنى' },
+        { p: 'كهرباء الدولة محدودة، لذا تعتمد معظم المباني على مولّد خاص. اسأل عن عدد الأمبيرات المخصصة للشقة، وعدد ساعات تغطية المولّد، وطريقة احتساب الفاتورة. وتحقّق أيضاً من:' },
+        { ul: [
+          'مصدر المياه — هل يوجد بئر أو خزان أو توصيل منتظم؟',
+          'مصاريف المبنى الشهرية (الناطور، التنظيف، المصعد، صيانة المولّد) — من يدفعها؟',
+          'هل يعمل المصعد على المولّد عند انقطاع الكهرباء؟',
+          'الألواح الشمسية أو أنظمة البطاريات، التي قد تخفّض فواتيرك كثيراً.',
+        ] },
+        { h2: 'التأمين وعمولة الوكالة' },
+        { p: 'يطلب المالكون عادةً تأميناً يساوي غالباً إيجار شهر واحد، يُعاد في نهاية العقد إذا كانت الشقة بحالة جيدة. وعند الاستئجار عبر وكالة، تُحدَّد العمولة مسبقاً — وهي في عقارات الإيجار الحالية لدينا إيجار شهر واحد.' },
+        { h2: 'قبل التوقيع' },
+        { ul: [
+          'زر الشقة في أوقات مختلفة من اليوم للتحقق من الضجيج والإضاءة وزحمة السير.',
+          'صوّر حالة الشقة يوم استلامها.',
+          'تأكد من أن العقد يذكر قيمة الإيجار وجدول الدفع والمدة وشروط التجديد ومن يتحمل كلفة التصليحات.',
+          'تحقّق من الموقف — هل هو مشمول وأين يقع.',
+        ] },
+        { tip: 'من المناطق المطلوبة للإيجار: [الأشرفية](/areas/achrafieh) لموقعها المركزي وطابعها المميز، و[المتن](/areas/metn) لمساحات أكبر بسعر أقل.' },
+        { p: 'شاهد كل [الشقق للإيجار](/properties/apartments-for-rent)، أو [أخبرنا بما تحتاجه](/contact) وسنرسل لك الخيارات المناسبة.' },
+      ],
+    },
+    fr: {
+      title: 'Louer un appartement à Beyrouth : ce qu’il faut savoir',
+      description: 'Guide pratique de la location à Beyrouth : durée des baux, loyer payé d’avance, électricité et générateurs, dépôt de garantie, commission d’agence et points à vérifier avant de signer.',
+      body: [
+        { p: 'Que vous vous installiez à Beyrouth pour le travail, les études ou la famille, la location est souvent la façon la plus simple de commencer. Voici à quoi vous attendre, et les questions à poser avant de signer un bail.' },
+        { h2: 'Les conditions habituelles' },
+        { p: 'La plupart des baux d’habitation à Beyrouth sont conclus pour un an renouvelable. Le loyer est fixé en dollars américains, et de nombreux propriétaires demandent plusieurs mois — parfois l’année entière — d’avance. Payer d’avance peut d’ailleurs être un bon levier de négociation : les propriétaires sont souvent plus souples sur le prix.' },
+        { h2: 'Meublé ou non meublé ?' },
+        { p: 'Un appartement meublé permet d’emménager tout de suite et plaît aux professionnels et aux nouveaux arrivants ; un logement non meublé coûte généralement moins cher au m² et convient aux séjours plus longs. Pour un meublé, demandez un inventaire écrit du mobilier et des appareils, signé par les deux parties.' },
+        { h2: 'Électricité, eau et charges de l’immeuble' },
+        { p: 'L’électricité publique étant limitée, la plupart des immeubles fonctionnent avec un générateur privé. Demandez combien d’ampères sont attribués à l’appartement, combien d’heures le générateur couvre et comment il est facturé. Vérifiez aussi :' },
+        { ul: [
+          'L’alimentation en eau — puits, citerne ou livraisons régulières ?',
+          'Les charges mensuelles (concierge, ménage, ascenseur, entretien du générateur) — qui les paie ?',
+          'Si l’ascenseur fonctionne sur le générateur pendant les coupures.',
+          'Les panneaux solaires ou onduleurs, qui peuvent réduire nettement vos factures.',
+        ] },
+        { h2: 'Dépôt de garantie et commission d’agence' },
+        { p: 'Les propriétaires demandent souvent un dépôt de garantie, généralement équivalent à un mois de loyer, restitué en fin de bail si l’appartement est en bon état. Si vous passez par une agence, la commission est convenue à l’avance — sur nos annonces de location actuelles, elle correspond à un mois de loyer.' },
+        { h2: 'Avant de signer' },
+        { ul: [
+          'Visitez à différents moments de la journée pour juger du bruit, de la lumière et de la circulation.',
+          'Photographiez l’état de l’appartement le jour de l’entrée.',
+          'Vérifiez que le bail précise le loyer, l’échéancier, la durée, le renouvellement et la prise en charge des réparations.',
+          'Confirmez le parking — inclus ou non, et où.',
+        ] },
+        { tip: 'Parmi les quartiers prisés des locataires : [Achrafieh](/areas/achrafieh) pour sa centralité et son charme, et le [Metn](/areas/metn) pour plus d’espace à moindre prix.' },
+        { p: 'Voir tous les [appartements à louer](/properties/apartments-for-rent), ou [dites-nous ce que vous cherchez](/contact) et nous vous enverrons des options adaptées.' },
+      ],
+    },
+  },
+}
+
+export default article

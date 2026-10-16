@@ -31,7 +31,7 @@ const en = {
     ogDesc: 'Apartments, villas, offices and land for sale and rent across Lebanon.',
   },
   nav: {
-    home: 'Home', properties: 'Properties', services: 'Services', about: 'About', contact: 'Contact',
+    home: 'Home', properties: 'Properties', services: 'Services', blog: 'Blog', about: 'About', contact: 'Contact',
     getInTouch: 'Get In Touch', realEstate: 'Real Estate', interiorDesign: 'Interior Design', language: 'Language',
   },
   footer: {
@@ -146,6 +146,15 @@ const en = {
     listingsIn: 'Properties {at}', browse: 'Browse {area}', readGuide: 'Read the {area} area guide',
     allGuides: 'All area guides', listings: '{n} listings', noListings: 'No listings here right now — contact us and we will search for you.',
   },
+  blog: {
+    nav: 'Blog',
+    indexTitle: 'Real Estate Guides & Advice for Lebanon',
+    indexDesc: 'Practical guides to buying, renting and choosing where to live in Lebanon, from the team at Rukun Real Estate.',
+    indexIntro: 'Practical advice from our team on buying, renting and choosing where to live in Lebanon.',
+    eyebrow: 'Guides & Advice', readMore: 'Read the guide', minRead: '{n} min read', updated: 'Updated {date}',
+    ctaTitle: 'Looking for a property?', ctaText: 'Tell us what you need and our team will send you matching options, usually within hours.',
+    ctaButton: 'Talk to an agent', latest: 'Latest listings', more: 'More guides', allArticles: 'All guides',
+  },
   faqTitle: 'Frequently Asked Questions',
   notFound: { title: 'Page not found', text: "The page you're looking for doesn't exist or has been removed.", button: 'Browse Properties' },
 }
@@ -159,7 +168,7 @@ const ar: Dictionary = {
     ogDesc: 'شقق وفلل ومكاتب وأراضٍ للبيع والإيجار في كل لبنان.',
   },
   nav: {
-    home: 'الرئيسية', properties: 'العقارات', services: 'خدماتنا', about: 'من نحن', contact: 'اتصل بنا',
+    home: 'الرئيسية', properties: 'العقارات', services: 'خدماتنا', blog: 'المدوّنة', about: 'من نحن', contact: 'اتصل بنا',
     getInTouch: 'تواصل معنا', realEstate: 'عقارات', interiorDesign: 'تصميم داخلي', language: 'اللغة',
   },
   footer: {
@@ -274,6 +283,15 @@ const ar: Dictionary = {
     listingsIn: 'عقارات {at}', browse: 'تصفح {area}', readGuide: 'اقرأ دليل منطقة {area}',
     allGuides: 'كل أدلة المناطق', listings: '{n} عقار', noListings: 'لا توجد عقارات هنا حالياً — تواصل معنا وسنبحث لك.',
   },
+  blog: {
+    nav: 'المدوّنة',
+    indexTitle: 'أدلة ونصائح عقارية في لبنان',
+    indexDesc: 'أدلة عملية لشراء العقارات واستئجارها واختيار مكان السكن في لبنان، من فريق ركن العقارية.',
+    indexIntro: 'نصائح عملية من فريقنا حول الشراء والاستئجار واختيار مكان السكن في لبنان.',
+    eyebrow: 'أدلة ونصائح', readMore: 'اقرأ الدليل', minRead: 'قراءة {n} دقائق', updated: 'آخر تحديث {date}',
+    ctaTitle: 'تبحث عن عقار؟', ctaText: 'أخبرنا بما تحتاجه وسيرسل لك فريقنا الخيارات المناسبة، عادةً خلال ساعات.',
+    ctaButton: 'تحدث مع وكيل', latest: 'أحدث العقارات', more: 'أدلة أخرى', allArticles: 'كل الأدلة',
+  },
   faqTitle: 'الأسئلة الشائعة',
   notFound: { title: 'الصفحة غير موجودة', text: 'الصفحة التي تبحث عنها غير موجودة أو تمت إزالتها.', button: 'تصفح العقارات' },
 }
@@ -285,7 +303,7 @@ const fr: Dictionary = {
     ogDesc: 'Appartements, villas, bureaux et terrains à vendre et à louer partout au Liban.',
   },
   nav: {
-    home: 'Accueil', properties: 'Biens', services: 'Services', about: 'À propos', contact: 'Contact',
+    home: 'Accueil', properties: 'Biens', services: 'Services', blog: 'Blog', about: 'À propos', contact: 'Contact',
     getInTouch: 'Nous contacter', realEstate: 'Immobilier', interiorDesign: 'Design d’intérieur', language: 'Langue',
   },
   footer: {
@@ -399,6 +417,15 @@ const fr: Dictionary = {
     basedOn: 'Sur la base de {n} biens actuellement proposés par Rukun.',
     listingsIn: 'Biens {at}', browse: 'Explorer {area}', readGuide: 'Lire le guide : {area}',
     allGuides: 'Tous les guides', listings: '{n} annonces', noListings: 'Aucune annonce ici pour le moment — contactez-nous et nous chercherons pour vous.',
+  },
+  blog: {
+    nav: 'Blog',
+    indexTitle: 'Guides et conseils immobiliers au Liban',
+    indexDesc: 'Des guides pratiques pour acheter, louer et choisir où vivre au Liban, par l’équipe de Rukun Real Estate.',
+    indexIntro: 'Les conseils pratiques de notre équipe pour acheter, louer et choisir où vivre au Liban.',
+    eyebrow: 'Guides et conseils', readMore: 'Lire le guide', minRead: '{n} min de lecture', updated: 'Mis à jour le {date}',
+    ctaTitle: 'Vous cherchez un bien ?', ctaText: 'Dites-nous ce dont vous avez besoin et notre équipe vous enverra des options adaptées, généralement en quelques heures.',
+    ctaButton: 'Parler à un agent', latest: 'Dernières annonces', more: 'Autres guides', allArticles: 'Tous les guides',
   },
   faqTitle: 'Questions fréquentes',
   notFound: { title: 'Page introuvable', text: 'La page que vous cherchez n’existe pas ou a été supprimée.', button: 'Voir les biens' },
