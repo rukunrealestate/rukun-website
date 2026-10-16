@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { getDictionary, type Locale } from '@/lib/i18n'
 
 export const SITE_URL = 'https://www.rukunrealestate.com'
@@ -23,9 +24,15 @@ export interface Property {
   images: string[]
   amenities: string[]
   video_url?: string | null
+  // Optional translations entered in the CRM
+  title_ar?: string | null
+  description_ar?: string | null
+  title_fr?: string | null
+  description_fr?: string | null
 }
 
-export async function getProperties(): Promise<Property[]> {
+// cache(): metadata and page share one CRM request per page view
+export const getProperties = cache(async (): Promise<Property[]> => {
   try {
     const res = await fetch(`${CRM_URL}/api/properties`, {
       next: { revalidate: 0 },
@@ -37,9 +44,9 @@ export async function getProperties(): Promise<Property[]> {
   } catch {
     return []
   }
-}
+})
 
-export async function getProperty(id: string): Promise<Property | null> {
+export const getProperty = cache(async (id: string): Promise<Property | null> => {
   try {
     const res = await fetch(`${CRM_URL}/api/properties/${id}`, {
       next: { revalidate: 0 },
@@ -51,7 +58,7 @@ export async function getProperty(id: string): Promise<Property | null> {
   } catch {
     return null
   }
-}
+})
 
 const perMonth: Record<Locale, string> = { en: '/mo', ar: ' شهرياً', fr: '/mois' }
 
@@ -72,6 +79,15 @@ export function propertyKind(p: Property) {
 
 export function typeLabel(type: string, lang: Locale = 'en') {
   return getDictionary(lang).types[type] ?? type
+}
+
+// Arabic/French title and description from the CRM, falling back to English
+export function localizedTitle(p: Property, lang: Locale) {
+  return (lang === 'ar' ? p.title_ar : lang === 'fr' ? p.title_fr : null) || p.title
+}
+
+export function localizedDescription(p: Property, lang: Locale) {
+  return (lang === 'ar' ? p.description_ar : lang === 'fr' ? p.description_fr : null) || p.description
 }
 
 export function propertyLocation(p: Property) {

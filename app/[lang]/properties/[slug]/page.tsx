@@ -9,7 +9,7 @@ import CategoryPage from './CategoryPage'
 import type { Metadata } from 'next'
 import {
   SITE_URL, formatPrice, typeLabel, propertyKind, propertyLocation, propertySummary,
-  propertySlug, propertyPath, resolvePropertySlug, getProperties, type Property,
+  propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, type Property,
 } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath, ogLocales, type Locale } from '@/lib/i18n'
 import { parseCategory, categoryTitle, categoryIntro, matchesCategory } from '@/lib/categories'
@@ -35,17 +35,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!property) return { title: getDictionary(lang).props.notFound, robots: { index: false } }
   const description = propertySummary(property, lang)
   const path = propertyPath(property)
+  const title = localizedTitle(property, lang)
   return {
-    title: property.title,
+    title,
     description,
     alternates: alternatesFor(lang, path),
     openGraph: {
-      title: property.title,
+      title,
       description,
       url: localePath(lang, path),
       locale: ogLocales[lang],
       type: 'website',
-      images: property.images?.slice(0, 1).map((url) => ({ url, alt: property.title })),
+      images: property.images?.slice(0, 1).map((url) => ({ url, alt: title })),
     },
   }
 }
@@ -69,12 +70,14 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
   const dict = getDictionary(lang)
   const t = dict.props
   const price = formatPrice(property.price, property.currency, property.transaction_type, lang)
+  const title = localizedTitle(property, lang)
+  const description = localizedDescription(property, lang)
   const location = propertyLocation(property)
   const propertyUrl = `${SITE_URL}${localePath(lang, propertyPath(property))}`
   const listingSchema = {
     '@context': 'https://schema.org',
     '@type': 'RealEstateListing',
-    name: property.title,
+    name: title,
     description: propertySummary(property, lang),
     url: propertyUrl,
     inLanguage: lang,
@@ -101,7 +104,7 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: dict.nav.home, item: `${SITE_URL}${localePath(lang, '/')}` },
       { '@type': 'ListItem', position: 2, name: dict.nav.properties, item: `${SITE_URL}${localePath(lang, '/properties')}` },
-      { '@type': 'ListItem', position: 3, name: property.title, item: propertyUrl },
+      { '@type': 'ListItem', position: 3, name: title, item: propertyUrl },
     ],
   }
 
@@ -123,7 +126,7 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
             {/* Left: Images + Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Images */}
-              <ImageGallery images={property.images ?? []} title={property.title} />
+              <ImageGallery images={property.images ?? []} title={title} />
 
               {/* Title + badges */}
               <div>
@@ -133,7 +136,7 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
                   }`}>{property.transaction_type === 'sale' ? t.forSale : t.forRent}</span>
                   <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white">{typeLabel(propertyKind(property), lang)}</span>
                 </div>
-                <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2" dir="auto">{property.title}</h1>
+                <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2" dir="auto">{title}</h1>
                 <div className="flex items-center gap-1.5 text-gray-400 text-sm">
                   <MapPin size={14} className="text-brand-gold shrink-0" />
                   {location}
@@ -166,10 +169,10 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
               </div>
 
               {/* Description */}
-              {property.description && (
+              {description && (
                 <div className="bg-white/3 border border-white/5 rounded-2xl p-6">
                   <h2 className="font-heading text-lg font-semibold text-white mb-3">{t.aboutProperty}</h2>
-                  <p className="text-gray-400 leading-relaxed text-sm whitespace-pre-line" dir="auto">{property.description}</p>
+                  <p className="text-gray-400 leading-relaxed text-sm whitespace-pre-line" dir="auto">{description}</p>
                 </div>
               )}
 
@@ -269,12 +272,12 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
                     className="flex items-center justify-center gap-2 w-full bg-brand-gold hover:bg-brand-gold-light text-brand-black font-semibold py-3.5 rounded-xl transition-colors text-sm">
                     <Phone size={16} /> {t.callAgent}
                   </a>
-                  <a href={`https://wa.me/9613709240?text=${encodeURIComponent(`${t.waMessage} ${property.title} — ${propertyUrl}`)}`}
+                  <a href={`https://wa.me/9613709240?text=${encodeURIComponent(`${t.waMessage} ${title} — ${propertyUrl}`)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full border border-white/10 hover:border-brand-gold/40 text-white hover:text-brand-gold font-semibold py-3.5 rounded-xl transition-colors text-sm">
                     {t.whatsapp}
                   </a>
-                  <ShareButton title={property.title} price={price} location={location} url={propertyUrl} t={dict.share} />
+                  <ShareButton title={title} price={price} location={location} url={propertyUrl} t={dict.share} />
                 </div>
               </div>
             </div>
