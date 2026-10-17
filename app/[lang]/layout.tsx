@@ -53,6 +53,11 @@ const agencySchema = {
     addressLocality: 'Beirut',
     addressCountry: 'LB',
   },
+  foundingDate: '2024',
+  founder: [
+    { '@type': 'Person', name: 'Mirna Itani' },
+    { '@type': 'Person', name: 'Fadi Touma' },
+  ],
   areaServed: { '@type': 'Country', name: 'Lebanon' },
   knowsLanguage: ['en', 'ar', 'fr'],
   openingHoursSpecification: {

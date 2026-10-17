@@ -8,7 +8,7 @@ import { hasLocale, getDictionary, alternatesFor, localePath } from '@/lib/i18n'
 import { pageOpenGraph, imageLang } from '@/lib/og'
 
 const valueIcons = [Award, Users, MapPin, Heart]
-const teamNames = ['Mirna Itani', 'Ahmad Khalil', 'Sara Mansour']
+const teamNames = ['Mirna Itani', 'Fadi Touma']
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
@@ -72,7 +72,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             <h2 className="font-heading text-3xl font-bold text-white mb-3">{t.teamTitle}</h2>
             <div className="gold-divider mx-auto" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {t.team.map((m, i) => (
               <div key={i} className="text-center p-8 rounded-2xl border border-white/5 bg-white/2 hover:border-brand-gold/20 transition-all">
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-brand-gold/20 to-brand-gold/5 flex items-center justify-center mx-auto mb-4">
