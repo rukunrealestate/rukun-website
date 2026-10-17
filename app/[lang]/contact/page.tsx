@@ -58,7 +58,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
           </div>
         </div>
 
-        <ContactSection t={dict.contact} />
+        <ContactSection t={dict.contact} lang={lang} />
       </div>
       <Footer lang={lang} />
     </>

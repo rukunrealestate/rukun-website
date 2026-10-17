@@ -5,6 +5,11 @@ import '../globals.css'
 import { SITE_URL } from '@/lib/properties'
 import { locales, hasLocale, getDictionary, alternatesFor } from '@/lib/i18n'
 import { pageOpenGraph, imageLang } from '@/lib/og'
+import Script from 'next/script'
+import FloatingWhatsApp from '@/components/leads/FloatingWhatsApp'
+
+// Google Analytics measurement ID (e.g. G-XXXXXXX). Analytics stays off until it is set.
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
 export const dynamicParams = false
 
@@ -83,6 +88,15 @@ export default async function RootLayout({ children, params }: { children: React
           dangerouslySetInnerHTML={{ __html: JSON.stringify(agencySchema) }}
         />
         {children}
+        <FloatingWhatsApp t={getDictionary(lang).leads} />
+        {GA_ID && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+            <Script id="ga" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag('js',new Date());gtag('config','${GA_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   )

@@ -10,6 +10,10 @@ import { categoryTitle, categoryIntro, matchesCategory, type Category } from '@/
 import { categoryFaq } from '@/lib/faq'
 import { areaGuides } from '@/lib/areaGuides'
 import Faq from '@/components/Faq'
+import AlertForm from '@/components/leads/AlertForm'
+import { selectOptions } from '@/lib/options'
+
+const GROUP_TO_TYPE: Record<string, string> = { apartments: 'apartment', villas: 'villa', offices: 'office', commercial: 'commercial', land: 'land' }
 
 export default async function CategoryPage({ lang, category }: { lang: Locale; category: Category }) {
   const dict = getDictionary(lang)
@@ -65,6 +69,8 @@ export default async function CategoryPage({ lang, category }: { lang: Locale; c
               {properties.map((p) => <PropertyCard key={p.id} p={p} lang={lang} />)}
             </div>
           )}
+          <AlertForm t={dict.leads} tf={dict.filters} lang={lang} {...selectOptions(lang)}
+            initial={{ tx: category.tx, type: category.group ? GROUP_TO_TYPE[category.group] : '', area: category.area }} />
           <Faq items={categoryFaq(category, properties, lang)} title={dict.faqTitle} />
           <CategoryLinks properties={all} lang={lang} title={t.related} exclude={category.slug} />
         </div>

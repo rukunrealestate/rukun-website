@@ -36,6 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...articles.map((a) =>
       localized(`/blog/${a.slug}`, { lastModified: new Date(a.updated ?? a.published), changeFrequency: 'monthly', priority: 0.7 }),
     ).flat(),
+    ...localized('/list-your-property', { changeFrequency: 'monthly', priority: 0.6 }),
     ...localized('/about', { changeFrequency: 'monthly', priority: 0.5 }),
     ...localized('/contact', { changeFrequency: 'monthly', priority: 0.6 }),
   ]

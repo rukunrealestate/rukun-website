@@ -27,6 +27,7 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
     { label: t.properties, href: href('/properties') },
     { label: t.services, href: `${href('/')}#services` },
     { label: t.blog, href: href('/blog') },
+    { label: t.listProperty, href: href('/list-your-property') },
     { label: t.about, href: href('/about') },
     { label: t.contact, href: href('/contact') },
   ]
@@ -48,11 +49,11 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
     }`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20 xl:h-32">
         {/* Logo */}
-        <Link href={href('/')} className="flex items-center gap-4">
+        <Link href={href('/')} className="flex items-center gap-3 sm:gap-4 min-w-0">
           <Image src="/logo.png" alt="Rukun Real Estate" width={112} height={112} preload className="h-16 xl:h-28 w-auto object-contain" />
-          <div className="flex flex-col justify-center items-center">
-            <div className="text-brand-gold text-sm tracking-widest uppercase font-medium">{t.realEstate}</div>
-            <div className="text-gray-400 text-sm tracking-widest uppercase">{t.interiorDesign}</div>
+          <div className="flex flex-col justify-center items-center min-w-0">
+            <div className="max-w-full truncate text-brand-gold text-[11px] sm:text-sm tracking-wider sm:tracking-widest uppercase font-medium whitespace-nowrap">{t.realEstate}</div>
+            <div className="max-w-full truncate text-gray-400 text-[11px] sm:text-sm tracking-wider sm:tracking-widest uppercase whitespace-nowrap">{t.interiorDesign}</div>
           </div>
         </Link>
 
@@ -82,7 +83,7 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
         </div>
 
         {/* Mobile menu button */}
-        <button onClick={() => setOpen(!open)} className="xl:hidden text-white p-2" aria-label="Menu">
+        <button onClick={() => setOpen(!open)} className="xl:hidden text-white p-2 shrink-0 -me-2" aria-label="Menu">
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>

@@ -1,10 +1,14 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { notFound, permanentRedirect } from 'next/navigation'
-import { MapPin, Bed, Bath, Square, Phone, ArrowLeft } from 'lucide-react'
+import { MapPin, Bed, Bath, Square, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import ShareButton from './ShareButton'
 import ImageGallery from './ImageGallery'
+import PropertyCard from '@/components/PropertyCard'
+import ViewingForm from '@/components/leads/ViewingForm'
+import { ListingSidebarButtons, ListingMobileBar } from '@/components/leads/ListingContact'
+import { similarProperties } from '@/lib/similar'
 import CategoryPage from './CategoryPage'
 import type { Metadata } from 'next'
 import {
@@ -94,12 +98,13 @@ export default async function SlugPage({ params }: Params) {
   return <ListingPage lang={lang} property={property} />
 }
 
-function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
+async function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
   const dict = getDictionary(lang)
   const t = dict.props
   const price = formatPrice(property.price, property.currency, property.transaction_type, lang)
   const title = localizedTitle(property, lang)
   const description = localizedDescription(property, lang)
+  const similar = similarProperties(property, await getProperties())
   const location = propertyLocation(property)
   const propertyUrl = `${SITE_URL}${localePath(lang, propertyPath(property))}`
   const listingSchema = {
@@ -140,7 +145,7 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([listingSchema, breadcrumbSchema]) }} />
       <Navbar lang={lang} t={dict.nav} />
-      <div className="pt-24 xl:pt-32 min-h-screen bg-[#080808]">
+      <div className="pt-24 xl:pt-32 pb-20 xl:pb-0 min-h-screen bg-[#080808]">
         {/* Back */}
         <div className="max-w-7xl mx-auto px-6 pt-6 pb-2">
           <Link href={localePath(lang, '/properties')} className="inline-flex items-center gap-2 text-gray-400 hover:text-brand-gold transition-colors text-sm">
@@ -200,7 +205,7 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
               {description && (
                 <div className="bg-white/3 border border-white/5 rounded-2xl p-6">
                   <h2 className="font-heading text-lg font-semibold text-white mb-3">{t.aboutProperty}</h2>
-                  <p className="text-gray-400 leading-relaxed text-sm whitespace-pre-line" dir="auto">{description}</p>
+                  <p className="text-gray-400 leading-relaxed text-sm whitespace-pre-line break-words [overflow-wrap:anywhere]" dir="auto">{description}</p>
                 </div>
               )}
 
@@ -262,6 +267,8 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
                   </div>
                 </div>
               )}
+
+              <ViewingForm t={dict.leads} lang={lang} propertyId={property.id} transaction={property.transaction_type} />
             </div>
 
             {/* Right: Price card */}
@@ -296,22 +303,25 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
                 </div>
 
                 <div className="space-y-3">
-                  <a href="tel:+9613709240"
-                    className="flex items-center justify-center gap-2 w-full bg-brand-gold hover:bg-brand-gold-light text-brand-black font-semibold py-3.5 rounded-xl transition-colors text-sm">
-                    <Phone size={16} /> {t.callAgent}
-                  </a>
-                  <a href={`https://wa.me/9613709240?text=${encodeURIComponent(`${t.waMessage} ${title} — ${propertyUrl}`)}`}
-                    target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full border border-white/10 hover:border-brand-gold/40 text-white hover:text-brand-gold font-semibold py-3.5 rounded-xl transition-colors text-sm">
-                    {t.whatsapp}
-                  </a>
+                  <ListingSidebarButtons t={dict.leads} title={title} url={propertyUrl} propertyId={property.id} />
                   <ShareButton title={title} price={price} location={location} url={propertyUrl} t={dict.share} />
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Similar properties keep visitors browsing instead of leaving */}
+          {similar.length > 0 && (
+            <section className="mt-16">
+              <h2 className="font-heading text-2xl md:text-3xl font-bold text-white mb-6">{dict.leads.similar}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {similar.map((p) => <PropertyCard key={p.id} p={p} lang={lang} />)}
+              </div>
+            </section>
+          )}
         </div>
       </div>
+      <ListingMobileBar t={dict.leads} title={title} url={propertyUrl} propertyId={property.id} />
       <Footer lang={lang} />
     </>
   )

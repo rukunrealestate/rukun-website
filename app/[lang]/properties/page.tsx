@@ -11,6 +11,9 @@ import PropertyCard from '@/components/PropertyCard'
 import CategoryLinks from '@/components/CategoryLinks'
 import PropertyFilters from '@/components/PropertyFilters'
 import { pageOpenGraph, imageLang } from '@/lib/og'
+import AlertForm from '@/components/leads/AlertForm'
+import OwnerBand from '@/components/leads/OwnerBand'
+import { selectOptions } from '@/lib/options'
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -111,6 +114,8 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
                   {properties.map((p) => <PropertyCard key={p.id} p={p} lang={lang} />)}
                 </div>
               )}
+              <AlertForm t={dict.leads} tf={tf} lang={lang} {...selectOptions(lang)}
+                initial={{ tx: filters.tx, type: filters.type, area: filters.area, budget: filters.max, beds: filters.beds }} />
               <CategoryLinks properties={all} lang={lang} title={t.browseBy} />
             </>
           )}

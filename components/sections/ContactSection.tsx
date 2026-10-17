@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import { Phone, Mail, MapPin, Send, Loader2 } from 'lucide-react'
-import type { Dictionary } from '@/lib/i18n'
+import type { Dictionary, Locale } from '@/lib/i18n'
+import { submitLead } from '@/lib/contact'
 
-export default function ContactSection({ t }: { t: Dictionary['contact'] }) {
+export default function ContactSection({ t, lang }: { t: Dictionary['contact']; lang: Locale }) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', message: '', website: '' })
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
@@ -28,21 +29,12 @@ export default function ContactSection({ t }: { t: Dictionary['contact'] }) {
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError(t.errEmail); return }
 
     setLoading(true)
-    try {
-      const crmUrl = process.env.NEXT_PUBLIC_CRM_URL || 'https://crm.rukunrealestate.com'
-      const res = await fetch(`${crmUrl}/api/leads/website`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, email, message, website: form.website }),
-      })
-      if (res.ok) {
-        setSent(true)
-        setForm({ name: '', phone: '', email: '', message: '', website: '' })
-      } else {
-        setError(t.errGeneric)
-      }
-    } catch {
-      setError(t.errConnection)
+    const res = await submitLead({ kind: 'contact', lang, name, phone, email, message, website: form.website })
+    if (res.ok) {
+      setSent(true)
+      setForm({ name: '', phone: '', email: '', message: '', website: '' })
+    } else {
+      setError(res.error === 'connection' ? t.errConnection : t.errGeneric)
     }
     setLoading(false)
   }

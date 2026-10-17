@@ -6,6 +6,7 @@ import Services from '@/components/sections/Services'
 import FeaturedProperties from '@/components/sections/FeaturedProperties'
 import WhyUs from '@/components/sections/WhyUs'
 import ContactSection from '@/components/sections/ContactSection'
+import OwnerBand from '@/components/leads/OwnerBand'
 import { hasLocale, getDictionary } from '@/lib/i18n'
 import { notFound } from 'next/navigation'
 
@@ -22,7 +23,8 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       <Services lang={lang} />
       <FeaturedProperties lang={lang} />
       <WhyUs lang={lang} />
-      <ContactSection t={t.contact} />
+      <OwnerBand lang={lang} />
+      <ContactSection t={t.contact} lang={lang} />
       <Footer lang={lang} />
     </>
   )
