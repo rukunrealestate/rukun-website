@@ -120,7 +120,7 @@ function ListingPage({ lang, property }: { lang: Locale; property: Property }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([listingSchema, breadcrumbSchema]) }} />
       <Navbar lang={lang} t={dict.nav} />
-      <div className="pt-24 min-h-screen bg-[#080808]">
+      <div className="pt-24 xl:pt-32 min-h-screen bg-[#080808]">
         {/* Back */}
         <div className="max-w-7xl mx-auto px-6 pt-6 pb-2">
           <Link href={localePath(lang, '/properties')} className="inline-flex items-center gap-2 text-gray-400 hover:text-brand-gold transition-colors text-sm">

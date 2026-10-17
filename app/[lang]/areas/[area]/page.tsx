@@ -80,7 +80,7 @@ export default async function AreaGuidePage({ params }: Params) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Navbar lang={lang} t={dict.nav} />
-      <div className="pt-28 min-h-screen">
+      <div className="pt-28 xl:pt-36 min-h-screen">
         <div className="max-w-7xl mx-auto px-6 mb-12">
           <Link href={localePath(lang, '/areas')} className="inline-flex items-center gap-2 text-gray-400 hover:text-brand-gold transition-colors text-sm mb-6">
             <ArrowLeft size={15} className="rtl:rotate-180" /> {t.allGuides}

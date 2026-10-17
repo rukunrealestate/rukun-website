@@ -31,7 +31,7 @@ export default function Hero({ lang }: { lang: Locale }) {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-28 xl:pt-40 pb-12">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 border border-brand-gold/30 bg-brand-gold/5 rounded-full px-4 py-2 mb-8">
           <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />

@@ -46,10 +46,10 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? 'bg-[#0A0A0A]/95 backdrop-blur-md shadow-lg shadow-black/30' : 'bg-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-32">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20 xl:h-32">
         {/* Logo */}
         <Link href={href('/')} className="flex items-center gap-4">
-          <Image src="/logo.png" alt="Rukun Real Estate" width={112} height={112} preload className="h-28 w-auto object-contain" />
+          <Image src="/logo.png" alt="Rukun Real Estate" width={112} height={112} preload className="h-16 xl:h-28 w-auto object-contain" />
           <div className="flex flex-col justify-center items-center">
             <div className="text-brand-gold text-sm tracking-widest uppercase font-medium">{t.realEstate}</div>
             <div className="text-gray-400 text-sm tracking-widest uppercase">{t.interiorDesign}</div>

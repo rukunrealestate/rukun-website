@@ -82,7 +82,7 @@ export default async function ArticlePage({ params }: Params) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <Navbar lang={lang} t={dict.nav} />
-      <div className="pt-28 min-h-screen">
+      <div className="pt-28 xl:pt-36 min-h-screen">
         <article className="max-w-3xl mx-auto px-6 pb-12">
           <Link href={localePath(lang, '/blog')} className="inline-flex items-center gap-2 text-gray-400 hover:text-brand-gold transition-colors text-sm mb-6">
             <ArrowLeft size={15} className="rtl:rotate-180" /> {t.allArticles}

@@ -46,7 +46,7 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
   return (
     <>
       <Navbar lang={lang} t={dict.nav} />
-      <div className="pt-28 min-h-screen">
+      <div className="pt-28 xl:pt-36 min-h-screen">
         {/* Header */}
         <div className="max-w-7xl mx-auto px-6 mb-10">
           <p className="text-brand-gold text-sm font-medium tracking-widest uppercase mb-3">{t.eyebrow}</p>
