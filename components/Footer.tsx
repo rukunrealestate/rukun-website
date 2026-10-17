@@ -97,7 +97,7 @@ export default function Footer({ lang }: { lang: Locale }) {
               </li>
               <li className="flex items-center gap-2.5 text-sm text-gray-400">
                 <Mail size={15} className="text-brand-gold shrink-0" />
-                <a href="mailto:mirna.i.itani@gmail.com" className="hover:text-brand-gold transition-colors">mirna.i.itani@gmail.com</a>
+                <a href="mailto:rukunleb@gmail.com" className="hover:text-brand-gold transition-colors">rukunleb@gmail.com</a>
               </li>
             </ul>
           </div>

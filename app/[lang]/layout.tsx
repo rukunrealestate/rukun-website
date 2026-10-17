@@ -47,7 +47,7 @@ const agencySchema = {
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/logo.png`,
   telephone: '+961 3 709 240',
-  email: 'mirna.i.itani@gmail.com',
+  email: 'rukunleb@gmail.com',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Beirut',

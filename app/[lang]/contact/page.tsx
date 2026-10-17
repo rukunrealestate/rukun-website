@@ -44,7 +44,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               {[
                 { icon: Phone, label: t.phone, val: '+961 3 709 240', ltr: true },
-                { icon: Mail, label: t.email, val: 'mirna.i.itani@gmail.com', ltr: true },
+                { icon: Mail, label: t.email, val: 'rukunleb@gmail.com', ltr: true },
                 { icon: MapPin, label: t.location, val: t.locationVal },
                 { icon: Clock, label: t.hours, val: t.hoursVal },
               ].map((c, i) => (

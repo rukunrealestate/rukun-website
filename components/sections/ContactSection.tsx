@@ -77,7 +77,7 @@ export default function ContactSection({ t }: { t: Dictionary['contact'] }) {
                 </div>
                 <div>
                   <div className="text-xs text-gray-500 mb-0.5">{t.emailLabel}</div>
-                  <a href="mailto:mirna.i.itani@gmail.com" className="text-white hover:text-brand-gold transition-colors font-medium">mirna.i.itani@gmail.com</a>
+                  <a href="mailto:rukunleb@gmail.com" className="text-white hover:text-brand-gold transition-colors font-medium">rukunleb@gmail.com</a>
                 </div>
               </div>
               <div className="flex items-center gap-4">
