@@ -7,7 +7,8 @@ import { notFound } from 'next/navigation'
 import ArticleBody from '@/components/ArticleBody'
 import PropertyCard from '@/components/PropertyCard'
 import { getProperties, SITE_URL } from '@/lib/properties'
-import { hasLocale, getDictionary, alternatesFor, localePath, ogLocales, locales, type Locale } from '@/lib/i18n'
+import { hasLocale, getDictionary, alternatesFor, localePath, locales, type Locale } from '@/lib/i18n'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 import { articles, getArticle } from '@/lib/blog'
 
 type Params = { params: Promise<{ lang: string; slug: string }> }
@@ -21,19 +22,21 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const article = getArticle(slug)
   if (!hasLocale(lang) || !article) return {}
   const text = article.text[lang]
+  const il = imageLang(lang)
+  const share = pageOpenGraph(lang, {
+    title: text.title,
+    description: text.description,
+    path: `/blog/${slug}`,
+    type: 'article',
+    image: { title: article.text[il].title, kicker: getDictionary(il).blog.eyebrow, detail: getDictionary(il).blog.minRead.replace('{n}', String(article.readMinutes)) },
+  })
   return {
     // Brand left out of article titles so they fit in search results
     title: { absolute: text.title },
     description: text.description,
     alternates: alternatesFor(lang, `/blog/${slug}`),
-    openGraph: {
-      title: text.title,
-      description: text.description,
-      type: 'article',
-      locale: ogLocales[lang],
-      publishedTime: article.published,
-      modifiedTime: article.updated ?? article.published,
-    },
+    openGraph: { ...share.openGraph, type: 'article', publishedTime: article.published, modifiedTime: article.updated ?? article.published },
+    twitter: share.twitter,
   }
 }
 

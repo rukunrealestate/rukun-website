@@ -8,12 +8,20 @@ import { getProperties } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath } from '@/lib/i18n'
 import { areaGuides, areaGuideKeys } from '@/lib/areaGuides'
 import { inArea } from '@/lib/categories'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
   if (!hasLocale(lang)) return {}
   const t = getDictionary(lang).areas
-  return { title: t.indexTitle, description: t.indexDesc, alternates: alternatesFor(lang, '/areas') }
+  const ti = getDictionary(imageLang(lang)).areas
+  const photo = (await getProperties()).find((p) => p.images?.length)?.images[0]
+  return {
+    title: t.indexTitle,
+    description: t.indexDesc,
+    alternates: alternatesFor(lang, '/areas'),
+    ...pageOpenGraph(lang, { title: t.indexTitle, description: t.indexDesc, path: '/areas', image: { title: ti.indexTitle, kicker: ti.nav, detail: areaGuideKeys.map((k) => areaGuides[k].name[imageLang(lang)]).join(' · '), photo } }),
+  }
 }
 
 export default async function AreasPage({ params }: { params: Promise<{ lang: string }> }) {

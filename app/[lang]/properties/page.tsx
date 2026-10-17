@@ -10,6 +10,7 @@ import { parseFilters, applyFilters, hasActiveFilters, TYPE_OPTIONS, BED_OPTIONS
 import PropertyCard from '@/components/PropertyCard'
 import CategoryLinks from '@/components/CategoryLinks'
 import PropertyFilters from '@/components/PropertyFilters'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -20,11 +21,19 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const { lang } = await params
   if (!hasLocale(lang)) return {}
   const t = getDictionary(lang).props
+  const ti = getDictionary(imageLang(lang)).props
   const filtered = hasActiveFilters(parseFilters(await searchParams))
+  const all = await getProperties()
   return {
     title: t.metaTitle,
     description: t.metaDesc,
     alternates: alternatesFor(lang, '/properties'),
+    ...pageOpenGraph(lang, {
+      title: t.metaTitle,
+      description: t.metaDesc,
+      path: '/properties',
+      image: { title: ti.metaTitle, kicker: ti.eyebrow, detail: ti.count.replace('{n}', String(all.length)), photo: all.find((p) => p.images?.length)?.images[0] },
+    }),
     // Filtered views are endless variations of this page; keep them out of Google
     // (the category pages are the ones meant to rank)
     robots: filtered ? { index: false, follow: true } : undefined,

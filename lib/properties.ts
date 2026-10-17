@@ -93,16 +93,30 @@ export function localizedDescription(p: Property, lang: Locale) {
 
 // Short title for search results (Google shows ~60 characters); the full CRM title stays on the page
 export function listingMetaTitle(p: Property, lang: Locale) {
+  return [listingHeadline(p, lang), p.area_sqm ? `${p.area_sqm} ${lang === 'ar' ? 'م²' : 'm²'}` : null, formatPrice(p.price, p.currency, p.transaction_type, lang)]
+    .filter(Boolean).join(' · ')
+}
+
+// "Apartment for Sale in Baabdat"
+export function listingHeadline(p: Property, lang: Locale) {
   const kind = typeLabel(propertyKind(p), lang)
   const where = p.location || p.city || p.district || ''
   const sale = p.transaction_type === 'sale'
-  const head = {
+  return {
     en: `${kind} for ${sale ? 'Sale' : 'Rent'}${where ? ` in ${where}` : ''}`,
     ar: `${kind} ${sale ? 'للبيع' : 'للإيجار'}${where ? ` في ${where}` : ''}`,
     fr: `${kind} ${sale ? 'à vendre' : 'à louer'}${where ? ` à ${where}` : ''}`,
   }[lang]
-  return [head, p.area_sqm ? `${p.area_sqm} ${lang === 'ar' ? 'م²' : 'm²'}` : null, formatPrice(p.price, p.currency, p.transaction_type, lang)]
-    .filter(Boolean).join(' · ')
+}
+
+// "200 m² · 3 bedrooms · $250,000" — the detail line on a listing's preview image
+export function listingFacts(p: Property, lang: Locale) {
+  const t = getDictionary(lang).props
+  return [
+    p.area_sqm ? `${p.area_sqm} m²` : null,
+    p.bedrooms ? t.bedroomsN.replace('{n}', String(p.bedrooms)) : null,
+    formatPrice(p.price, p.currency, p.transaction_type, lang),
+  ].filter(Boolean).join(' · ')
 }
 
 export function propertyLocation(p: Property) {

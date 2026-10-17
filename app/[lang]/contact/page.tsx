@@ -5,12 +5,19 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, getDictionary, alternatesFor } from '@/lib/i18n'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
   if (!hasLocale(lang)) return {}
   const t = getDictionary(lang).contactPage
-  return { title: t.metaTitle, description: t.metaDesc, alternates: alternatesFor(lang, '/contact') }
+  const ti = getDictionary(imageLang(lang)).contactPage
+  return {
+    title: t.metaTitle,
+    description: t.metaDesc,
+    alternates: alternatesFor(lang, '/contact'),
+    ...pageOpenGraph(lang, { title: t.metaTitle, description: t.metaDesc, path: '/contact', image: { title: ti.title, kicker: ti.eyebrow, detail: '+961 3 709 240 · WhatsApp' } }),
+  }
 }
 
 export default async function ContactPage({ params }: { params: Promise<{ lang: string }> }) {

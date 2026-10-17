@@ -5,6 +5,7 @@ import { Award, Users, MapPin, Heart } from 'lucide-react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, getDictionary, alternatesFor, localePath } from '@/lib/i18n'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 const valueIcons = [Award, Users, MapPin, Heart]
 const teamNames = ['Mirna Itani', 'Ahmad Khalil', 'Sara Mansour']
@@ -13,7 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params
   if (!hasLocale(lang)) return {}
   const t = getDictionary(lang).about
-  return { title: t.metaTitle, description: t.metaDesc, alternates: alternatesFor(lang, '/about') }
+  const di = getDictionary(imageLang(lang))
+  return {
+    title: t.metaTitle,
+    description: t.metaDesc,
+    alternates: alternatesFor(lang, '/about'),
+    ...pageOpenGraph(lang, { title: t.metaTitle, description: t.metaDesc, path: '/about', image: { title: di.about.title, kicker: di.about.eyebrow, detail: di.footer.bottom } }),
+  }
 }
 
 export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {

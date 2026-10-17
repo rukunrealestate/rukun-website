@@ -11,6 +11,7 @@ import { hasLocale, getDictionary, alternatesFor, localePath, type Locale } from
 import { areaGuides } from '@/lib/areaGuides'
 import { activeCategories, areaAt, categoryTitle, inArea } from '@/lib/categories'
 import { areaFaq } from '@/lib/faq'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 type Params = { params: Promise<{ lang: string; area: string }> }
 
@@ -23,10 +24,26 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!hasLocale(lang) || !guide) return {}
   const t = getDictionary(lang).areas
   const name = guide.name[lang]
+  const title = fill(t.guideTitle, { area: name })
+  const description = fill(t.guideDesc, { area: name, at: areaAt(area, lang) })
+  const il = imageLang(lang)
+  const ti = getDictionary(il).areas
+  const inThisArea = (await getProperties()).filter((p) => inArea(p, area))
   return {
-    title: fill(t.guideTitle, { area: name }),
-    description: fill(t.guideDesc, { area: name, at: areaAt(area, lang) }),
+    title,
+    description,
     alternates: alternatesFor(lang, `/areas/${area}`),
+    ...pageOpenGraph(lang, {
+      title,
+      description,
+      path: `/areas/${area}`,
+      image: {
+        title: fill(ti.guideTitle, { area: guide.name[il] }),
+        kicker: ti.eyebrow,
+        detail: ti.listings.replace('{n}', String(inThisArea.length)),
+        photo: inThisArea.find((p) => p.images?.length)?.images[0],
+      },
+    }),
   }
 }
 

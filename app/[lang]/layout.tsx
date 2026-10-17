@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation'
 import { Inter, Playfair_Display, Tajawal, Noto_Kufi_Arabic } from 'next/font/google'
 import '../globals.css'
 import { SITE_URL } from '@/lib/properties'
-import { locales, hasLocale, getDictionary, alternatesFor, ogLocales } from '@/lib/i18n'
+import { locales, hasLocale, getDictionary, alternatesFor } from '@/lib/i18n'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 export const dynamicParams = false
 
@@ -22,20 +23,19 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params
   if (!hasLocale(lang)) return {}
   const t = getDictionary(lang)
+  const ti = getDictionary(imageLang(lang))
   return {
     metadataBase: new URL(SITE_URL),
     title: { default: t.meta.homeTitle, template: '%s | Rukun Real Estate' },
     description: t.meta.homeDesc,
     alternates: alternatesFor(lang, '/'),
-    openGraph: {
+    // Default preview (home page); other pages set their own
+    ...pageOpenGraph(lang, {
       title: t.meta.homeTitle,
       description: t.meta.ogDesc,
-      siteName: 'Rukun Real Estate',
-      locale: ogLocales[lang],
-      type: 'website',
-      images: [{ url: '/logo.png', alt: 'Rukun Real Estate' }],
-    },
-    twitter: { card: 'summary_large_image' },
+      path: '/',
+      image: { title: `${ti.hero.h1a} ${ti.hero.h1b} ${ti.hero.h1c}`, kicker: ti.hero.badge, detail: ti.footer.bottom },
+    }),
   }
 }
 

@@ -9,10 +9,11 @@ import CategoryPage from './CategoryPage'
 import type { Metadata } from 'next'
 import {
   SITE_URL, formatPrice, typeLabel, propertyKind, propertyLocation, propertySummary,
-  propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, listingMetaTitle, type Property,
+  propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, listingMetaTitle, listingHeadline, listingFacts, type Property,
 } from '@/lib/properties'
-import { hasLocale, getDictionary, alternatesFor, localePath, ogLocales, type Locale } from '@/lib/i18n'
+import { hasLocale, getDictionary, alternatesFor, localePath, type Locale } from '@/lib/i18n'
 import { parseCategory, categoryTitle, categoryIntro, matchesCategory } from '@/lib/categories'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 type Params = { params: Promise<{ lang: string; slug: string }> }
 
@@ -22,12 +23,27 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const category = parseCategory(slug)
   if (category) {
-    const count = (await getProperties()).filter((p) => matchesCategory(p, category)).length
+    const matching = (await getProperties()).filter((p) => matchesCategory(p, category))
+    const count = matching.length
+    const title = categoryTitle(category, lang)
+    const description = categoryIntro(category, lang, count).slice(0, 160)
+    const ti = getDictionary(imageLang(lang)).props
     return {
-      title: categoryTitle(category, lang),
-      description: categoryIntro(category, lang, count).slice(0, 160),
+      title,
+      description,
       alternates: alternatesFor(lang, `/properties/${slug}`),
       robots: count ? undefined : { index: false },
+      ...pageOpenGraph(lang, {
+        title,
+        description,
+        path: `/properties/${slug}`,
+        image: {
+          title: categoryTitle(category, imageLang(lang)),
+          kicker: ti.eyebrow,
+          detail: ti.count.replace('{n}', String(count)),
+          photo: matching.find((p) => p.images?.length)?.images[0],
+        },
+      }),
     }
   }
 
@@ -48,14 +64,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: { absolute: `${searchTitle} | Rukun` },
     description,
     alternates: alternatesFor(lang, path),
-    openGraph: {
+    // Preview text keeps the full listing title; the image shows the headline, key facts and main photo
+    ...pageOpenGraph(lang, {
       title,
       description,
-      url: localePath(lang, path),
-      locale: ogLocales[lang],
-      type: 'website',
-      images: property.images?.slice(0, 1).map((url) => ({ url, alt: title })),
-    },
+      path,
+      image: {
+        title: listingHeadline(property, imageLang(lang)),
+        kicker: property.transaction_type === 'sale' ? getDictionary(imageLang(lang)).props.forSale : getDictionary(imageLang(lang)).props.forRent,
+        detail: listingFacts(property, imageLang(lang)),
+        photo: property.images?.[0],
+      },
+    }),
   }
 }
 

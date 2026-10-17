@@ -6,12 +6,19 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, getDictionary, alternatesFor, localePath } from '@/lib/i18n'
 import { articles } from '@/lib/blog'
+import { pageOpenGraph, imageLang } from '@/lib/og'
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
   if (!hasLocale(lang)) return {}
   const t = getDictionary(lang).blog
-  return { title: t.indexTitle, description: t.indexDesc, alternates: alternatesFor(lang, '/blog') }
+  const ti = getDictionary(imageLang(lang)).blog
+  return {
+    title: t.indexTitle,
+    description: t.indexDesc,
+    alternates: alternatesFor(lang, '/blog'),
+    ...pageOpenGraph(lang, { title: t.indexTitle, description: t.indexDesc, path: '/blog', image: { title: ti.indexTitle, kicker: ti.eyebrow } }),
+  }
 }
 
 export default async function BlogIndexPage({ params }: { params: Promise<{ lang: string }> }) {
