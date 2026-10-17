@@ -62,7 +62,7 @@ const en = {
     ],
   },
   whyUs: {
-    eyebrow: 'Why Choose Rukun', titleA: "Lebanon's Most", titleB: 'Trusted Agency',
+    eyebrow: 'Why Choose Rukun', titleA: 'Real Estate,', titleB: 'Done Personally',
     intro: 'Founded in Beirut in 2024, Rukun brings a personal, hands-on approach to every search — every property we list is visited and checked by our team. We combine local knowledge with a premium, client-first service.',
     cta: 'Start Your Search',
     items: [
@@ -101,7 +101,7 @@ const en = {
     mission1: 'We believe everyone deserves a space they love. Rukun was founded on the principle that real estate should be transparent, personalized, and stress-free.',
     mission2: 'From our base in Beirut, we serve clients across all of Lebanon — combining deep local expertise with a premium, client-first approach to every transaction.',
     values: [
-      { title: 'Excellence', desc: 'Top-rated agency in Lebanon' },
+      { title: 'Excellence', desc: 'Premium, client-first service' },
       { title: 'Verified', desc: 'Every listing personally checked' },
       { title: 'Local', desc: 'Based in Beirut since 2024' },
       { title: 'Passion', desc: 'We love what we do' },
@@ -204,7 +204,7 @@ const ar: Dictionary = {
     ],
   },
   whyUs: {
-    eyebrow: 'لماذا ركن', titleA: 'الوكالة الأكثر', titleB: 'ثقة في لبنان',
+    eyebrow: 'لماذا ركن', titleA: 'عقارات', titleB: 'بلمسة شخصية',
     intro: 'تأسس ركن في بيروت عام 2024، ويعتمد نهجاً شخصياً وعملياً في كل عملية بحث — فكل عقار نعرضه يزوره فريقنا ويتحقق منه. نجمع بين المعرفة المحلية وخدمة مميزة تضع العميل أولاً.',
     cta: 'ابدأ بحثك',
     items: [
@@ -243,7 +243,7 @@ const ar: Dictionary = {
     mission1: 'نؤمن بأن كل شخص يستحق مساحة يحبها. تأسس ركن على مبدأ أن العقارات يجب أن تكون شفافة وشخصية وخالية من التوتر.',
     mission2: 'من مقرنا في بيروت، نخدم العملاء في كل لبنان — جامعين بين الخبرة المحلية العميقة ونهج مميز يضع العميل أولاً في كل صفقة.',
     values: [
-      { title: 'التميز', desc: 'وكالة رائدة في لبنان' },
+      { title: 'التميز', desc: 'خدمة مميزة تضع العميل أولاً' },
       { title: 'موثوق', desc: 'كل عقار نتحقق منه شخصياً' },
       { title: 'محلي', desc: 'في بيروت منذ 2024' },
       { title: 'الشغف', desc: 'نحب ما نقوم به' },
@@ -344,7 +344,7 @@ const fr: Dictionary = {
     ],
   },
   whyUs: {
-    eyebrow: 'Pourquoi Rukun', titleA: 'L’agence la plus', titleB: 'fiable du Liban',
+    eyebrow: 'Pourquoi Rukun', titleA: 'L’immobilier,', titleB: 'avec une touche personnelle',
     intro: 'Fondée à Beyrouth en 2024, Rukun adopte une approche personnelle et concrète pour chaque recherche — chaque bien que nous proposons est visité et vérifié par notre équipe. Nous allions connaissance locale et service haut de gamme centré sur le client.',
     cta: 'Commencer ma recherche',
     items: [
@@ -383,7 +383,7 @@ const fr: Dictionary = {
     mission1: 'Nous pensons que chacun mérite un espace qu’il aime. Rukun est née de la conviction que l’immobilier doit être transparent, personnalisé et serein.',
     mission2: 'Depuis Beyrouth, nous accompagnons nos clients dans tout le Liban — en alliant une expertise locale approfondie à une approche haut de gamme centrée sur le client.',
     values: [
-      { title: 'Excellence', desc: 'Agence de premier plan au Liban' },
+      { title: 'Excellence', desc: 'Un service haut de gamme, centré sur le client' },
       { title: 'Vérifié', desc: 'Chaque bien vérifié personnellement' },
       { title: 'Local', desc: 'À Beyrouth depuis 2024' },
       { title: 'Passion', desc: 'Nous aimons ce que nous faisons' },
