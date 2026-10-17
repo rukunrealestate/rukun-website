@@ -155,6 +155,12 @@ const en = {
     ctaTitle: 'Looking for a property?', ctaText: 'Tell us what you need and our team will send you matching options, usually within hours.',
     ctaButton: 'Talk to an agent', latest: 'Latest listings', more: 'More guides', allArticles: 'All guides',
   },
+  filters: {
+    search: 'Search', searchPh: 'Area, street, reference…', any: 'Any', transaction: 'Buy or rent', type: 'Type', area: 'Area',
+    bedrooms: 'Bedrooms', bedsMin: '{n}+', minPrice: 'Min price ($)', maxPrice: 'Max price ($)', sort: 'Sort by',
+    newest: 'Newest', priceAsc: 'Price: low to high', priceDesc: 'Price: high to low', sizeDesc: 'Largest first',
+    apply: 'Search', clear: 'Clear filters', results: '{n} of {total} properties', noResults: 'No properties match these filters.',
+  },
   faqTitle: 'Frequently Asked Questions',
   notFound: { title: 'Page not found', text: "The page you're looking for doesn't exist or has been removed.", button: 'Browse Properties' },
 }
@@ -292,6 +298,12 @@ const ar: Dictionary = {
     ctaTitle: 'تبحث عن عقار؟', ctaText: 'أخبرنا بما تحتاجه وسيرسل لك فريقنا الخيارات المناسبة، عادةً خلال ساعات.',
     ctaButton: 'تحدث مع وكيل', latest: 'أحدث العقارات', more: 'أدلة أخرى', allArticles: 'كل الأدلة',
   },
+  filters: {
+    search: 'بحث', searchPh: 'المنطقة، الشارع، المرجع…', any: 'الكل', transaction: 'شراء أو إيجار', type: 'النوع', area: 'المنطقة',
+    bedrooms: 'غرف النوم', bedsMin: '{n}+', minPrice: 'أدنى سعر ($)', maxPrice: 'أعلى سعر ($)', sort: 'الترتيب',
+    newest: 'الأحدث', priceAsc: 'السعر: من الأدنى', priceDesc: 'السعر: من الأعلى', sizeDesc: 'الأكبر مساحة',
+    apply: 'بحث', clear: 'مسح الفلاتر', results: '{n} من {total} عقار', noResults: 'لا توجد عقارات مطابقة لهذه الفلاتر.',
+  },
   faqTitle: 'الأسئلة الشائعة',
   notFound: { title: 'الصفحة غير موجودة', text: 'الصفحة التي تبحث عنها غير موجودة أو تمت إزالتها.', button: 'تصفح العقارات' },
 }
@@ -426,6 +438,12 @@ const fr: Dictionary = {
     eyebrow: 'Guides et conseils', readMore: 'Lire le guide', minRead: '{n} min de lecture', updated: 'Mis à jour le {date}',
     ctaTitle: 'Vous cherchez un bien ?', ctaText: 'Dites-nous ce dont vous avez besoin et notre équipe vous enverra des options adaptées, généralement en quelques heures.',
     ctaButton: 'Parler à un agent', latest: 'Dernières annonces', more: 'Autres guides', allArticles: 'Tous les guides',
+  },
+  filters: {
+    search: 'Rechercher', searchPh: 'Quartier, rue, référence…', any: 'Tous', transaction: 'Acheter ou louer', type: 'Type', area: 'Zone',
+    bedrooms: 'Chambres', bedsMin: '{n}+', minPrice: 'Prix min ($)', maxPrice: 'Prix max ($)', sort: 'Trier par',
+    newest: 'Plus récents', priceAsc: 'Prix croissant', priceDesc: 'Prix décroissant', sizeDesc: 'Plus grands',
+    apply: 'Rechercher', clear: 'Effacer les filtres', results: '{n} sur {total} biens', noResults: 'Aucun bien ne correspond à ces filtres.',
   },
   faqTitle: 'Questions fréquentes',
   notFound: { title: 'Page introuvable', text: 'La page que vous cherchez n’existe pas ou a été supprimée.', button: 'Voir les biens' },
