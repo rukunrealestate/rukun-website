@@ -1,18 +1,17 @@
-import { propertyKind, type Property } from '@/lib/properties'
-import { inArea } from '@/lib/categories'
-import { areaGuideKeys } from '@/lib/areaGuides'
+import type { Property } from '@/lib/properties'
+import { inSearchArea, searchAreaKeys } from '@/lib/searchAreas'
+import { matchesPropertyType, propertyTypeKeys } from '@/lib/propertyTypes'
 
 // Search & filters for the Properties page. Everything lives in the URL query string
 // (?q=&tx=&type=&area=&beds=&min=&max=&sort=) so filtered lists can be shared and work without JavaScript.
 
-export const TYPE_OPTIONS = ['apartment', 'villa', 'office', 'commercial', 'land'] as const
 export const SORT_OPTIONS = ['newest', 'price-asc', 'price-desc', 'size-desc'] as const
 export const BED_OPTIONS = [1, 2, 3, 4] as const
 
 export interface Filters {
   q: string
   tx: '' | 'sale' | 'rent'
-  type: '' | (typeof TYPE_OPTIONS)[number]
+  type: string
   area: string
   beds: number
   min: number
@@ -33,11 +32,12 @@ export function parseFilters(params: Params): Filters {
   return {
     q: one(params.q).slice(0, 100),
     tx: tx === 'sale' || tx === 'rent' ? tx : '',
-    type: (TYPE_OPTIONS as readonly string[]).includes(type) ? (type as Filters['type']) : '',
-    area: areaGuideKeys.includes(area) ? area : '',
+    type: propertyTypeKeys.includes(type) ? type : '',
+    area: searchAreaKeys.includes(area) ? area : '',
     beds: Math.min(num(one(params.beds)), 10),
-    min: num(one(params.min)),
-    max: num(one(params.max)),
+    // "budget=100000-150000" comes from the home page search when JavaScript is off
+    min: num(one(params.min)) || num(one(params.budget).split('-')[0] ?? ''),
+    max: num(one(params.max)) || num(one(params.budget).split('-')[1] ?? ''),
     sort: (SORT_OPTIONS as readonly string[]).includes(sort) ? (sort as Filters['sort']) : 'newest',
   }
 }
@@ -57,8 +57,8 @@ function matchesText(p: Property, q: string) {
 export function applyFilters(properties: Property[], f: Filters) {
   const list = properties.filter((p) =>
     (!f.tx || p.transaction_type === f.tx) &&
-    (!f.type || propertyKind(p) === f.type) &&
-    (!f.area || inArea(p, f.area)) &&
+    (!f.type || matchesPropertyType(p, f.type)) &&
+    (!f.area || inSearchArea(p, f.area)) &&
     (!f.beds || (p.bedrooms ?? 0) >= f.beds) &&
     (!f.min || p.price >= f.min) &&
     (!f.max || p.price <= f.max) &&

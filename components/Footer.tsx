@@ -22,11 +22,11 @@ export default function Footer({ lang }: { lang: Locale }) {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center">
-                <span className="font-heading font-bold text-white text-lg">R</span>
-              </div>
-              <div>
-                <div className="font-heading font-bold text-white text-lg leading-tight">Rukun</div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/rukun-arch.svg" alt="" width={44} height={50} className="h-12 w-auto" />
+              <div className="flex flex-col gap-1.5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/brand/rukun-wordmark.svg" alt="Rukun" width={110} height={28} className="h-6 w-auto" />
                 <div className="text-[10px] text-brand-gold tracking-widest uppercase">{t.nav.realEstate} · {t.nav.interiorDesign}</div>
               </div>
             </div>

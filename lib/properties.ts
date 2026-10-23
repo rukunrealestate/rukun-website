@@ -11,6 +11,7 @@ export interface Property {
   description: string | null
   type: string
   subtype?: string | null
+  category?: string | null // CRM category, e.g. chalets_cabins_rent
   transaction_type: string
   price: number
   currency: string
@@ -107,6 +108,19 @@ export function listingHeadline(p: Property, lang: Locale) {
     ar: `${kind} ${sale ? 'للبيع' : 'للإيجار'}${where ? ` في ${where}` : ''}`,
     fr: `${kind} ${sale ? 'à vendre' : 'à louer'}${where ? ` à ${where}` : ''}`,
   }[lang]
+}
+
+// Photo for cards and tiles: the listing's cover (first CRM image, the designed post)
+export function cardPhoto(p?: Property): string | undefined {
+  return p?.images?.[0]
+}
+
+// Short card title: "3-Bedroom Apartment" / "Office" — the long CRM title stays on the property page
+export function cardTitle(p: Property, lang: Locale) {
+  const kind = typeLabel(propertyKind(p), lang)
+  const n = p.bedrooms
+  if (!n || p.type === 'land' || p.type === 'commercial') return kind
+  return { en: `${n}-Bedroom ${kind}`, ar: `${kind} ${n} غرف نوم`, fr: `${kind} ${n} chambres` }[lang]
 }
 
 // "200 m² · 3 bedrooms · $250,000" — the detail line on a listing's preview image

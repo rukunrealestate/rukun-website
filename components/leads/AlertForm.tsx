@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import { Loader2, BellRing, Check } from 'lucide-react'
 import { submitLead } from '@/lib/contact'
+import OptionList from '@/components/OptionList'
 import type { Dictionary, Locale } from '@/lib/i18n'
 
-interface Option { value: string; label: string }
+interface Option { value: string; label: string; group?: string }
 
 // "Notify me" — a buyer/renter request (what they want + budget) → CRM Contacts, lead type "request"
 export default function AlertForm({ t, tf, lang, txOptions, typeOptions, areaOptions, initial }: {
@@ -52,13 +53,13 @@ export default function AlertForm({ t, tf, lang, txOptions, typeOptions, areaOpt
       <select value={form[k]} onChange={(e) => set(k, e.target.value)}
         className="bg-[#111] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white outline-none focus:border-brand-gold/50">
         <option value="">{tf.any}</option>
-        {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+        <OptionList options={options} />
       </select>
     </label>
   )
 
   return (
-    <section className="rounded-2xl border border-brand-gold/20 bg-brand-gold/5 p-6 md:p-8 mb-16">
+    <section id="notify" className="scroll-mt-32 rounded-2xl border border-brand-gold/20 bg-brand-gold/5 p-6 md:p-8 mb-16">
       {state === 'sent' ? (
         <div className="text-center py-4">
           <div className="w-14 h-14 rounded-full bg-brand-gold/20 flex items-center justify-center mx-auto mb-3"><Check className="text-brand-gold" /></div>

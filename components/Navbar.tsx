@@ -50,10 +50,10 @@ export default function Navbar({ lang, t }: { lang: Locale; t: Dictionary['nav']
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20 xl:h-32">
         {/* Logo */}
         <Link href={href('/')} className="flex items-center gap-3 sm:gap-4 min-w-0">
-          <Image src="/logo.png" alt="Rukun Real Estate" width={112} height={112} preload className="h-16 xl:h-28 w-auto object-contain" />
-          <div className="flex flex-col justify-center items-center min-w-0">
-            <div className="max-w-full truncate text-brand-gold text-[11px] sm:text-sm tracking-wider sm:tracking-widest uppercase font-medium whitespace-nowrap">{t.realEstate}</div>
-            <div className="max-w-full truncate text-gray-400 text-[11px] sm:text-sm tracking-wider sm:tracking-widest uppercase whitespace-nowrap">{t.interiorDesign}</div>
+          <Image src="/brand/rukun-arch.svg" alt="" width={216} height={246} preload className="h-14 xl:h-24 w-auto" />
+          <div className="flex flex-col justify-center items-start gap-1.5 xl:gap-2.5 min-w-0">
+            <Image src="/brand/rukun-wordmark.svg" alt="Rukun Real Estate" width={190} height={49} preload className="h-6 xl:h-10 w-auto" />
+            <div className="max-w-full truncate text-brand-gold text-[10px] sm:text-xs tracking-wider sm:tracking-widest uppercase font-medium whitespace-nowrap">{t.realEstate} · {t.interiorDesign}</div>
           </div>
         </Link>
 

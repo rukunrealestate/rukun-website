@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import { Loader2, Send, Check } from 'lucide-react'
 import { submitLead } from '@/lib/contact'
+import OptionList from '@/components/OptionList'
 import type { Dictionary, Locale } from '@/lib/i18n'
 
-interface Option { value: string; label: string }
+interface Option { value: string; label: string; group?: string }
 
 // "List your property" → CRM Property Sources (role: owner)
 export default function OwnerForm({ t, lang, typeOptions }: { t: Dictionary['leads']; lang: Locale; typeOptions: Option[] }) {
@@ -62,7 +63,7 @@ export default function OwnerForm({ t, lang, typeOptions }: { t: Dictionary['lea
           {t.propertyType}
           <select className={field} value={form.property_type} onChange={(e) => set('property_type', e.target.value)}>
             <option value="">—</option>
-            {typeOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            <OptionList options={typeOptions} />
           </select>
         </label>
         <label className="flex flex-col gap-1 text-xs text-gray-400">

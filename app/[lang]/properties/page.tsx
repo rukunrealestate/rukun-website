@@ -3,10 +3,9 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getProperties, typeLabel } from '@/lib/properties'
+import { getProperties } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath } from '@/lib/i18n'
-import { areaGuides, areaGuideKeys } from '@/lib/areaGuides'
-import { parseFilters, applyFilters, hasActiveFilters, TYPE_OPTIONS, BED_OPTIONS } from '@/lib/filters'
+import { parseFilters, applyFilters, hasActiveFilters, BED_OPTIONS } from '@/lib/filters'
 import PropertyCard from '@/components/PropertyCard'
 import CategoryLinks from '@/components/CategoryLinks'
 import PropertyFilters from '@/components/PropertyFilters'
@@ -64,6 +63,11 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
           <p className="text-brand-gold text-sm font-medium tracking-widest uppercase mb-3">{t.eyebrow}</p>
           <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-2">{t.title}</h1>
           <div className="gold-divider" />
+          <p className="text-gray-400 max-w-2xl leading-relaxed mt-5">
+            {t.intro.split('{link}')[0]}
+            <a href="#notify" className="text-brand-gold hover:text-brand-gold-light underline underline-offset-4 decoration-brand-gold/40">{t.introLink}</a>
+            {t.intro.split('{link}')[1]}
+          </p>
         </div>
 
         {/* Grid */}
@@ -74,10 +78,10 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
               action={action}
               filters={filters}
               t={tf}
+              th={dict.hero}
               active={active}
-              txOptions={[{ value: 'sale', label: t.forSale }, { value: 'rent', label: t.forRent }]}
-              typeOptions={TYPE_OPTIONS.map((k) => ({ value: k, label: typeLabel(k, lang) }))}
-              areaOptions={areaGuideKeys.map((k) => ({ value: k, label: areaGuides[k].name[lang] }))}
+              typeOptions={selectOptions(lang).typeOptions}
+              areaOptions={selectOptions(lang).areaOptions}
               bedOptions={[...BED_OPTIONS]}
             />
           )}

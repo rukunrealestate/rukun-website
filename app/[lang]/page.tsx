@@ -1,9 +1,9 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Hero from '@/components/sections/Hero'
-import Stats from '@/components/sections/Stats'
 import Services from '@/components/sections/Services'
 import FeaturedProperties from '@/components/sections/FeaturedProperties'
+import AreasBrowse from '@/components/sections/AreasBrowse'
 import WhyUs from '@/components/sections/WhyUs'
 import ContactSection from '@/components/sections/ContactSection'
 import OwnerBand from '@/components/leads/OwnerBand'
@@ -19,9 +19,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
     <>
       <Navbar lang={lang} t={t.nav} />
       <Hero lang={lang} />
-      <Stats lang={lang} />
-      <Services lang={lang} />
       <FeaturedProperties lang={lang} />
+      <AreasBrowse lang={lang} />
+      <Services lang={lang} />
       <WhyUs lang={lang} />
       <OwnerBand lang={lang} />
       <ContactSection t={t.contact} lang={lang} />

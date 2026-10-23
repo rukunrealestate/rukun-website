@@ -1,84 +1,53 @@
-import Link from 'next/link'
-import { ArrowRight, Play } from 'lucide-react'
 import { getDictionary, localePath, type Locale } from '@/lib/i18n'
+import { getProperties, cardTitle, formatPrice, propertyLocation, propertyPath } from '@/lib/properties'
+import { selectOptions } from '@/lib/options'
+import HeroSearch from './HeroSearch'
+import HeroSlides, { type Slide } from './HeroSlides'
 
-export default function Hero({ lang }: { lang: Locale }) {
+// Background photos from the listings (listing id, photo position in the CRM): interiors alternating
+// with open views. A listing that goes offline simply drops out of the slideshow.
+const HERO_PHOTOS: [string, number][] = [
+  ['040b3af1-90b2-4c74-884e-5ecaf17efeb7', 1], // Zeitouna Bay, living room with sea view (shown first)
+  ['c44ea87d-f7bf-4107-b340-f993e273ecfc', 3], // Beit Mery, balcony over Beirut and the sea
+  ['01c91824-07ca-4e49-b10c-52d77115b0b6', 5], // Dayshouneyye, new kitchen (high resolution)
+  ['040b3af1-90b2-4c74-884e-5ecaf17efeb7', 8], // Zeitouna Bay, modern open-plan living and kitchen
+  ['c44ea87d-f7bf-4107-b340-f993e273ecfc', 7], // Beit Mery, furnished living room
+  ['01c91824-07ca-4e49-b10c-52d77115b0b6', 9], // Dayshouneyye, bright living room with a big window (high resolution)
+  ['886130a8-f525-4d46-b8a2-23496d0b8155', 8], // Baabdat, balcony over the pines
+]
+
+// Opening section: rotating listing photos, welcome line and the Buy/Rent search
+export default async function Hero({ lang }: { lang: Locale }) {
   const t = getDictionary(lang).hero
-  const href = (path: string) => localePath(lang, path)
-  const pills = [
-    { label: t.apartmentsSale, slug: 'apartments-for-sale' },
-    { label: t.apartmentsRent, slug: 'apartments-for-rent' },
-    { label: t.offices, slug: 'offices-for-rent' },
-    { label: t.land, slug: 'land-for-sale' },
-    { label: t.forSale, slug: 'for-sale' },
-    { label: t.forRent, slug: 'for-rent' },
-  ]
+  const all = await getProperties()
+  const [before, after] = t.available.split('{n}')
+
+  const slides: Slide[] = HERO_PHOTOS.flatMap(([id, n]) => {
+    const p = all.find((x) => x.id === id)
+    const src = p?.images?.[n]
+    return p && src ? [{
+      src,
+      href: localePath(lang, propertyPath(p)),
+      caption: `${cardTitle(p, lang)} · ${propertyLocation(p)}`,
+      price: formatPrice(p.price, p.currency, p.transaction_type, lang),
+    }] : []
+  })
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#111111] to-[#0A0A0A]" />
-
-      {/* Gold accent orbs */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-brand-gold/3 rounded-full blur-3xl" />
-
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: 'linear-gradient(#C9A96E 1px, transparent 1px), linear-gradient(90deg, #C9A96E 1px, transparent 1px)',
-          backgroundSize: '60px 60px'
-        }}
+    <HeroSlides slides={slides} label={t.featuredPhoto}>
+      <p className="text-brand-gold-light text-xs font-semibold tracking-[0.2em] uppercase mb-4">{t.where}</p>
+      <h1 className="font-heading text-4xl md:text-6xl xl:text-7xl font-bold text-white leading-[1.04] mb-5 max-w-3xl text-balance">{t.headline}</h1>
+      <p className="text-gray-200 text-base md:text-lg max-w-xl mb-8 leading-relaxed">{t.sub}</p>
+      <HeroSearch
+        action={localePath(lang, '/properties')}
+        t={t}
+        typeOptions={selectOptions(lang).typeOptions}
+        areaOptions={selectOptions(lang).areaOptions}
       />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center pt-28 xl:pt-40 pb-12">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 border border-brand-gold/30 bg-brand-gold/5 rounded-full px-4 py-2 mb-8">
-          <div className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
-          <span className="text-brand-gold text-xs font-medium tracking-wider uppercase">{t.badge}</span>
-        </div>
-
-        {/* Headline */}
-        <h1 className="font-heading text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
-          {t.h1a}
-          <br />
-          <span className="text-gold-gradient">{t.h1b}</span>
-          <br />
-          {t.h1c}
-        </h1>
-
-        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">{t.intro}</p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href={href('/properties')}
-            className="inline-flex items-center gap-2 bg-brand-gold hover:bg-brand-gold-light text-brand-black font-semibold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-105">
-            {t.browse}
-            <ArrowRight size={18} className="rtl:rotate-180" />
-          </Link>
-          <Link href={href('/contact')}
-            className="inline-flex items-center gap-2 border border-white/20 hover:border-brand-gold text-white hover:text-brand-gold font-medium px-8 py-4 rounded-xl transition-all duration-200">
-            <Play size={16} className="rtl:rotate-180" />
-            {t.talk}
-          </Link>
-        </div>
-
-        {/* Category pills */}
-        <div className="flex flex-wrap justify-center gap-3 mt-14">
-          {pills.map(pill => (
-            <Link key={pill.slug} href={href(`/properties/${pill.slug}`)}
-              className="text-xs text-gray-400 border border-white/10 hover:border-brand-gold/40 hover:text-brand-gold px-4 py-2 rounded-full transition-colors">
-              {pill.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="mt-20 flex flex-col items-center gap-2 opacity-40">
-          <div className="w-px h-12 bg-gradient-to-b from-transparent to-brand-gold" />
-          <span className="text-[10px] tracking-widest text-brand-gold uppercase">{t.scroll}</span>
-        </div>
+      <div className="flex flex-wrap gap-x-6 gap-y-1 mt-6 text-[13px] text-gray-300">
+        {all.length > 0 && <span>{before}<b className="text-white font-semibold">{all.length}</b>{after}</span>}
+        <span>{t.languages}</span>
       </div>
-    </section>
+    </HeroSlides>
   )
 }
