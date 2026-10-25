@@ -56,16 +56,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const path = propertyPath(property)
   const title = localizedTitle(property, lang)
   // Near-identical listings (same type, place, size and price) get their reference number so titles stay unique
-  let searchTitle = listingMetaTitle(property, lang)
+  const searchTitle = listingMetaTitle(property, lang)
   let description = propertySummary(property, lang)
   const twin = (await getProperties()).some((o) => o.id !== property.id && listingMetaTitle(o, lang) === searchTitle)
-  if (twin) {
-    const ref = property.reference_number || `Ref. ${property.id.slice(0, 4).toUpperCase()}`
-    searchTitle += ` · ${ref}`
-    description = `${ref} · ${description}`
-  }
+  const ref = twin ? ` · ${property.reference_number || `Ref. ${property.id.slice(0, 4).toUpperCase()}`}` : ''
+  if (twin) description = `${ref.slice(3)} · ${description}`
+  // Google shows about 60 characters: drop the brand suffix first, then the size (it's in the description)
+  const MAX = 60
+  let fullTitle = `${searchTitle}${ref} | Rukun`
+  if (fullTitle.length > MAX) fullTitle = `${searchTitle}${ref}`
+  if (fullTitle.length > MAX) fullTitle = `${listingMetaTitle(property, lang, false)}${ref}`
   return {
-    title: { absolute: `${searchTitle} | Rukun` },
+    title: { absolute: fullTitle },
     description,
     alternates: alternatesFor(lang, path),
     // Preview text keeps the full listing title; the image shows the headline, key facts and main photo

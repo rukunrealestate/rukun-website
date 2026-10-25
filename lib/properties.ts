@@ -93,8 +93,8 @@ export function localizedDescription(p: Property, lang: Locale) {
 }
 
 // Short title for search results (Google shows ~60 characters); the full CRM title stays on the page
-export function listingMetaTitle(p: Property, lang: Locale) {
-  return [listingHeadline(p, lang), p.area_sqm ? `${p.area_sqm} ${lang === 'ar' ? 'م²' : 'm²'}` : null, formatPrice(p.price, p.currency, p.transaction_type, lang)]
+export function listingMetaTitle(p: Property, lang: Locale, withArea = true) {
+  return [listingHeadline(p, lang), withArea && p.area_sqm ? `${p.area_sqm} ${lang === 'ar' ? 'م²' : 'm²'}` : null, formatPrice(p.price, p.currency, p.transaction_type, lang)]
     .filter(Boolean).join(' · ')
 }
 
