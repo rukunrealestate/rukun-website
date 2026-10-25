@@ -12,6 +12,7 @@ import { areaGuides } from '@/lib/areaGuides'
 import { activeCategories, areaAt, categoryTitle, inArea } from '@/lib/categories'
 import { areaFaq } from '@/lib/faq'
 import { pageOpenGraph, imageLang } from '@/lib/og'
+import OwnerBand from '@/components/leads/OwnerBand'
 
 type Params = { params: Promise<{ lang: string; area: string }> }
 
@@ -156,6 +157,7 @@ export default async function AreaGuidePage({ params }: Params) {
 
           <Faq items={areaFaq(at, properties, lang)} title={dict.faqTitle} />
         </div>
+        <OwnerBand lang={lang} area={area} />
       </div>
       <Footer lang={lang} />
     </>

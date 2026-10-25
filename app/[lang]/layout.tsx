@@ -47,7 +47,11 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 const agencySchema = {
   '@context': 'https://schema.org',
   '@type': 'RealEstateAgent',
+  '@id': `${SITE_URL}/#agency`,
   name: 'Rukun Real Estate & Interior Design',
+  alternateName: ['Rukun Real Estate', 'Rukun', 'ركن للعقارات'],
+  description: 'Beirut-based real estate agency helping people buy, rent, sell and rent out apartments, villas, offices, shops and land across Lebanon, in English, Arabic and French.',
+  slogan: 'Real Estate, Done Personally',
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/logo.png`,
@@ -63,7 +67,14 @@ const agencySchema = {
     { '@type': 'Person', name: 'Mirna Itani' },
     { '@type': 'Person', name: 'Fadi Touma' },
   ],
-  areaServed: { '@type': 'Country', name: 'Lebanon' },
+  areaServed: [
+    { '@type': 'Country', name: 'Lebanon' },
+    ...['Beirut', 'Achrafieh', 'Metn', 'Aley', 'Keserwan', 'Jbeil (Byblos)', 'Mount Lebanon'].map((name) => ({ '@type': 'Place', name })),
+  ],
+  knowsAbout: [
+    'Apartments for sale in Lebanon', 'Apartments for rent in Beirut', 'Selling property in Lebanon',
+    'Renting out property in Lebanon', 'Offices and commercial property in Beirut', 'Land for sale in Lebanon', 'Interior design',
+  ],
   knowsLanguage: ['en', 'ar', 'fr'],
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',

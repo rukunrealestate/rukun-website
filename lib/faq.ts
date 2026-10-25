@@ -6,7 +6,7 @@ import { categoryTitle, type Category } from '@/lib/categories'
 
 export interface FaqItem { q: string; a: string }
 
-const usd = (n: number) => formatPrice(Math.round(n), 'USD', 'sale')
+export const usd = (n: number) => formatPrice(Math.round(n), 'USD', 'sale')
 const isHome = (p: Property) => p.type === 'apartment' || p.type === 'villa'
 
 function median(nums: number[]) {
@@ -31,7 +31,7 @@ function priceText(ps: Property[], lang: Locale) {
   }[lang]
 }
 
-function perSqm(ps: Property[]) {
+export function perSqm(ps: Property[]) {
   const vals = ps.filter((p) => p.transaction_type === 'sale' && p.price > 0 && (p.area_sqm ?? 0) > 0).map((p) => p.price / p.area_sqm!)
   return vals.length ? { value: median(vals), n: vals.length } : null
 }
