@@ -44,7 +44,8 @@ export const getProperties = cache(async (): Promise<Property[]> =>
 // cache(): metadata and page share one CRM request per page view
 export const getListedProperties = cache(async (): Promise<Property[]> => {
   try {
-    const res = await fetch(`${CRM_URL}/api/properties`, {
+    // The CRM returns 50 listings unless asked for more (its maximum is 100)
+    const res = await fetch(`${CRM_URL}/api/properties?limit=100`, {
       next: { revalidate: 0 },
       cache: 'no-store',
     })
