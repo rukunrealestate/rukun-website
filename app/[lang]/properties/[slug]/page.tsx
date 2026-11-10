@@ -13,7 +13,7 @@ import CategoryPage from './CategoryPage'
 import type { Metadata } from 'next'
 import {
   SITE_URL, formatPrice, typeLabel, propertyKind, propertyLocation, propertySummary,
-  propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, listingMetaTitle, listingHeadline, listingFacts, type Property,
+  propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, listingMetaTitle, listingHeadline, listingFacts, isClosed, type Property,
 } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath, type Locale } from '@/lib/i18n'
 import { parseCategory, categoryTitle, categoryIntro, matchesCategory } from '@/lib/categories'
@@ -170,7 +170,15 @@ async function ListingPage({ lang, property }: { lang: Locale; property: Propert
                     property.transaction_type === 'sale' ? 'bg-brand-gold text-brand-black' : 'bg-brand-red text-white'
                   }`}>{property.transaction_type === 'sale' ? t.forSale : t.forRent}</span>
                   <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-white">{typeLabel(propertyKind(property), lang)}</span>
+                  {isClosed(property) && (
+                    <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-brand-red text-white">{property.status === 'sold' ? t.sold : t.rented}</span>
+                  )}
                 </div>
+                {isClosed(property) && (
+                  <p className="mb-4 border-s-4 border-brand-red bg-white/5 px-4 py-3 text-sm text-gray-300">
+                    {t.closedNote.replace('{status}', (property.status === 'sold' ? t.sold : t.rented).toLowerCase())}
+                  </p>
+                )}
                 <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2" dir="auto">{title}</h1>
                 <div className="flex items-center gap-1.5 text-gray-400 text-sm">
                   <MapPin size={14} className="text-brand-gold shrink-0" />

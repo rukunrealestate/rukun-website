@@ -33,8 +33,16 @@ export interface Property {
   description_fr?: string | null
 }
 
+// A listing kept on the website after it was rented or sold, shown with a badge
+export const isClosed = (p: Property) => p.status === 'rented' || p.status === 'sold'
+
+// Available listings only: what every section, count and teaser uses
+export const getProperties = cache(async (): Promise<Property[]> =>
+  (await getListedProperties()).filter((p) => !isClosed(p)))
+
+// Everything shown on the website, including rented/sold listings (properties page, listing pages)
 // cache(): metadata and page share one CRM request per page view
-export const getProperties = cache(async (): Promise<Property[]> => {
+export const getListedProperties = cache(async (): Promise<Property[]> => {
   try {
     const res = await fetch(`${CRM_URL}/api/properties`, {
       next: { revalidate: 0 },
@@ -167,7 +175,7 @@ export async function resolvePropertySlug(segment: string): Promise<Property | n
   if (UUID_RE.test(segment)) return getProperty(segment)
   const m = segment.match(SLUG_ID_RE)
   if (!m) return null
-  const all = await getProperties()
+  const all = await getListedProperties()
   return all.find((p) => p.id.toLowerCase().startsWith(m[1].toLowerCase())) ?? null
 }
 

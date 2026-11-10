@@ -3,7 +3,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getProperties } from '@/lib/properties'
+import { getProperties, getListedProperties, isClosed } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath } from '@/lib/i18n'
 import { parseFilters, applyFilters, hasActiveFilters, BED_OPTIONS } from '@/lib/filters'
 import PropertyCard from '@/components/PropertyCard'
@@ -52,6 +52,8 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
   const filters = parseFilters(await searchParams)
   const active = hasActiveFilters(filters)
   const properties = applyFilters(all, filters)
+  // Rented/sold listings kept on the site: shown after the available ones, only on the unfiltered page
+  const closed = active ? [] : (await getListedProperties()).filter(isClosed)
   const action = localePath(lang, '/properties')
 
   return (
@@ -116,6 +118,14 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                   {properties.map((p) => <PropertyCard key={p.id} p={p} lang={lang} />)}
+                </div>
+              )}
+              {closed.length > 0 && (
+                <div className="mb-16">
+                  <h2 className="font-heading text-2xl font-bold text-white mb-6">{t.closedTitle}</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {closed.map((p) => <PropertyCard key={p.id} p={p} lang={lang} />)}
+                  </div>
                 </div>
               )}
               <AlertForm t={dict.leads} tf={tf} lang={lang} {...selectOptions(lang)}

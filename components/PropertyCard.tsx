@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getDictionary, localePath, type Locale } from '@/lib/i18n'
-import { formatPrice, cardTitle, cardPhoto, localizedTitle, propertyLocation, propertyPath, SITE_URL, type Property } from '@/lib/properties'
+import { formatPrice, cardTitle, cardPhoto, localizedTitle, propertyLocation, propertyPath, isClosed, SITE_URL, type Property } from '@/lib/properties'
 import { skipOptimization } from '@/lib/images'
 import CardActions from '@/components/leads/CardActions'
 
@@ -32,9 +32,14 @@ export default function PropertyCard({ p, lang, tone = 'dark' }: { p: Property; 
           {photo ? (
             <Image src={photo} alt={title} fill unoptimized={skipOptimization(photo)}
               sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${isClosed(p) ? 'opacity-60 grayscale-[40%]' : ''}`} />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-10 font-heading text-brand-gold">R</div>
+          )}
+          {isClosed(p) && (
+            <span className="absolute top-3 start-3 bg-brand-red text-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] shadow">
+              {p.status === 'sold' ? t.sold : t.rented}
+            </span>
           )}
         </div>
         <div className="px-4 pt-4 pb-4">
