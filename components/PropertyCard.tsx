@@ -37,7 +37,8 @@ export default function PropertyCard({ p, lang, tone = 'dark' }: { p: Property; 
             <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-10 font-heading text-brand-gold">R</div>
           )}
           {isClosed(p) && (
-            <span className="absolute top-3 start-3 bg-brand-red text-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] shadow">
+            // Centred over the photo area, clear of the cover's type label (top left) and side panel (right)
+            <span className="absolute top-1/2 left-[38%] -translate-x-1/2 -translate-y-1/2 bg-brand-red text-white px-5 py-1.5 text-[13px] font-bold uppercase tracking-[0.2em] shadow-lg">
               {p.status === 'sold' ? t.sold : t.rented}
             </span>
           )}
