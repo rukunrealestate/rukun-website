@@ -8,8 +8,9 @@ import { pageOpenGraph, imageLang } from '@/lib/og'
 import Script from 'next/script'
 import FloatingWhatsApp from '@/components/leads/FloatingWhatsApp'
 
-// Google Analytics measurement ID (e.g. G-XXXXXXX). Analytics stays off until it is set.
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID
+// Google Analytics 4 measurement ID (property "rukunrealestate.com", stream "Rukun website").
+// It is public (it appears in every page's source); NEXT_PUBLIC_GA_ID in Vercel overrides it.
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-CWNZN7QSTK'
 
 export const dynamicParams = false
 
