@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { Phone, Mail, MapPin } from 'lucide-react'
 import { getDictionary, localePath, type Locale } from '@/lib/i18n'
 import { categoryTitle, parseCategory } from '@/lib/categories'
+import { areaGuides, areaGuideKeys } from '@/lib/areaGuides'
 
 const popularSlugs = [
   'apartments-for-sale-in-beirut',
+  'apartments-for-rent-in-beirut',
   'apartments-for-rent-in-achrafieh',
   'apartments-for-sale-in-metn',
   'offices-for-rent-in-beirut',
@@ -104,7 +106,17 @@ export default function Footer({ lang }: { lang: Locale }) {
           </div>
         </div>
 
-        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        {/* Area guides: a sitewide link to each, so search engines see them as key pages */}
+        <nav className="border-t border-white/5 mt-12 pt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+          <span className="text-white font-heading font-semibold">{t.areas.nav}:</span>
+          {areaGuideKeys.map((key) => (
+            <Link key={key} href={href(`/areas/${key}`)} className="text-gray-400 hover:text-brand-gold transition-colors">
+              {t.areas.guideTitle.replace('{area}', areaGuides[key].name[lang])}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="border-t border-white/5 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-xs">© {new Date().getFullYear()} {t.footer.rights}</p>
           <p className="text-gray-600 text-xs">{t.footer.bottom}</p>
         </div>

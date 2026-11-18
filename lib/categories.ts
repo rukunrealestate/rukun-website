@@ -96,6 +96,30 @@ export function categoryTitle(c: Category, lang: Locale, lower = false) {
 
 const lebanon: Record<Locale, string> = { en: 'in Lebanon', ar: 'في لبنان', fr: 'au Liban' }
 
+// French searches are phrased "achat appartement beyrouth" / "location appartement beyrouth"
+const frSingular: Record<Group | 'all', string> = {
+  all: 'immobilier', apartments: 'appartement', villas: 'villa', offices: 'bureau', commercial: 'local commercial', land: 'terrain',
+}
+const frPlural: Record<Group | 'all', string> = {
+  all: 'biens', apartments: 'appartements', villas: 'villas', offices: 'bureaux', commercial: 'locaux commerciaux', land: 'terrains',
+}
+
+// Search-result title, e.g. "Apartments for Sale in Beirut: 12 Listings | Rukun" or "…: Prices & Photos | Rukun"
+export function categoryMetaTitle(c: Category, lang: Locale, count: number) {
+  const where = c.area ? areas[c.area].label[lang] : lebanon[lang]
+  // A small count reads as thin in search results, so it only shows from 5 listings up
+  const showCount = count >= 5
+  if (lang === 'fr') {
+    const g = c.group ?? 'all'
+    const verb = c.tx === 'sale' ? 'Achat' : 'Location'
+    const head = c.tx === 'rent' && g === 'all' ? `${verb} ${where}` : `${verb} ${frSingular[g]} ${where}`
+    return `${head} : ${showCount ? `${count} ${frPlural[g]} ${txLabel[c.tx].fr}` : 'prix et photos'} | Rukun`
+  }
+  const title = c.area ? categoryTitle(c, lang) : `${categoryTitle(c, lang)} ${where}`
+  if (lang === 'ar') return `${title} – أسعار وصور حقيقية | ركن`
+  return `${title}: ${showCount ? `${count} Listings` : 'Prices & Photos'} | Rukun`
+}
+
 export function categoryIntro(c: Category, lang: Locale, count: number) {
   const title = categoryTitle(c, lang)
   const where = c.area ? '' : ` ${lebanon[lang]}`

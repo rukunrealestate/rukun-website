@@ -16,7 +16,7 @@ import {
   propertySlug, propertyPath, resolvePropertySlug, getProperties, localizedTitle, localizedDescription, listingMetaTitle, listingHeadline, listingFacts, isClosed, type Property,
 } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath, type Locale } from '@/lib/i18n'
-import { parseCategory, categoryTitle, categoryIntro, matchesCategory } from '@/lib/categories'
+import { parseCategory, categoryTitle, categoryIntro, categoryMetaTitle, matchesCategory } from '@/lib/categories'
 import { pageOpenGraph, imageLang } from '@/lib/og'
 
 type Params = { params: Promise<{ lang: string; slug: string }> }
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const description = categoryIntro(category, lang, count).slice(0, 160)
     const ti = getDictionary(imageLang(lang)).props
     return {
-      title,
+      title: { absolute: categoryMetaTitle(category, lang, count) },
       description,
       alternates: alternatesFor(lang, `/properties/${slug}`),
       robots: count ? undefined : { index: false },

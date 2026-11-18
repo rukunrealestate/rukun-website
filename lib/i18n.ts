@@ -26,8 +26,8 @@ export function alternatesFor(lang: Locale, path: string) {
 
 const en = {
   meta: {
-    homeTitle: 'Rukun Real Estate · Apartments, Villas & Offices in Lebanon',
-    homeDesc: 'Apartments, villas, offices and land for sale and rent in Beirut and across Lebanon. Premium real estate and interior design with Rukun.',
+    homeTitle: 'Real Estate Agency in Beirut, Lebanon · Rukun Real Estate',
+    homeDesc: 'Rukun is a real estate agency in Beirut: apartments, villas, offices and land for sale and rent in Beirut, Metn and across Lebanon. Every listing personally verified.',
     ogDesc: 'Apartments, villas, offices and land for sale and rent across Lebanon.',
   },
   nav: {
@@ -147,6 +147,7 @@ const en = {
     indexIntro: 'Choosing the area matters as much as choosing the property. These guides cover the places where we work most, with prices calculated from our current listings.',
     eyebrow: 'Area Guide',
     guideTitle: '{area} Area Guide',
+    guideMetaTitle: '{area}, Lebanon: Towns, Living & Property Prices | Rukun',
     guideDesc: 'Living {at}: what the area is like, current property prices, and apartments, offices and land for sale and rent. Updated daily.',
     marketTitle: 'The market today',
     forSale: 'For sale', forRent: 'For rent', medianSqm: 'Median price per m²', rentRange: 'Monthly rent (homes)',
@@ -338,6 +339,7 @@ const ar: Dictionary = {
     indexIntro: 'اختيار المنطقة لا يقل أهمية عن اختيار العقار. تغطي هذه الأدلة المناطق التي نعمل فيها أكثر، مع أسعار محسوبة من عقاراتنا المعروضة حالياً.',
     eyebrow: 'دليل المنطقة',
     guideTitle: 'دليل منطقة {area}',
+    guideMetaTitle: 'منطقة {area}، لبنان: البلدات والسكن وأسعار العقارات | ركن',
     guideDesc: 'السكن {at}: طبيعة المنطقة، أسعار العقارات الحالية، وشقق ومكاتب وأراضٍ للبيع والإيجار. يتم التحديث يومياً.',
     marketTitle: 'السوق اليوم',
     forSale: 'للبيع', forRent: 'للإيجار', medianSqm: 'السعر الوسطي للمتر المربع', rentRange: 'الإيجار الشهري (منازل)',
@@ -406,8 +408,8 @@ const ar: Dictionary = {
 
 const fr: Dictionary = {
   meta: {
-    homeTitle: 'Rukun Real Estate · Appartements, villas et bureaux au Liban',
-    homeDesc: 'Appartements, villas, bureaux et terrains à vendre et à louer à Beyrouth et partout au Liban. Immobilier haut de gamme et design d’intérieur avec Rukun.',
+    homeTitle: 'Immobilier à Beyrouth et au Liban · Agence Rukun Real Estate',
+    homeDesc: 'Agence immobilière à Beyrouth : achat et location d’appartements, villas, bureaux et terrains à Beyrouth, au Metn et partout au Liban. Chaque bien vérifié.',
     ogDesc: 'Appartements, villas, bureaux et terrains à vendre et à louer partout au Liban.',
   },
   nav: {
@@ -527,6 +529,7 @@ const fr: Dictionary = {
     indexIntro: 'Choisir le quartier compte autant que choisir le bien. Ces guides couvrent les zones où nous travaillons le plus, avec des prix calculés à partir de nos annonces actuelles.',
     eyebrow: 'Guide du quartier',
     guideTitle: 'Guide : {area}',
+    guideMetaTitle: '{area}, Liban : villes, cadre de vie et prix immobiliers | Rukun',
     guideDesc: 'Vivre {at} : l’ambiance du quartier, les prix actuels, et des appartements, bureaux et terrains à vendre et à louer. Mis à jour chaque jour.',
     marketTitle: 'Le marché aujourd’hui',
     forSale: 'À vendre', forRent: 'À louer', medianSqm: 'Prix médian au m²', rentRange: 'Loyer mensuel (logements)',

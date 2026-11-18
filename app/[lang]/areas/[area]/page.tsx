@@ -9,6 +9,7 @@ import Faq from '@/components/Faq'
 import { getProperties, formatPrice, SITE_URL, type Property } from '@/lib/properties'
 import { hasLocale, getDictionary, alternatesFor, localePath, type Locale } from '@/lib/i18n'
 import { areaGuides } from '@/lib/areaGuides'
+import { areaGuideDetails } from '@/lib/areaGuideDetails'
 import { activeCategories, areaAt, categoryTitle, inArea } from '@/lib/categories'
 import { areaFaq } from '@/lib/faq'
 import { pageOpenGraph, imageLang } from '@/lib/og'
@@ -26,12 +27,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const t = getDictionary(lang).areas
   const name = guide.name[lang]
   const title = fill(t.guideTitle, { area: name })
+  // Search title names the place the way people search it ("Metn, Lebanon", "منطقة المتن")
+  const metaTitle = fill(t.guideMetaTitle, { area: name })
   const description = fill(t.guideDesc, { area: name, at: areaAt(area, lang) })
   const il = imageLang(lang)
   const ti = getDictionary(il).areas
   const inThisArea = (await getProperties()).filter((p) => inArea(p, area))
   return {
-    title,
+    title: { absolute: metaTitle },
     description,
     alternates: alternatesFor(lang, `/areas/${area}`),
     ...pageOpenGraph(lang, {
@@ -77,6 +80,7 @@ export default async function AreaGuidePage({ params }: Params) {
   const guide = areaGuides[area]
   const name = guide.name[lang]
   const at = areaAt(area, lang)
+  const details = areaGuideDetails[area]
 
   const all = await getProperties()
   const properties = all.filter((p) => inArea(p, area))
@@ -109,6 +113,16 @@ export default async function AreaGuidePage({ params }: Params) {
           <div className="max-w-3xl space-y-4">
             {guide.intro[lang].map((para, i) => <p key={i} className="text-gray-400 leading-relaxed">{para}</p>)}
           </div>
+          {details && (
+            <div className="max-w-3xl mt-10 space-y-8">
+              {details.sections[lang].map((s, i) => (
+                <section key={i}>
+                  <h2 className="font-heading text-2xl font-bold text-white mb-3">{s.h}</h2>
+                  <p className="text-gray-400 leading-relaxed">{s.p}</p>
+                </section>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="max-w-7xl mx-auto px-6 pb-20">
@@ -155,7 +169,7 @@ export default async function AreaGuidePage({ params }: Params) {
             )}
           </section>
 
-          <Faq items={areaFaq(at, properties, lang)} title={dict.faqTitle} />
+          <Faq items={[...(details?.faq[lang] ?? []), ...areaFaq(at, properties, lang)]} title={dict.faqTitle} />
         </div>
         <OwnerBand lang={lang} area={area} />
       </div>
